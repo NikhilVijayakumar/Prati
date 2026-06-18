@@ -105,6 +105,7 @@ The developer locates the correct component or assigns the new component to the 
 - [Glossary](../concepts/glossary.md) — concept-to-feature ownership map
 - [Authorization Model](../concepts/authorization.md) — cross-cutting permission rules
 - [Atomic Design Methodology](./atomic-design/README.md) — classification rules and decision flowchart
+- [Template System](../templates/README.md) — Handlebars server-side HTML templates (separate from UI component templates)
 
 ## Atomic Design Methodology
 
