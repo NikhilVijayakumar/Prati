@@ -1,6 +1,6 @@
 # Architecture: Component Tiers
 
-Astra is organized by Atomic Design methodology. See [Atomic Hierarchy Invariant](../invariants/atomic-hierarchy.md) for the authoritative rules.
+Prati is organized by Atomic Design methodology. See [Atomic Hierarchy Invariant](../invariants/atomic-hierarchy.md) for the authoritative rules.
 
 ## Tier Overview
 
@@ -112,6 +112,6 @@ A component should be demoted when it:
 
 ## Related
 
-- [Feature Structure](feature-structure.md)
+- [Feature Structure](../integration-contracts/feature-structure.md)
 - [Stateless UI Invariant](../invariants/stateless-ui.md)
-- [MVVM Pattern](mvvm-pattern.md)
+- [MVVM Separation Invariant](../invariants/mvvm-separation.md)

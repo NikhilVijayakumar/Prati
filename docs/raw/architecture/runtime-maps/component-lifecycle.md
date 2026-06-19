@@ -1,13 +1,13 @@
 # Runtime Map: Component Lifecycle
 
-Maps the lifecycle of an Astra component from import to render.
+Maps the lifecycle of a Prati component from import to render.
 
 ## Import Resolution
 
 ```
 Consumer Code
      │
-     ├── import { Card } from "astra"
+     ├── import { Card } from "prati"
      │         │
      │         ▼
      │   src/lib.ts              ← entry point
@@ -18,7 +18,7 @@ Consumer Code
      │         ▼
      │   src/common/components/molecules/Card.tsx  ← actual component
      │
-     ├── import { spacing } from "astra"
+     ├── import { spacing } from "prati"
      │         │
      │         ▼
      │   src/theme/index.ts     ← re-exports tokens
@@ -43,15 +43,22 @@ Component Definition
      │     │
      │     └── useLanguage() → literal['key']
      │
-     ├── State management (if data-fetching)
+     ├── State management (Organisms only — via ViewModel hook)
      │     │
-     │     └── useDataState() → AppState + execute
+     │     └── use<Feature>ViewModel()         ← ViewModel hook in hooks/
+     │               │
+     │               └── useDataState<T>()     ← called inside ViewModel, not component
+     │                         │
+     │                         ▼
+     │                   DataState<T>  ──────▶  AppStateHandler
+     │                                              ├── loading  → LoadingState
+     │                                              ├── error    → ErrorState
+     │                                              └── data     → SuccessComponent
      │
      └── Render
            │
-           ├── LOADING → LoadingSpinner
-           ├── ERROR → ErrorState
-           └── COMPLETED → Success content
+           ├── Atoms / Molecules → pure props-driven render
+           └── Organisms → AppStateHandler routes to correct state UI
 ```
 
 ## Aligned Documents
@@ -62,5 +69,6 @@ Component Definition
 | `invariants/theme-sovereignty.md` | T-1: All styling via theme |
 | `invariants/localization.md` | L-1: All text via translation keys |
 | `invariants/atomic-hierarchy.md` | A-1 through A-4: Tier classification |
+| `invariants/mvvm-separation.md` | M-1: ViewModel mediates between Model and View |
 | `core/component-tiers.md` | Tier guidance |
-| `core/api-surface.md` | Import paths |
+| `integration-contracts/state-management.md` | useDataState and AppStateHandler contracts |

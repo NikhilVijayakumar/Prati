@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Astra is a theme-driven UI component library.
+Prati is a theme-driven UI component library.
 
-All visual styling must originate from Astra's theme token system. Design tokens (colors, spacing, typography) are the single source of truth for every component's appearance.
+All visual styling must originate from Prati's theme token system. Design tokens (colors, spacing, typography) are the single source of truth for every component's appearance.
 
 Components must not define their own raw style values. Every color, spacing unit, font size, border radius, and shadow must derive from the theme context or exported token constants.
 
@@ -24,7 +24,7 @@ Components must reference theme tokens exclusively for all visual properties.
 A component may:
 - use MUI's `sx` prop with theme token references
 - use `styled` with theme function access
-- import token constants from `astra/theme`
+- import token constants from `prati/theme`
 - reference `useTheme()` for dynamic values
 - use token-based spacing, color, and typography
 
@@ -35,6 +35,23 @@ A component may NOT:
 - import external uncontrolled style systems
 - define raw CSS custom properties for design values
 - create component-local style constants that duplicate tokens
+
+---
+
+## Documented Exception: ThemeProvider Persistence
+
+The following is a **single documented exception** to the theme sovereignty rule that is granted by the [Stateless UI Invariant](stateless-ui.md).
+
+### ThemeProvider Dark Mode Preference
+
+Prati's `ThemeProvider` may read and persist the user's `darkMode` preference via `localStorage`. This is not a theme token concern — it is a UX convenience for theme preference persistence that falls under the stateless UI invariant's documented exception.
+
+Requirements:
+
+- This exception applies exclusively to `ThemeProvider` — no other component may persist theme preferences
+- The persisted value is UX preference state, not a design token
+- All actual styling values must still come from theme tokens, not from persisted state
+- See the [Stateless UI Invariant](stateless-ui.md) for the full exception details, SSR guard requirements, and JSDoc annotation requirements
 
 ---
 
@@ -64,7 +81,7 @@ All values derive from theme context.
 Allowed:
 
 ```tsx
-import { spacing } from 'astra';
+import { spacing } from 'prati';
 
 const gap = spacing.lg;
 ```
@@ -464,7 +481,7 @@ Violating Theme Sovereignty causes:
 - duplicate style definitions across codebase
 
 Without Theme Sovereignty:
-Astra becomes a collection of visually coupled components
+Prati becomes a collection of visually coupled components
 instead of a themeable, brand-adaptable design system.
 
 ---
@@ -512,7 +529,7 @@ A component is compliant only if:
 
 ## Compliance Goal
 
-Astra components must behave as:
+Prati components must behave as:
 
 - theme-driven visual primitives
 - token-governed style units

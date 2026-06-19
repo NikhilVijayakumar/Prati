@@ -97,4 +97,4 @@ src/common/components/
 | `core/component-tiers.md` | Tier guidance and classification criteria |
 | `invariants/stateless-ui.md` | S-1: Components receive data via props |
 | `invariants/mvvm-separation.md` | M-1 through M-4: Layer separation |
-| `core/feature-structure.md` | Consumer feature directory layout |
+| `integration-contracts/feature-structure.md` | Consumer feature directory layout |

@@ -98,7 +98,7 @@ export const lightTheme = createTheme(baseLightOptions);
 export const darkTheme = createTheme(baseDarkOptions);
 
 /**
- * Creates custom light and dark themes by merging base Astra tokens with client overrides.
+ * Creates custom light and dark themes by merging base Prati tokens with client overrides.
  *
  * @param lightOverrides - MUI ThemeOptions to override in light mode.
  * @param darkOverrides - MUI ThemeOptions to override in dark mode.

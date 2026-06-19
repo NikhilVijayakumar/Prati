@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Astra is a presentation-oriented UI component library.
+Prati is a presentation-oriented UI component library.
 
 Components must remain pure rendering units. They receive data through props, render UI, and emit events.
 
@@ -43,7 +43,7 @@ The following is a **single documented exception** to the stateless rule. It is 
 
 ### ThemeProvider Dark Mode Persistence
 
-Astra's `ThemeProvider` may persist the `darkMode` preference via `localStorage` as a UX convenience. This prevents theme flash on page reload without requiring consumers to manage persistence themselves.
+Prati's `ThemeProvider` may persist the `darkMode` preference via `localStorage` as a UX convenience. This prevents theme flash on page reload without requiring consumers to manage persistence themselves.
 
 Requirements for this exception:
 
@@ -65,7 +65,7 @@ useEffect(() => {
 }, [darkMode]);
 ```
 
-This exception applies exclusively to `ThemeProvider`. No other Astra library component may use `localStorage`. See [Platform Neutrality Invariant](platform-neutrality.md) for the SSR guard requirement.
+This exception applies exclusively to `ThemeProvider`. No other Prati library component may use `localStorage`. See [Platform Neutrality Invariant](platform-neutrality.md) for the SSR guard requirement.
 
 ---
 
@@ -601,7 +601,7 @@ Violating Stateless UI causes:
 - rendering-coupled business logic
 
 Without Stateless UI:
-Astra becomes a framework of tightly coupled view-data hybrids
+Prati becomes a framework of tightly coupled view-data hybrids
 instead of a composable, reusable component library.
 
 ---
@@ -648,7 +648,7 @@ A component is compliant only if:
 
 ## Compliance Goal
 
-Astra components must behave as:
+Prati components must behave as:
 
 - pure presentation units
 - reusable render primitives

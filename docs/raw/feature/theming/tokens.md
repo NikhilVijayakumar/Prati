@@ -4,7 +4,9 @@ Design tokens define the visual foundation: colors, spacing, and typography valu
 
 ## Spacing
 
-Base unit: 4px
+Base unit: 8px (MUI standard)
+
+> **Note:** The internal token value `0.5` = 4px = `0.5×` when the base unit is 8px. Sub-units remain valid for granular spacing.
 
 | Token      | Value | Pixels |
 | ---------- | ----- | ------ |
@@ -86,7 +88,7 @@ Base unit: 4px
 
 | Concept | Description |
 | ------- | ----------- |
-| Base unit | 4px grid used for all spacing tokens |
+| Base unit | 8px grid used for all spacing tokens (MUI standard) |
 | Semantic tokens | Named values (`xs`, `sm`, `md`) mapped to multiplier of base unit |
 | Color roles | Brand, background, text, and status color groups |
 | Typography system | Font families and custom variants beyond defaults |

@@ -95,21 +95,21 @@ src/
 
 ### Translation JSON Format
 
+Translation files use **flat dot-notation keys** — matching the `literal['key']` access pattern exactly.
+
 ```json
 {
-  "app": {
-    "title": "My Application",
-    "welcome": "Welcome"
-  },
-  "common": {
-    "save": "Save",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "loading": "Loading...",
-    "error": "Error"
-  }
+  "app.title": "My Application",
+  "app.welcome": "Welcome",
+  "common.save": "Save",
+  "common.cancel": "Cancel",
+  "common.confirm": "Confirm",
+  "common.loading": "Loading...",
+  "common.error": "Error"
 }
 ```
+
+> **Key format rule:** Keys are always flat strings in dot-notation (`domain.page.element`). Do NOT use nested JSON objects — `literal['app.title']` resolves a flat key; nested objects are not traversed.
 
 ## Using Translations in Components
 
@@ -229,6 +229,6 @@ function ItemList({ selectedCount }: { selectedCount: number }) {
 
 ## Related
 
-- [MVVM Pattern](../../astra/architecture/core/mvvm-pattern.md)
-- [State Management](../../astra/architecture/core/state-management.md)
+- [MVVM Separation Invariant](../invariants/mvvm-separation.md)
+- [State Management](../integration-contracts/state-management.md)
 - [Theming](theming.md)

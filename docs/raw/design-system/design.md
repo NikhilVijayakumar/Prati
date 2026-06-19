@@ -1454,25 +1454,25 @@ HTML mockups must remain stateless blueprints:
 
 | Document | Purpose |
 |---|---|
-| `docs/raw/design/brand/` | Brand identity and vision (BAVANS) |
-| `docs/raw/design/references/` | Design references and inspiration |
-| `docs/raw/design/rules/Core Design Rules.md` | The 10 core design rules |
-| `docs/raw/design/rules/Premium UI Patterns.md` | Component pattern library |
-| `docs/raw/design/rules/mui-alignment.md` | HTML → React MUI translation |
-| `docs/raw/design/rules/mui-tokens.md` | MUI token to CSS variable mapping |
-| `docs/raw/design/rules/atomic-rules.md` | Structural hierarchy and grid rules |
-| `docs/raw/design/rules/theme.md` | Theme logic and visual contract |
-| `docs/raw/design/rules/Design Quality Checklist.md` | Pre-release quality gate |
-| `docs/raw/design/rules/accessibility.md` | A11y standards |
-| `docs/raw/design/rules/localization.md` | i18n guidelines |
-| `docs/raw/design/mockups/viewport.md` | Responsive viewport strategy |
-| `docs/raw/design/mockups/page.md` | Page layout patterns |
-| `docs/raw/design/mockups/scaffold.md` | App scaffold and sidebar layout |
-| `docs/raw/design/mockups/components.md` | Component pattern library reference |
-| `docs/raw/design/mockups/navigation.md` | Navigation and appbar patterns |
-| `docs/raw/design/mockups/theme-and-localization.md` | Theme provider and i18n integration |
-| `docs/raw/design/mockups/workflow.md` | Mockup → implementation pipeline |
-| `docs/raw/design/logo/company_logo.svg` | Astra logo |
+| `docs/raw/design-system/brand/` | Brand identity and vision (BAVANS) |
+| `docs/raw/design-system/references/` | Design references and inspiration |
+| `docs/raw/design-system/rules/Core Design Rules.md` | The 10 core design rules |
+| `docs/raw/design-system/rules/Premium UI Patterns.md` | Component pattern library |
+| `docs/raw/design-system/rules/mui-alignment.md` | HTML → React MUI translation |
+| `docs/raw/design-system/rules/mui-tokens.md` | MUI token to CSS variable mapping |
+| `docs/raw/design-system/rules/atomic-rules.md` | Structural hierarchy and grid rules |
+| `docs/raw/design-system/rules/theme.md` | Theme logic and visual contract |
+| `docs/raw/design-system/rules/Design Quality Checklist.md` | Pre-release quality gate |
+| `docs/raw/design-system/rules/accessibility.md` | A11y standards |
+| `docs/raw/design-system/rules/localization.md` | i18n guidelines |
+| `docs/raw/design-system/mockups/viewport.md` | Responsive viewport strategy |
+| `docs/raw/design-system/mockups/page.md` | Page layout patterns |
+| `docs/raw/design-system/mockups/scaffold.md` | App scaffold and sidebar layout |
+| `docs/raw/design-system/mockups/components.md` | Component pattern library reference |
+| `docs/raw/design-system/mockups/navigation.md` | Navigation and appbar patterns |
+| `docs/raw/design-system/mockups/theme-and-localization.md` | Theme provider and i18n integration |
+| `docs/raw/design-system/mockups/workflow.md` | Mockup → implementation pipeline |
+| `docs/raw/design-system/logo/company_logo.svg` | Astra logo |
 
 ---
 

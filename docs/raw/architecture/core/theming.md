@@ -1,6 +1,6 @@
 # Architecture: Theming
 
-Astra provides a **MUI-based theming system** with light/dark mode support and custom design tokens.
+Prati provides a **MUI-based theming system** with light/dark mode support and custom design tokens.
 
 ## Theme Structure
 
@@ -17,7 +17,7 @@ Theme System
 Wrap your application with `ThemeProvider` at app root:
 
 ```typescript
-import { ThemeProvider, useTheme, ThemeToggle } from 'astra';
+import { ThemeProvider, useTheme, ThemeToggle } from 'prati';
 import { createTheme } from '@mui/material/styles';
 
 const lightTheme = createTheme({
@@ -49,7 +49,7 @@ function AppContent() {
 
 ## Design Tokens
 
-Astra provides design tokens from `src/theme/tokens/`:
+Prati provides design tokens from `src/theme/tokens/`:
 
 | Token | Usage | Source |
 |-------|-------|--------|
@@ -59,16 +59,16 @@ Astra provides design tokens from `src/theme/tokens/`:
 | `error` | Error states | `src/theme/tokens/colors.ts` |
 | `success` | Success states | `src/theme/tokens/colors.ts` |
 
-Never hardcode colors — always import from `astra`:
+Never hardcode colors — always import from `prati`:
 
 ```typescript
-import { spacing, typography } from 'astra';
+import { spacing, typography } from 'prati';
 ```
 
 ### Using Theme in Components
 
 ```typescript
-import { useTheme } from 'astra';
+import { useTheme } from 'prati';
 
 function MyComponent() {
   const theme = useTheme();
@@ -91,7 +91,7 @@ function MyComponent() {
 Use `ThemeToggle` component for light/dark switching:
 
 ```typescript
-import { useTheme, ThemeToggle } from 'astra';
+import { useTheme, ThemeToggle } from 'prati';
 
 function AppHeader() {
   const themeContext = useTheme();
@@ -110,13 +110,13 @@ function AppHeader() {
 
 ## Custom Theme Extensions
 
-Extend Astra's theme with application-specific tokens by deriving from your design system:
+Extend Prati's theme with application-specific tokens by deriving from your design system:
 
 > **Architectural Boundary Note:** `createTheme` palette configuration is the one consumer-controlled boundary where custom brand color values are acceptable. This is the entry point where consumers inject their brand identity into the MUI theme pipeline. Once set here, those colors propagate through the theme and must be referenced as tokens in all component code. Component code must **never** hardcode raw color values — always reference `theme.palette.*` or `sx` token paths.
 
 ```typescript
 import { createTheme } from '@mui/material/styles';
-import { spacing, typography } from 'astra';
+import { spacing, typography } from 'prati';
 
 // Brand colors are defined ONCE at the theme entry point — not in components.
 // After this point, all components reference theme.palette.primary.main,
@@ -166,6 +166,6 @@ If no brand config exists yet, define a central `src/theme/brand.ts` that owns a
 
 ## Related
 
-- [MVVM Pattern](mvvm-pattern.md)
-- [State Management](state-management.md)
+- [MVVM Separation Invariant](../invariants/mvvm-separation.md)
+- [State Management](../integration-contracts/state-management.md)
 - [Localization](localization.md)

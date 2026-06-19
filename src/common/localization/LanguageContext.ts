@@ -20,7 +20,7 @@ export const LanguageContext = createContext<LanguageContextValue | undefined>(
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error('useLanguage must be used within a AstraLanguageProvider');
+    throw new Error('useLanguage must be used within a PratiLanguageProvider');
   }
   return context;
 }

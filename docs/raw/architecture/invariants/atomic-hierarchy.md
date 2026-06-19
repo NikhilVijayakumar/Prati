@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Astra is organized by Atomic Design methodology.
+Prati is organized by Atomic Design methodology.
 
 Every component must belong to exactly one tier in the atomic hierarchy: Atom, Molecule, Organism, or Template. Each tier has strict complexity boundaries that govern what a component may import, compose, and be responsible for.
 
@@ -151,29 +151,34 @@ Allowed:
 
 ```tsx
 // organisms/UserList.tsx
-import { useDataState } from '../../../hooks';
+import { AppStateHandler } from 'prati';
+import { useUserViewModel } from '../../hooks/useUserViewModel';
 import { UserInfoCard } from '../../molecules/UserInfoCard';
-import { UserRepo } from '../repo/UserRepo';
 
 function UserList() {
-  const [state, execute] = useDataState<User[]>();
+  const { state, loadUsers } = useUserViewModel(); // ViewModel hook mediates repository access
 
   useEffect(() => {
-    execute(() => UserRepo.getAll());
+    loadUsers();
   }, []);
 
   return (
-    <div>
-      {state.data?.map((user) => (
-        <UserInfoCard key={user.id} name={user.name} status={user.status} />
-      ))}
-    </div>
+    <AppStateHandler
+      appState={state}
+      SuccessComponent={({ data }) => (
+        <div>
+          {data.map((user) => (
+            <UserInfoCard key={user.id} name={user.name} status={user.status} />
+          ))}
+        </div>
+      )}
+    />
   );
 }
 ```
 
 Reason:
-Organism uses ViewModel hook for orchestration, composes molecules.
+Organism consumes a ViewModel hook — never imports repositories or calls `useDataState` directly. The ViewModel hook in `hooks/useUserViewModel.ts` owns all repository access and async state management.
 
 ---
 
@@ -574,7 +579,7 @@ Violating Atomic Hierarchy causes:
 - unclear refactoring targets (tier boundaries blur)
 
 Without Atomic Hierarchy:
-Astra becomes a flat collection of entangled components
+Prati becomes a flat collection of entangled components
 instead of a structured, predictably composable design system.
 
 ---
@@ -622,7 +627,7 @@ A component is compliant only if:
 
 ## Compliance Goal
 
-Astra components must behave as:
+Prati components must behave as:
 
 - tier-disciplined UI elements
 - hierarchy-respecting composition units
