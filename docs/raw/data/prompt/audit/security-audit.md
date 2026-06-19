@@ -7,7 +7,7 @@ You are acting as:
 - Secure Code Reviewer
 - Dependency Security Auditor
 
-Your task is to audit Astra's codebase and dependencies for security issues.
+Your task is to audit Prati's codebase and dependencies for security issues.
 
 This is a standalone security audit suite — not derived from a single invariant document but applied against general secure coding best practices and OWASP guidelines relevant to a React UI library.
 

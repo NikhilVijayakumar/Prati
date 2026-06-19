@@ -1,98 +1,114 @@
 # Overview
-The feature design for LoadingState. This design defines the user experience, interaction flows, and UI states.
+
+LoadingState is a centered loading indicator that fills the parent container during data fetching. The user sees an animated spinner with localized "Loading..." text beneath it, providing clear feedback that content is being processed.
 
 # Feature Summary
-- **Purpose**: Design for LoadingState
-- **Responsibilities**: Provide intuitive UX based on feature specification.
-- **Non-Responsibilities**: Technical implementation, architecture, API design.
+
+- **Purpose**: A centered loading indicator that shows when content is being fetched or processed.
+- **Responsibilities**: Display centered animated spinner during loading; Show localized "Loading..." text below spinner; Fill full width of parent container
+- **Non-Responsibilities**: Does not accept custom messages; Does not handle error/empty/success transitions; Does not respond to user interaction; Does not manage timing or minimum display duration
 
 # User Goals
+
 | User Goal | Description |
 | --------- | ----------- |
-| Goal 1 | Utilize LoadingState for its primary purpose. |
+| Know content is loading | User sees spinner animation and "Loading..." text indicating an in-progress operation |
+| Wait for content completion | User understands the system is working and content will appear when ready |
 
 # User Journeys
 
 ### Entry Conditions
-- User accesses LoadingState.
+Parent component initiates an async operation and renders LoadingState in place of content
 
 ### Primary Flow
-1. User interacts with LoadingState.
-2. System responds appropriately.
+1. Parent starts fetching or processing data
+2. Parent replaces previous content with LoadingState
+3. Spinner animates continuously
+4. Localized "Loading..." text displays beneath the spinner
+5. Operation completes
+6. Parent removes LoadingState and renders the fetched content
 
 ### Alternate Flows
-- **Alternate**: N/A
+- Missing localization key -> spinner animates without accompanying text
 
 ### Failure Flows
-- **Failure**: Handled gracefully.
+- Parent layout overrides centering -> spinner and text may not appear centered
 
 ### Recovery Flows
-- **Recovery**: User retries action.
+N/A — loading state resolves when the parent swaps it for content or error
 
 ### Exit Conditions
-- User completes task.
+Parent unmounts LoadingState and renders success or error content
 
 | Journey | Description |
 | ------- | ----------- |
-| Primary Task | User completes primary flow. |
+| Wait for content load | User sees a centered spinner with loading text while content is being fetched |
 
 # Screen Inventory
+
 | Screen | Purpose |
 | ------ | ------- |
-| LoadingState View | Main view for LoadingState. |
+| LoadingState | Full-width centered loading indicator replacing content area |
 
 # Interaction Design
-| Interaction | Behavior |
-| ----------- | -------- |
-| Standard | Standard interactions apply. |
+
+None — purely presentational atom with no interactive elements.
 
 # Form Design
+
 | Field | Required | UX Behavior |
 | ----- | -------- | ----------- |
-| N/A | N/A | N/A |
+| N/A | N/A | No form fields — zero-configuration interface with no inputs |
 
 # UX State Design
-| State | User Experience |
-| ----- | --------------- |
-| Initial | Default state. |
-| Loading | Loading indicator. |
-| Empty | Empty state. |
-| Success | Success feedback. |
-| Error | Error feedback. |
+
+- **Loading**: always in loading state; spinner animating, localized text displayed
+
+No ERROR, EMPTY, or IDLE states — LoadingState only renders during active loading.
 
 # Feedback Design
+
 | Event | Feedback |
 | ----- | -------- |
-| Action | Visual/textual feedback. |
+| N/A | No interactive events — attribute is presentational |
 
 # Navigation Design
+
 | Navigation Path | Behavior |
 | --------------- | -------- |
-| N/A | N/A |
+| N/A | No navigation — static centered element within parent |
 
 # Responsive Design
+
 | Viewport | Adaptation |
 | -------- | ---------- |
-| Desktop | Standard. |
-| Tablet | Adapted layout. |
-| Mobile | Stacked layout. |
+| Desktop | Spinner and text centered; fills parent width |
+| Tablet | Same centered layout |
+| Mobile | Same centered layout; no breakpoint changes |
 
 # Accessibility Design
+
 | Accessibility Area | Behavior |
 | ------------------ | -------- |
-| Focus Management | Proper focus states. |
-| Screen Reader | Aria labels used. |
+| Loading announcement | Container uses `aria-live="polite"` or `role="status"` to announce loading state to screen readers |
+| Spinner motion | CSS animation respects `prefers-reduced-motion` by showing a static indicator |
 
 # Localization Design
+
 | Localization Area | Behavior |
 | ----------------- | -------- |
-| Text Expansion | Responsive boundaries. |
+| "Loading..." text | Pulled from localization system via key naming convention (e.g., `loading.default`) |
 
 # Design System Traceability
+
 | Design System Rule | Applied To |
 | ------------------ | ---------- |
-| Typography | Standard typography used. |
-| Layout | Standard grid used. |
+| Radical Simplicity | Zero-config interface — no props, no custom messages, no callbacks |
+| 8px grid | Spinner size and text spacing use 8px multiples |
+| Typography Leads | "Loading..." text weight and size maintain visual hierarchy |
+| White Space is Feature | Centered layout with whitespace focuses attention on the spinner |
 
 # Open Questions
-- None at this time.
+
+- Should the spinner animation loop indefinitely or have a configurable duration?
+- What is the exact localized key for the loading text?

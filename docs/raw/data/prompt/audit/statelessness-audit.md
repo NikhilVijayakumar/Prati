@@ -6,7 +6,7 @@ You are acting as:
 - Side Effect Inspector
 - Component Purity Reviewer
 
-Your task is to audit Astra components for violations of:
+Your task is to audit Prati components for violations of:
 
 1. Stateless UI
 

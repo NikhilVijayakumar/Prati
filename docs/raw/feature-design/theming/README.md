@@ -1,98 +1,145 @@
 # Overview
-The feature design for Theming System. This design defines the user experience, interaction flows, and UI states.
+
+The Theming system provides light and dark mode support backed by persistent user preference and a unified design-token layer. Every visual component reads theme context to render the correct palette; the toggle writes preference to storage immediately so the choice survives session boundaries.
 
 # Feature Summary
-- **Purpose**: Design for README
-- **Responsibilities**: Provide intuitive UX based on feature specification.
-- **Non-Responsibilities**: Technical implementation, architecture, API design.
+
+| Field | Value |
+|---|---|
+| Feature ID | THEMING-001 |
+| Feature Name | Theming System |
+| Category | UI Infrastructure |
+| Priority | P0 |
+| Dependencies | Design Tokens (tokens.md), ThemeToggle component |
+| Future | prefers-color-scheme detection, transition animations, high-contrast variant |
 
 # User Goals
-| User Goal | Description |
-| --------- | ----------- |
-| Goal 1 | Utilize Theming System for its primary purpose. |
+
+- Switch between light and dark palettes with a single click
+- Have the chosen palette persist across browser sessions
+- See all themed UI elements update instantly on toggle
 
 # User Journeys
 
 ### Entry Conditions
-- User accesses Theming System.
 
-### Primary Flow
-1. User interacts with Theming System.
-2. System responds appropriately.
+- Application has loaded (SSR or client-side)
+- ThemeProvider has mounted in the component tree
+
+### Primary Flow: Toggle theme
+
+1. User clicks the theme toggle button in the toolbar
+2. Current palette switches from light→dark or dark→light
+3. All components consuming ThemeContext re-render with the new palette
+4. Preference (light/dark) is serialized and written to persistent storage
 
 ### Alternate Flows
-- **Alternate**: N/A
+
+- **Forced mode (external override)**: An external caller (e.g., system admin, embed parent) forces a specific mode. The toggle is disabled. Preference is not persisted. Transition: Light/Dark → Forced; from Forced, only an external call can return to Light/Dark.
 
 ### Failure Flows
-- **Failure**: Handled gracefully.
+
+- **Missing persistence target**: write to storage fails silently; theme still toggles in-memory. Fallback: preference defaults to light on next load.
+- **SSR mismatch**: server renders light (default); client hydrates with stored preference. No flicker mitigation in current scope.
 
 ### Recovery Flows
-- **Recovery**: User retries action.
+
+- **SSR default load**: preference not available → session starts in light mode. Once JavaScript executes, stored preference is read and applied.
+- **Rapid toggling**: synchronous state update; no queuing or race conditions.
 
 ### Exit Conditions
-- User completes task.
 
-| Journey | Description |
-| ------- | ----------- |
-| Primary Task | User completes primary flow. |
+- Theme toggle returns light or dark mode value
+- Preference is persisted (unless in Forced mode)
+- All subscribed components have re-rendered
+
+### Journey Table
+
+| Step | Action | System | Data |
+|---|---|---|---|
+| 1 | Click toggle icon | Read current theme from ThemeContext | Current mode |
+| 2 | — | Compute target mode (light↔dark) | Target mode |
+| 3 | — | Write ThemeContext with target mode | Theme state |
+| 4 | — | Persist preference to localStorage | "light" / "dark" string |
+| 5 | — | All subscribers re-render with new tokens | CSS variable cascade |
 
 # Screen Inventory
-| Screen | Purpose |
-| ------ | ------- |
-| Theming System View | Main view for Theming System. |
+
+| Screen | Component | Theme Role |
+|---|---|---|
+| All screens | ThemeProvider (root wrapper) | Provides context + token injection |
+| All screens | ThemeToggle (toolbar) | Triggers state transition |
+| All screens | All themed children | Consume context for color/background |
 
 # Interaction Design
-| Interaction | Behavior |
-| ----------- | -------- |
-| Standard | Standard interactions apply. |
+
+- **Toggle click**: fires `toggleTheme()` — synchronous dispatch, no debounce
+- **Toggle disabled**: cursor `not-allowed`, opacity 0.5, pointer-events disabled when in Forced mode
+- **Hover**: toggle icon changes background tint (8px radius, token `--color-hover`)
+- **Focus-visible**: 2px ring via `--focus-ring` token, offset 2px
+- **Touch target**: 44×44px minimum (toggle icon plus padding)
 
 # Form Design
-| Field | Required | UX Behavior |
-| ----- | -------- | ----------- |
-| N/A | N/A | N/A |
+
+No form fields. ThemeToggle is a single button element with no input.
 
 # UX State Design
-| State | User Experience |
-| ----- | --------------- |
-| Initial | Default state. |
-| Loading | Loading indicator. |
-| Empty | Empty state. |
-| Success | Success feedback. |
-| Error | Error feedback. |
+
+| State | Visual | Trigger | Transition Out |
+|---|---|---|---|
+| Uninitialized | Light palette rendered (default) | App mount, no stored preference | → Light (context init) |
+| Light | Light-mode CSS variables active | User toggle to dark, or context init | → Dark (toggle) |
+| Dark | Dark-mode CSS variables active | User toggle to light | → Light (toggle) |
+| Forced | Locked palette, toggle disabled | External override call | → Light/Dark (external release) |
 
 # Feedback Design
-| Event | Feedback |
-| ----- | -------- |
-| Action | Visual/textual feedback. |
+
+- **Toggle success**: icon swaps instantly (sun↔moon); all themed surfaces repaint in <16ms (synchronous context update)
+- **Toggle failure**: impossible — synchronous local state, no network dependency
+- **Persistence failure**: no user-facing notification; preference reverts to light on next session
 
 # Navigation Design
-| Navigation Path | Behavior |
-| --------------- | -------- |
-| N/A | N/A |
+
+ThemeProvider wraps the application root. No navigational role — it is a passive data layer. ThemeToggle is placed in the persistent toolbar (global navigation shell) for visibility from any route.
 
 # Responsive Design
-| Viewport | Adaptation |
-| -------- | ---------- |
-| Desktop | Standard. |
-| Tablet | Adapted layout. |
-| Mobile | Stacked layout. |
+
+**Desktop (≥1024px)**: ThemeToggle in top toolbar, 44×44px hit area, icon + optional short label. Toolbar full width.
+
+**Tablet (600–1023px)**: ThemeToggle in collapsed toolbar. Icon only. 44×44px hit area preserved. Toolbar may shrink to icon-only navigation.
+
+**Mobile (<600px)**: ThemeToggle in bottom navigation bar or hamburger menu. 44×44px minimum. Spacing from adjacent items: 8px per 8px grid.
 
 # Accessibility Design
-| Accessibility Area | Behavior |
-| ------------------ | -------- |
-| Focus Management | Proper focus states. |
-| Screen Reader | Aria labels used. |
+
+| Requirement | Implementation |
+|---|---|
+| Contrast ratio | All token pairs meet 4.5:1 (color roles designed with contrast target) |
+| Touch target | 44×44px minimum clickable area |
+| Focus-visible | 2px `outline` using `--focus-ring` token, `outline-offset: 2px` |
+| Screen reader | `<button aria-label="Switch to dark mode">` (dynamic label based on current mode) |
+| Semantic HTML | Native `<button>` — no div with click handler |
+| Reduced motion | No animations — toggle is instant (future animations will respect `prefers-reduced-motion`) |
 
 # Localization Design
-| Localization Area | Behavior |
-| ----------------- | -------- |
-| Text Expansion | Responsive boundaries. |
+
+- `aria-label` on ThemeToggle reads from localisation dictionary: `theme.toggle.light` / `theme.toggle.dark`
+- Zero hardcoded strings in the component
+- Locale dictionary keys follow `feature.component.property` convention
 
 # Design System Traceability
-| Design System Rule | Applied To |
-| ------------------ | ---------- |
-| Typography | Standard typography used. |
-| Layout | Standard grid used. |
+
+| Rule | Compliance |
+|---|---|
+| Rule 1: Radical Simplicity | Single `ThemeProvider` + one `useTheme` hook. No middleware, no event bus. |
+| Rule 3: Typography Leads | Tokens define font families; theme does not override typography. |
+| Rule 5: White Space is Feature | Theme does not manage spacing; spacing tokens are consumed separately. |
+| Color System | All palette colors are CSS variables; zero hardcoded hex/rgb in components. |
+| Accessibility | 4.5:1 contrast, 44×44px touch targets, focus-visible, semantic `<button>`. |
+| Localization | `aria-label` sourced from locale dictionary; no hardcoded strings. |
+| 8px grid | Toggle button padding satisfies 8px multiples. |
 
 # Open Questions
-- None at this time.
+
+- Should a flashing/flicker mitigation be added during SSR hydration? (Future: inline script to read localStorage before React hydrates.)
+- Does the forced-mode API require a priority stack (e.g., multiple simultaneous overrides)?

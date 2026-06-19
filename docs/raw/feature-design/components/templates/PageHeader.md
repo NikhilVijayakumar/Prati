@@ -20,7 +20,7 @@ The PageHeader establishes the context for a given screen by displaying a promin
 ### Primary Flow
 1. User looks at the top of the page.
 2. User reads the title and subtitle to confirm they are in the right place.
-3. User interacts with an action button to perform a primary task.
+3. User clicks an action button (Save, Create, Edit) to initiate the corresponding operation.
 
 ### Alternate Flows
 - **Minimal State**: The page has no actions or subtitle -> User only sees the title.

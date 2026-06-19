@@ -6,7 +6,7 @@ You are acting as:
 - CI/CD Pipeline Reviewer
 - Bundle Integrity Inspector
 
-Your task is to audit Astra's build system for integrity and correctness:
+Your task is to audit Prati's build system for integrity and correctness:
 
 1. Deterministic Build
 

@@ -1,98 +1,124 @@
 # Overview
-The feature design for StatusDot. This design defines the user experience, interaction flows, and UI states.
+
+StatusDot is a colored circular indicator that communicates system or component status at a glance. The user sees a small colored dot next to a row or component, with distinct hues for each status level and size configurability for different contexts.
 
 # Feature Summary
-- **Purpose**: Design for StatusDot
-- **Responsibilities**: Provide intuitive UX based on feature specification.
-- **Non-Responsibilities**: Technical implementation, architecture, API design.
+
+- **Purpose**: A colored circular indicator that shows system or component status at a glance.
+- **Responsibilities**: Visually communicate component/system status; Support multiple status levels with distinct colors; Allow size configuration for different contexts
+- **Non-Responsibilities**: Does not display text labels or tooltips; Does not handle click interactions; Does not animate state transitions; Does not manage/persist state
 
 # User Goals
+
 | User Goal | Description |
 | --------- | ----------- |
-| Goal 1 | Utilize StatusDot for its primary purpose. |
+| Assess component status rapidly | User sees a colored dot and immediately interprets the status without reading text |
 
 # User Journeys
 
 ### Entry Conditions
-- User accesses StatusDot.
+Parent component renders StatusDot with a `status` prop and optional `size` prop
 
 ### Primary Flow
-1. User interacts with StatusDot.
-2. System responds appropriately.
+1. Parent passes a `status` value to StatusDot
+2. Component maps the status to a color via lookup table
+3. Dot renders at configured size (or default) with the mapped color
+4. User sees the colored dot next to the associated element
 
 ### Alternate Flows
-- **Alternate**: N/A
+- Unknown status value -> dot renders in neutral/default color
+- Status "ok" -> green dot
+- Status "warning" -> yellow dot
+- Status "error" -> red dot
+- Status "executing" -> blue dot
+- Status "waiting" -> gray dot
 
 ### Failure Flows
-- **Failure**: Handled gracefully.
+- Missing `status` prop -> dot does not render (required prop violation)
+- Zero size -> dot becomes invisible (renders at 0px)
 
 ### Recovery Flows
-- **Recovery**: User retries action.
+N/A — attribute is presentational; parent must supply valid props
 
 ### Exit Conditions
-- User completes task.
+StatusDot unmounts or parent updates the status value
 
 | Journey | Description |
 | ------- | ----------- |
-| Primary Task | User completes primary flow. |
+| Scan component status | User reads the colored dot to quickly understand the status of a system or component |
 
 # Screen Inventory
+
 | Screen | Purpose |
 | ------ | ------- |
-| StatusDot View | Main view for StatusDot. |
+| StatusDot | Colored circular indicator rendered inline next to a component or row |
 
 # Interaction Design
-| Interaction | Behavior |
-| ----------- | -------- |
-| Standard | Standard interactions apply. |
+
+None — purely presentational atom with no click, hover, or keyboard interaction.
 
 # Form Design
+
 | Field | Required | UX Behavior |
 | ----- | -------- | ----------- |
-| N/A | N/A | N/A |
+| N/A | N/A | No form fields — attribute is presentational only |
 
 # UX State Design
-| State | User Experience |
-| ----- | --------------- |
-| Initial | Default state. |
-| Loading | Loading indicator. |
-| Empty | Empty state. |
-| Success | Success feedback. |
-| Error | Error feedback. |
+
+- **ok**: green dot
+- **warning**: yellow dot
+- **error**: red dot
+- **executing**: blue dot
+- **waiting**: gray dot
+- **default**: neutral color fallback for unknown values
+
+No LOADING or EMPTY states — dot renders immediately with the provided status value.
 
 # Feedback Design
+
 | Event | Feedback |
 | ----- | -------- |
-| Action | Visual/textual feedback. |
+| N/A | No interactive events — attribute is presentational |
 
 # Navigation Design
+
 | Navigation Path | Behavior |
 | --------------- | -------- |
-| N/A | N/A |
+| N/A | No navigation — static inline element |
 
 # Responsive Design
+
 | Viewport | Adaptation |
 | -------- | ---------- |
-| Desktop | Standard. |
-| Tablet | Adapted layout. |
-| Mobile | Stacked layout. |
+| Desktop | Dot renders at configured size; no viewport-dependent changes |
+| Tablet | Same as desktop |
+| Mobile | Same as desktop |
 
 # Accessibility Design
+
 | Accessibility Area | Behavior |
 | ------------------ | -------- |
-| Focus Management | Proper focus states. |
-| Screen Reader | Aria labels used. |
+| Color as sole differentiator | StatusDot must be paired with a text label or `aria-label` on the parent providing the status meaning; color alone is insufficient |
+| Touch target | Dot is decorative — interactive area is on the parent row, not the dot itself |
+| Contrast ratio | Dot colors meet 4.5:1 against the background for users with low vision |
 
 # Localization Design
+
 | Localization Area | Behavior |
 | ----------------- | -------- |
-| Text Expansion | Responsive boundaries. |
+| N/A | No internal text strings — all meaning is conveyed through color; parent supplies `aria-label` if needed |
 
 # Design System Traceability
+
 | Design System Rule | Applied To |
 | ------------------ | ---------- |
-| Typography | Standard typography used. |
-| Layout | Standard grid used. |
+| Color System: CSS variables, never hardcode | Status color tokens use CSS variables; light/dark mode adaptation is automatic |
+| Accessibility: 4.5:1 contrast | Dot color contrast against surrounding background meets 4.5:1 |
+| 8px grid | Dot diameter uses 8px multiples |
+| Radical Simplicity | No text, no icons, no animations, no callbacks — just a colored circle |
 
 # Open Questions
-- None at this time.
+
+- Should the StatusDot support an `aria-label` prop directly for screen reader context?
+- What are the exact hex values for each status color in light and dark mode?
+- What is the default size in pixels?

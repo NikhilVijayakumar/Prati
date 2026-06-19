@@ -1,98 +1,113 @@
 # Overview
-The feature design for SeverityBadge. This design defines the user experience, interaction flows, and UI states.
+
+SeverityBadge is a color-coded text label that communicates a severity level at a glance. The user sees a compact badge whose background opacity and text color shift per severity level, with unknown values safely falling back to a default treatment.
 
 # Feature Summary
-- **Purpose**: Design for SeverityBadge
-- **Responsibilities**: Provide intuitive UX based on feature specification.
-- **Non-Responsibilities**: Technical implementation, architecture, API design.
+
+- **Purpose**: A text badge that displays a severity level with color-coded background.
+- **Responsibilities**: Display a color-coded severity level label; Map severity levels to distinct visual treatments; Accept any string input with graceful fallback
+- **Non-Responsibilities**: Does not display icons; Does not handle click events; Does not manage state; Does not transform the level value
 
 # User Goals
+
 | User Goal | Description |
 | --------- | ----------- |
-| Goal 1 | Utilize SeverityBadge for its primary purpose. |
+| Assess severity of an item | User reads the badge label and immediately understands the severity level through color coding |
 
 # User Journeys
 
 ### Entry Conditions
-- User accesses SeverityBadge.
+Component renders with a `level` prop value
 
 ### Primary Flow
-1. User interacts with SeverityBadge.
-2. System responds appropriately.
+1. Page loads with severity-badged content visible
+2. Parent passes a `level` string to SeverityBadge
+3. Component maps the string to a color via lookup table
+4. User sees the badge with semi-transparent background and full-color text matching the severity level
 
 ### Alternate Flows
-- **Alternate**: N/A
+- Unknown severity value -> badge renders with info/default color mapping
+- Very long label text -> text wraps naturally within the badge container
 
 ### Failure Flows
-- **Failure**: Handled gracefully.
+- Missing `level` prop -> component renders without label content (required prop violation)
 
 ### Recovery Flows
-- **Recovery**: User retries action.
+N/A — attribute is presentational; parent must supply a valid `level`
 
 ### Exit Conditions
-- User completes task.
+Component unmounts or parent replaces it
 
 | Journey | Description |
 | ------- | ----------- |
-| Primary Task | User completes primary flow. |
+| Read severity assessment | User reads the badge to understand the severity of an associated item |
 
 # Screen Inventory
+
 | Screen | Purpose |
 | ------ | ------- |
-| SeverityBadge View | Main view for SeverityBadge. |
+| SeverityBadge | Color-coded severity label rendered inline within a parent component |
 
 # Interaction Design
-| Interaction | Behavior |
-| ----------- | -------- |
-| Standard | Standard interactions apply. |
+
+None — purely presentational atom with no click, hover, or keyboard interaction.
 
 # Form Design
+
 | Field | Required | UX Behavior |
 | ----- | -------- | ----------- |
-| N/A | N/A | N/A |
+| N/A | N/A | No form fields — attribute is presentational only |
 
 # UX State Design
-| State | User Experience |
-| ----- | --------------- |
-| Initial | Default state. |
-| Loading | Loading indicator. |
-| Empty | Empty state. |
-| Success | Success feedback. |
-| Error | Error feedback. |
+
+- **Active**: badge displays with mapped severity colors (semi-transparent background, full-color text)
+- **Unknown**: unrecognized level string resolves to info/default color mapping
+
+No LOADING or EMPTY states — presentational atom renders immediately with the provided value.
 
 # Feedback Design
+
 | Event | Feedback |
 | ----- | -------- |
-| Action | Visual/textual feedback. |
+| N/A | No events — attribute is presentational |
 
 # Navigation Design
+
 | Navigation Path | Behavior |
 | --------------- | -------- |
-| N/A | N/A |
+| N/A | No navigation — badge is a static inline element |
 
 # Responsive Design
+
 | Viewport | Adaptation |
 | -------- | ---------- |
-| Desktop | Standard. |
-| Tablet | Adapted layout. |
-| Mobile | Stacked layout. |
+| Desktop | Badge renders at default size with inline flow |
+| Tablet | Same rendering as desktop |
+| Mobile | Badge scales with parent text; long labels wrap naturally |
 
 # Accessibility Design
+
 | Accessibility Area | Behavior |
 | ------------------ | -------- |
-| Focus Management | Proper focus states. |
-| Screen Reader | Aria labels used. |
+| Color as sole differentiator | Severity label text provides the meaning; color is redundant enhancement |
+| Contrast ratio | Text color meets 4.5:1 minimum against the semi-transparent background |
 
 # Localization Design
+
 | Localization Area | Behavior |
 | ----------------- | -------- |
-| Text Expansion | Responsive boundaries. |
+| Severity label text | Label is passed as a prop from parent — no internal strings to localize |
 
 # Design System Traceability
+
 | Design System Rule | Applied To |
 | ------------------ | ---------- |
-| Typography | Standard typography used. |
-| Layout | Standard grid used. |
+| Color System: CSS variables, never hardcode | Severity color tokens use CSS variables; light/dark mode adaptation is automatic |
+| Accessibility: 4.5:1 contrast | Text color contrast against semi-transparent background meets 4.5:1 |
+| 8px grid | Badge padding and border-radius use 8px multiples |
+| Radical Simplicity | No icons, no callbacks, no state — just a colored label |
 
 # Open Questions
-- None at this time.
+
+- What is the exact color mapping for each severity level? (critical, high, medium, low, info)
+- Should the badge support an optional dismiss action in future iterations?
