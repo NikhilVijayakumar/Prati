@@ -27,6 +27,14 @@ Shows a metric label and value in a compact card format, with an optional trend 
 - **Color-coded direction mapping:** Trend direction maps to semantic colors (green for up, red for down, neutral gray) — consistent with the application's status color system.
 - **Fluid width adaptation:** Designed to fill available container space in flex row layouts as part of a metric row group.
 
+## Business Rules
+
+1. The component MUST display a label and value as required minimum props — rendering is not meaningful without both.
+2. The trend indicator MUST only render when a trend value is explicitly provided.
+3. Trend direction MUST map to semantic colors: green for up, red for down, neutral for unknown or absent direction.
+4. An unknown trend direction value MUST render with neutral color treatment — the component MUST NOT crash.
+5. The card MUST adapt to its container width without a fixed width — intended for flex row dashboard layouts.
+
 ## States
 
 - **Loaded** — Label and value displayed
@@ -54,6 +62,13 @@ Shows a metric label and value in a compact card format, with an optional trend 
 
 - Missing required inputs (label, value) — Required values must be provided
 - Unknown trend direction — Renders with neutral fallback color
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Missing required inputs (label, value) | Provide both label and value props; the component cannot render meaningfully without them |
+| Unknown trend direction | Provide a recognized direction (up, down) or accept the neutral color fallback |
 
 ## Authorization
 
@@ -98,6 +113,13 @@ Unknown trend direction — renders with neutral fallback color.
 
 ### Completion Criteria
 The metric card renders with label, value, and optional trend indicator.
+
+## Verification
+
+- Visual regression tests confirm the card renders correctly with and without trend indicator
+- Unit tests confirm each trend direction maps to the correct semantic color
+- Integration tests confirm unknown trend directions fall back to neutral without crashing
+- Visual tests confirm the card adapts to varying container widths
 
 ## See Also
 

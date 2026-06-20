@@ -8,7 +8,7 @@ The theming system provides light/dark mode support via MUI's `ThemeProvider` wi
 
 | Feature Spec Concept | Architecture Implementation |
 |---|---|
-| Theme Context | `useTheme()` hook from `astra`, returns `{ darkMode: boolean, toggleDarkMode: () => void }` |
+| Theme Context | `useTheme()` hook from `prati`, returns `{ darkMode: boolean, toggleDarkMode: () => void }` |
 | Light/Dark Modes | `createTheme({ palette: { mode: 'light' } })` / `createTheme({ palette: { mode: 'dark' } })` |
 | Design Tokens | `src/theme/tokens/` — `colors.ts`, `spacing.ts`, `typography.ts` |
 | Preference Persistence | `ThemeProvider` — `localStorage` with SSR guard, `@stateless-exception` documented |
@@ -74,7 +74,7 @@ All components render using MUI's theme pipeline. Styling patterns:
 |---|---|---|
 | Theme token via sx | `sx={{ color: 'primary.main' }}` | Allowed |
 | Theme token via styled | `styled('div')(({ theme }) => ({ ... }))` | Allowed |
-| Token constant import | `import { spacing } from 'astra'` | Allowed |
+| Token constant import | `import { spacing } from 'prati'` | Allowed |
 | Hardcoded color | `backgroundColor: '#1976d2'` | P0 — Forbidden |
 | Hardcoded spacing | `padding: '16px'` | P0 — Forbidden |
 | Hardcoded typography | `fontSize: '14px'` | P0 — Forbidden |
@@ -124,7 +124,7 @@ The toggle must be inside `ThemeProvider`. No keyboard shortcut (non-responsibil
 
 | Integration | Mechanism | Location |
 |---|---|---|
-| MUI `ThemeProvider` | Wraps app root via `astra`'s `ThemeProvider` | `App.tsx` |
+| MUI `ThemeProvider` | Wraps app root via `Prati`'s `ThemeProvider` | `App.tsx` |
 | Design tokens | `src/theme/tokens/` → `createTheme()` | Theme setup |
 | `useTheme()` hook | Consumed by any component | Any `.tsx` |
 | `ThemeToggle` component | Placed in toolbar/header | Layout components |
@@ -141,4 +141,4 @@ The toggle must be inside `ThemeProvider`. No keyboard shortcut (non-responsibil
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

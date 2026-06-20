@@ -86,4 +86,4 @@ No errors thrown or logged. No error boundary provided.
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

@@ -115,17 +115,17 @@ These are intentionally omitted per the feature spec's Non-Responsibilities.
 - **Lazy loading**: Two levels of lazy loading — `react-syntax-highlighter` component via `React.lazy()`, and the Prism vscDarkPlus style via dynamic `import()`. Both are deferred to runtime. This means the first render always shows a LoadingFallback (both the component and the style must load sequentially).
 - **Render cost**: Normal `JSON.parse`/`JSON.stringify` for content up to ~100KB. Syntax highlighting is the expensive operation for large JSON files.
 - **No virtualization**: Very large JSON files (>1MB) may cause the main thread to block during syntax highlighting. The component renders all content at once in a scrollable container without virtualized rendering.
-- **Re-render**: Re-renders fully when `fileContent` or `fileName` change. The `normalizeJsonForDisplay` function re-executes on every render — no memoization of parsed output.
+- **Re-render**: Re-renders fully when `fileContent` or `fileName` change. The `normalizeJsonForDisplay` function is wrapped in `useMemo` with `[fileName, fileContent, emptyMessage]` dependencies — re-computation happens only when inputs change.
 - **Bundle size**: ~111 lines. `react-syntax-highlighter` with Prism is ~70KB+ gzipped — lazy loading is critical to exclude this from the initial bundle.
 
 ## 10. Integration Points
 
 | Integration | Details |
 |---|---|
-| **Consumer import** | `import { JsonViewer } from "astra"` via barrel, or directly from `@/common/components/molecules/JsonViewer` |
+| **Consumer import** | `import { JsonViewer } from "prati"` via barrel, or directly from `@/common/components/molecules/JsonViewer` |
 | **Consumed by** | `FileViewerRouter` organism (`docs/raw/feature/components/molecules/JsonViewer.md:33`) — delegates JSON and JSONL file rendering based on file extension |
 | **Pattern** | Parse-and-render pipeline with per-line JSONL isolation and structured error recovery |
-| **Test file** | **No test file** (`JsonViewer.test.tsx` does not exist) — gap identified |
+| **Test file** | `JsonViewer.test.tsx` with `vitest` + `@testing-library/react` — covers empty state, valid JSON rendering, and file name display |
 | **Internal helper** | `normalizeJsonForDisplay(fileName, fileContent, emptyMessage): string` — pure function, not exported, not tested |
 | **Barrel export** | `src/common/components/molecules/index.ts` re-exports `JsonViewer` |
 | **MUI dependencies** | `@mui/material` (`Box`, `Typography`) |
@@ -137,12 +137,12 @@ These are intentionally omitted per the feature spec's Non-Responsibilities.
 
 ## 11. Open Questions
 
-1. Should `normalizeJsonForDisplay` be extracted and exported as a testable pure function with its own unit tests? (Currently untested, module-scoped.)
-2. Should a test file be created (`JsonViewer.test.tsx`) to cover JSON parse success, JSON parse error, JSONL line isolation, empty content, and loading state scenarios?
+1. Should `normalizeJsonForDisplay` be extracted and exported as a testable pure function with its own unit tests? (Currently module-scoped, tested indirectly via component tests.)
+2. ~~Should a test file be created (`JsonViewer.test.tsx`) to cover JSON parse success, JSON parse error, JSONL line isolation, empty content, and loading state scenarios?~~ **Resolved**: Test file created at `JsonViewer.test.tsx`.
 3. Should the Prism style import be cached or preloaded to avoid the sequential component-load-then-style-load waterfall on first render?
-4. Should memoization (`useMemo`) be added for `normalizeJsonForDisplay` output to avoid re-parsing on unrelated re-renders?
+4. ~~Should memoization (`useMemo`) be added for `normalizeJsonForDisplay` output to avoid re-parsing on unrelated re-renders?~~ **Resolved**: Wrapped in `useMemo`.
 5. Should virtualization be considered for large JSON files (>1MB) to prevent main-thread blocking during syntax highlighting?
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

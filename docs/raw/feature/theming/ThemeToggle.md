@@ -24,6 +24,12 @@ Place the toggle in a toolbar, navigation, or settings area. It receives the cur
 - Does not render tooltips or labels for theme state
 - Does not animate icon transitions
 
+## Business Rules
+
+1. **Icon reflects reality** — The icon must always represent the opposite of the current mode (sun = switch to dark, moon = switch to light); never show the current mode as an icon
+2. **Context required** — ThemeToggle must always be rendered inside a ThemeProvider; rendering outside context is an error, not a fallback
+3. **No persistence responsibility** — ThemeToggle fires the toggle and reflects state; it never reads or writes storage directly
+
 ## States
 
 - **Light icon** — Light mode active; renders moon icon (switch to dark)
@@ -40,6 +46,13 @@ Place the toggle in a toolbar, navigation, or settings area. It receives the cur
 
 - **Missing theme context** — Component cannot locate theme state and cannot render the correct icon or fire the toggle function
 - **Invalid context value** — Context is present but provides null or undefined theme values; the toggle function cannot be invoked and the icon state is indeterminate
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Missing theme context | Ensure ThemeToggle is rendered inside a ThemeProvider; check component tree nesting |
+| Invalid context value | Verify ThemeProvider passes valid theme state; check for null/undefined in the context value |
 
 ## Authorization
 
@@ -81,9 +94,15 @@ The theme mode toggles and the application palette updates accordingly.
 
 ### Exceptions
 The context is undefined — the component throws a runtime error.
-
 ### Completion Criteria
+
 The icon updates to reflect the new theme mode and the toggle is ready for the next interaction.
+
+## Verification
+
+- **Icon correctness test**: In light mode, verify moon icon renders; in dark mode, verify sun icon renders
+- **Context error test**: Render ThemeToggle outside ThemeProvider; verify it throws a clear error
+- **Double-click test**: Click twice rapidly; verify theme returns to original state (both clicks processed)
 
 ## See Also
 

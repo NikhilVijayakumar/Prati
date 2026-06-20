@@ -124,6 +124,14 @@ Primitives Functional  Complex    Layout
 - **Data Fetching:** Templates must not perform data fetching or API calls
 - **Page Specificity:** Templates must not be designed for a single page only
 
+## Business Rules
+
+1. **Layout only** — A template defines structure, not content; hardcoded content or data-specific references make it a page, not a template
+2. **No business logic** — Templates must not contain business logic, state management, or data fetching
+3. **Slot-based composition** — Templates must use children props or named slots for content injection; content never appears inline in the template definition
+4. **Reusable across pages** — A template must be usable by two or more pages; single-page components should be organisms, not templates
+5. **No nested templates** — Templates must not render other templates; compose organisms only
+
 ## States
 
 - **Empty** — Template rendered with no children or empty slots; renders layout shell only
@@ -145,6 +153,15 @@ Primitives Functional  Complex    Layout
 - **Invalid slot arrangement** — Organisms placed in wrong slots cause layout breakage
 - **Responsive breakpoint mismatch** — Template defines breakpoints inconsistent with organism content requirements
 - **Business logic leak** — Data fetching or state management accidentally added to template
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Missing children | Provide default empty state for each slot; render layout shell gracefully |
+| Invalid slot arrangement | Verify slot contracts; ensure organisms match expected composition types |
+| Responsive breakpoint mismatch | Align template breakpoints with the content requirements of the organisms it arranges |
+| Business logic leak | Extract business logic to the consuming page or organism; keep template as pure layout |
 
 ## Authorization
 
@@ -186,9 +203,16 @@ A reusable layout template is available for consistent page composition.
 
 ### Exceptions
 The template is designed for a single page — the developer evaluates whether it should be an organism instead.
-
 ### Completion Criteria
+
 The template passes the design checklist, is placed in the correct directory, and is usable by multiple pages.
+
+## Verification
+
+- **Content-free test**: Verify no template contains hardcoded content, data references, or page-specific strings
+- **Business logic audit**: Confirm no template contains state management, data fetching, or business logic
+- **Slot-based composition test**: Verify every template uses children/slot props for content; no inline content in template source
+- **Reusability test**: Verify every template is referenced by 2+ distinct page contexts
 
 ## See Also
 

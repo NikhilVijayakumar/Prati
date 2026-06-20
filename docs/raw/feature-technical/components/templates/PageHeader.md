@@ -2,7 +2,7 @@
 
 ## 1. Technical Overview
 
-`PageHeader` is a template-tier component at `src/common/components/templates/PageHeader.tsx`. It renders a responsive page-level header with five independent content slots: leading meta, title (required), subtitle, action buttons (primary/secondary), and trailing meta. Exported via `src/common/components/templates/index.ts` → `src/lib.ts`. Consumed as `import { PageHeader } from 'astra'`.
+`PageHeader` is a template-tier component at `src/common/components/templates/PageHeader.tsx`. It renders a responsive page-level header with five independent content slots: leading meta, title (required), subtitle, action buttons (primary/secondary), and trailing meta. Exported via `src/common/components/templates/index.ts` → `src/lib.ts`. Consumed as `import { PageHeader } from 'prati'`.
 
 ```typescript
 interface HeaderActionConfig {
@@ -94,7 +94,7 @@ Flow direction is strictly **props → render → callback**. No upward data flo
 
 | Integration | Mechanism |
 |---|---|
-| **Consumer app** | Import `{ PageHeader }` from `astra`. Pass props directly. |
+| **Consumer app** | Import `{ PageHeader }` from `prati`. Pass props directly. |
 | **Localization** | Consumer resolves `title`, `subtitle`, `label` via `useLanguage().literal[key]` before passing as props. |
 | **Theming** | MUI `ThemeProvider` must be ancestor. Button variants, typography, colors resolve through theme. |
 | **Page layout** | Consumer wraps in page-level container with desired padding, background, or sticky behavior. |
@@ -109,4 +109,4 @@ Flow direction is strictly **props → render → callback**. No upward data flo
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

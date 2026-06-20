@@ -28,6 +28,14 @@ Provides a comprehensive header for page-level content. Supports primary and sec
 - **Action config objects:** Primary and secondary actions use a structured data pattern (label, click handler, variant, size) instead of passing raw nodes for simple button cases.
 - **Reverse order action rendering:** Action buttons render right-to-left — visual order differs from DOM source order, a deliberate UX hierarchy choice.
 
+## Business Rules
+
+1. The title prop is required; all other props (subtitle, actions, meta) are optional and render independently.
+2. Action buttons render in reverse visual order — the primary action appears on the rightmost side.
+3. On narrow viewports, action buttons wrap to the row below the title rather than overflowing.
+4. Each action config must include a label; click handlers are optional and buttons without them render inert.
+5. Leading and trailing meta content slots accept arbitrary React nodes and are rendered as-is.
+
 ## States
 
 - **Full** — Title, subtitle, primary action, secondary action, leading meta, and trailing meta all populated
@@ -59,6 +67,14 @@ Provides a comprehensive header for page-level content. Supports primary and sec
 - Missing required input (title) — Required value must be provided
 - Empty string inputs — Renders empty text elements; no crash
 - Action config missing click handler — Button renders but does nothing on click
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Missing title prop | Provide a non-empty title string; the header cannot render without it |
+| Action config missing click handler | Add an onClick function to the action config object |
+| Empty string inputs | Pass non-empty strings or omit the prop entirely |
 
 ## Authorization
 
@@ -100,9 +116,17 @@ A standardized page header is displayed with the page title and available action
 
 ### Exceptions
 An action has no click handler — the button renders without functionality.
-
 ### Completion Criteria
+
 The page header renders with all provided slots in the correct layout.
+
+## Verification
+
+- Verify that the header renders with the title displayed prominently when only the title is provided
+- Verify that primary and secondary action buttons render with the correct variant and size styling
+- Verify that action buttons wrap to the row below the title on narrow viewports
+- Verify that leading and trailing meta content renders in their correct positions
+- Verify that omitting all optional props renders only the title with no layout disruption
 
 ## See Also
 

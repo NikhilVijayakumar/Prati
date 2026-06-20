@@ -43,7 +43,7 @@ Exported from `src/common/theme/index.ts` → `src/common/index.ts` → `src/lib
 ### Import Contract
 
 ```tsx
-import { ThemeProvider, ThemeProviderProps } from 'astra';
+import { ThemeProvider, ThemeProviderProps } from 'prati';
 ```
 
 ### Props
@@ -118,9 +118,11 @@ type ControllableThemeProviderProps = ThemeProviderProps & {
 ```
 Mount
   ↓
-Read localStorage ──error──→ internalDarkMode = false (light)
-  ↓ success
-internalDarkMode = stored boolean
+Check localStorage ──has value──→ internalDarkMode = stored boolean
+  ↓ no value
+Check prefers-color-scheme ──dark──→ internalDarkMode = true
+  ↓ light
+internalDarkMode = false
   ↓
 forceTheme set? ──yes──→ darkMode = forceTheme === 'dark'
   ↓ no
@@ -128,7 +130,9 @@ darkMode = internalDarkMode
   ↓
 toggleDarkMode() called? ──yes──→ invert internalDarkMode → persist → re-render
   ↓ no
-Wait for next toggleDarkMode() call
+Cross-tab storage event? ──yes──→ sync internalDarkMode from event value
+  ↓ no
+Wait for next toggleDarkMode() call or storage event
 ```
 
 ---
@@ -174,12 +178,12 @@ Wait for next toggleDarkMode() call
 |------|--------|------------|
 | `localStorage` race condition | Toggling before mount completes | `useState` initializer runs synchronously |
 | Forced theme + toggle interaction | `toggleDarkMode` is no-op when `forceTheme` is set | Documented behavior; intentional for Storybook |
-| No system `prefers-color-scheme` | Theme doesn't respect OS setting | Future enhancement |
+| ~~No system `prefers-color-scheme`~~ | **Resolved**: OS color scheme detected via `window.matchMedia` when localStorage is empty | Implemented |
 
 ## Gaps
 
-- No `prefers-color-scheme` media query detection for automatic light/dark switching
-- No cross-tab theme sync via `BroadcastChannel` or `storage` event
+- ~~No `prefers-color-scheme` media query detection for automatic light/dark switching~~ **Resolved**: Detected on mount via `window.matchMedia("(prefers-color-scheme: dark)")` when no localStorage preference exists.
+- ~~No cross-tab theme sync via `BroadcastChannel` or `storage` event~~ **Resolved**: Cross-tab sync via `window.addEventListener("storage")` — theme changes in one tab propagate to others.
 - No theme transition animation on switch
 - No support for more than 2 themes (light/dark only)
 
@@ -214,4 +218,4 @@ themeContext.ts (ThemeContext) ───────────┘       │
 
 ## Authorization
 
-**Visibility:** Public — stateless Astra library primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

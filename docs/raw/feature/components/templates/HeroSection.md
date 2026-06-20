@@ -28,6 +28,14 @@ A high-impact landing-style component for displaying primary page content. Shows
 - **Slot-based composable sections:** Headline, description, action, and children are all optional — the component gracefully renders any subset, making it reusable across landing pages, feature sections, and error pages.
 - **Animation configuration as component props:** Seven animation variants, duration, delay, and stagger are all controllable via configuration rather than CSS classes, enabling per-instance animation tuning.
 
+## Business Rules
+
+1. The headline prop is required; all other props (description, action, children) are optional.
+2. Entrance animation variants are mutually exclusive — only one variant can be active per render.
+3. The typewriter variant only applies to the headline; description, button, and children render without character-by-character animation.
+4. Stagger delays follow a fixed sequence: headline → description → button → children, each delayed by the configured stagger value.
+5. When animations are disabled, all content renders statically without motion, regardless of the configured variant.
+
 ## States
 
 - **Idle (animated)** — Default state with entrance animation enabled; content animates in
@@ -59,6 +67,14 @@ A high-impact landing-style component for displaying primary page content. Shows
 
 - Empty headline — Renders empty text element; typewriter variant blinks cursor with no characters
 - Missing required input (headline) — Required value must be provided
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Missing headline | Provide a non-empty headline string; the typewriter variant blinks a cursor with no characters |
+| Missing description | Description is optional; the section renders without the description slot |
+| Invalid animation variant | Default to a safe fallback variant (e.g., fade-up) or disable animations |
 
 ## Authorization
 
@@ -100,9 +116,17 @@ A visually engaging hero section is displayed with staggered entrance animations
 
 ### Exceptions
 Empty headline — renders an empty text element; typewriter shows a blinking cursor.
-
 ### Completion Criteria
+
 The hero section renders with all provided content and entrance animations play.
+
+## Verification
+
+- Verify that the headline renders with the configured entrance animation variant
+- Verify that the typewriter effect reveals the headline text character by character and shows a blinking cursor on completion
+- Verify that elements animate in the correct sequential order: headline → description → button → children
+- Verify that disabling animations renders all content statically without motion
+- Verify that omitting the description, action, and children individually produces the correct partial layout
 
 ## See Also
 

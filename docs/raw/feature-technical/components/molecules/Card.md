@@ -107,7 +107,7 @@ All rendering is deterministic. No runtime validation occurs — TypeScript comp
 
 | Integration | Details |
 |---|---|
-| **Consumer import** | `import { Card, CardProps } from "astra"` via barrel, or directly from `@/common/components/molecules/Card` |
+| **Consumer import** | `import { Card, CardProps } from "prati"` via barrel, or directly from `@/common/components/molecules/Card` |
 | **Used by** | Any page or organism that needs a grouped content container with optional header |
 | **Test file** | `src/common/components/molecules/Card.test.tsx` (vitest, 6 tests) |
 | **Barrel export** | `src/common/components/molecules/index.ts` re-exports `Card` and `CardProps` |
@@ -125,4 +125,4 @@ All rendering is deterministic. No runtime validation occurs — TypeScript comp
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

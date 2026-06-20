@@ -1,6 +1,6 @@
 // src/common/theme/ThemeProvider.tsx
 // path: src/common/theme/ThemeProvider.tsx
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ThemeContext } from "./themeContext";
 import { ThemeProviderProps } from "./themeData";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
@@ -22,7 +22,11 @@ export function ThemeProvider({
     if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem("darkMode");
-        return stored === "true";
+        if (stored !== null) {
+          return stored === "true";
+        }
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        return prefersDark;
       } catch {
         return false;
       }
@@ -45,6 +49,17 @@ export function ThemeProvider({
       }
     }
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handler = (e: StorageEvent) => {
+      if (e.key === "darkMode") {
+        setInternalDarkMode(e.newValue === "true");
+      }
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, []);
 
   const theme = useMemo(
     () => (darkMode ? darkTheme : lightTheme),

@@ -99,7 +99,7 @@ Sub-viewer styling is the responsibility of each sub-viewer molecule — the rou
 | Unknown extension | No matching `case` in switch | Renders fallback Box with localized "Binary / Unsupported File" + `.ext` label |
 | No file extension | `ext` is `undefined` (`fileName = "Makefile"`) | Falls to `default` case — unsupported file message with no extension label |
 | Missing localization key | `literal["viewer.unsupported"]` undefined | Uses `"⚠️"` as fallback for title, `"📄"` for extension label |
-| Sub-viewer crash | Error in CsvViewer / MdViewer / ImageViewer / JsonViewer | Propagates to parent — **no error boundary** in router |
+| Sub-viewer crash | Error in CsvViewer / MdViewer / ImageViewer / JsonViewer | Contained by `ErrorBoundary` — fallback message rendered in place of crashed viewer |
 | Missing `fileContent` | Prop omitted | Delegated to sub-viewer — each handles independently |
 | Missing `fileName` | Prop omitted | TypeScript compilation error (required prop) |
 
@@ -126,7 +126,7 @@ Sub-viewer styling is the responsibility of each sub-viewer molecule — the rou
 
 ## 11. Open Questions
 
-1. Should an error boundary be added to contain sub-viewer crashes within the router (falling back to unsupported-file message)?
+1. ~~Should an error boundary be added to contain sub-viewer crashes within the router (falling back to unsupported-file message)?~~ **Resolved**: `ErrorBoundary` wraps each sub-viewer.
 2. Should the hardcoded emoji fallbacks (`"⚠️"`, `"📄"`) be replaced with localized translation keys?
 3. Should `fileName` with no extension (e.g., "Makefile", "README") get special handling instead of falling to unsupported?
 4. Should file-type-specific accessibility announcements differ per sub-viewer?
@@ -135,4 +135,4 @@ Sub-viewer styling is the responsibility of each sub-viewer molecule — the rou
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

@@ -27,6 +27,14 @@ Provides consistent vertical layout for form pages. Includes an optional title h
 - **Max-width constraint for readability:** Content is constrained to a maximum width, preventing line lengths from exceeding comfortable reading width.
 - **Optional section rendering:** Title and actions slots are conditionally rendered — when omitted, they produce no DOM.
 
+## Business Rules
+
+1. Children content is required; the layout renders an empty container if no children are provided.
+2. The title and actions slots are independently optional — omitting one does not affect the rendering of the other.
+3. Max-width constraint applies to the entire layout container; individual child elements must handle their own width within it.
+4. The layout does not manage scroll behavior — long form content must handle its own scrolling via the parent.
+5. Action buttons are rendered in the order provided; no built-in support for primary/secondary button hierarchy.
+
 ## States
 
 - **Idle** — Title, children, and actions displayed
@@ -56,6 +64,14 @@ Provides consistent vertical layout for form pages. Includes an optional title h
 ## Error Conditions
 
 - Missing required input (children content) — Required value must be provided
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Missing children content | Provide valid React children nodes within the layout wrapper |
+| Missing title | Title is optional; the layout renders without the header section |
+| Missing actions | Actions are optional; the layout renders without the footer section |
 
 ## Authorization
 
@@ -97,9 +113,17 @@ A consistently structured form page is displayed.
 
 ### Exceptions
 No children — an empty layout is rendered with only header/footer.
-
 ### Completion Criteria
+
 The form layout renders with available header, body, and footer sections.
+
+## Verification
+
+- Verify that the title renders at the top of the layout when provided and is omitted when not provided
+- Verify that children content renders in the body area between header and footer
+- Verify that action buttons render at the bottom in the correct order
+- Verify that the max-width constraint is applied to the layout container
+- Verify that omitting multiple optional slots simultaneously renders only the provided sections
 
 ## See Also
 

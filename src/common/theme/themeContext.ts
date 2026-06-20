@@ -7,5 +7,9 @@ export const ThemeContext = createContext<ThemeContextValue>(
 );
 
 export function useTheme() {
-  return useContext(ThemeContext);
+  const context = useContext(ThemeContext);
+  if (context.darkMode === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
 }

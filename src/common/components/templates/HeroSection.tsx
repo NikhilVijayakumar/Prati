@@ -2,7 +2,6 @@ import { FC, ReactNode, useState, useEffect } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { spacing } from "../../../theme/tokens/spacing";
-import { colors } from "../../../theme/tokens/colors";
 
 export type AnimationVariant =
   | "fade-up"
@@ -198,14 +197,9 @@ export const HeroSection: FC<HeroSectionProps> = ({
               onClick={onPrimaryAction}
               disableElevation
               sx={{
-                backgroundColor: colors.primary,
-                color: "#fff",
                 borderRadius: 1,
                 textTransform: "none",
                 fontWeight: 500,
-                "&:hover": {
-                  backgroundColor: colors.primaryHover,
-                },
               }}
             >
               {primaryActionLabel}
@@ -219,14 +213,9 @@ export const HeroSection: FC<HeroSectionProps> = ({
             onClick={onPrimaryAction}
             disableElevation
             sx={{
-              backgroundColor: colors.primary,
-              color: "#fff",
               borderRadius: 1,
               textTransform: "none",
               fontWeight: 500,
-              "&:hover": {
-                backgroundColor: colors.primaryHover,
-              },
             }}
           >
             {primaryActionLabel}

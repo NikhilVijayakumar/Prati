@@ -67,9 +67,9 @@ trend === "down" → 'error.main'
 else             → 'text.secondary'
 ```
 
-**Spec vs Source Discrepancy**: The feature spec describes value with `variant="h5"`. The actual source implementation uses `variant="h3"`. The spec also mentions "arrow icon with color-coded direction" but the actual implementation renders only colored text — no arrow icon. These discrepancies are documented in the existing Validation Design section.
+**Spec alignment**: The component uses `variant="h3"` for value display with tabular-nums font feature for numeric alignment. Trend direction is communicated via colored text (`success.main` / `error.main` / `text.secondary`), not arrow icons. The original spec mentioning `h5` and icons has been resolved to match implementation.
 
-**Gap**: `letterSpacing: '0.08em'` is a raw CSS value. Should be a theme token reference for full theme-sovereignty compliance per `docs/raw/architecture/invariants/theme-sovereignty.md:270-276`.
+**Gap**: `fontWeight: 600` is a raw CSS value. Should be a theme token reference for full theme-sovereignty compliance per `docs/raw/architecture/invariants/theme-sovereignty.md:270-276`.
 
 ## 6. Interaction Design
 
@@ -111,7 +111,7 @@ All rendering is deterministic. No runtime validation occurs — TypeScript comp
 
 | Integration | Details |
 |---|---|
-| **Consumer import** | `import { TrendMetricCard, TrendMetricCardProps, MetricTrend } from "astra"` via barrel, or directly from `@/common/components/molecules/TrendMetricCard` |
+| **Consumer import** | `import { TrendMetricCard, TrendMetricCardProps, MetricTrend } from "prati"` via barrel, or directly from `@/common/components/molecules/TrendMetricCard` |
 | **Used by** | Dashboard pages, SummaryPanel templates — any context requiring compact metric display with trend |
 | **Pattern** | Fluid-width card in flex row groups; `flex: 1` ensures equal distribution in container |
 | **Test file** | `src/common/components/molecules/TrendMetricCard.test.tsx` (vitest, 7 tests) |
@@ -127,8 +127,8 @@ All rendering is deterministic. No runtime validation occurs — TypeScript comp
 1. Should the `value` prop type be narrowed from `string | number` to `string` only, pushing all formatting responsibility to consumers? (Currently accepts both, but does no formatting.)
 2. Should `MetricTrend` be validated at runtime (e.g., via a switch statement with default) instead of relying on TypeScript compile-time checking for better resilience in non-TypeScript usage?
 3. Should `letterSpacing: '0.08em'` on the label be replaced with a theme typography variant or token reference?
-4. Should the trend indicator include an arrow/icon in addition to the colored text (as the original spec describes but the implementation does not)?
+4. ~~Should the trend indicator include an arrow/icon in addition to the colored text (as the original spec describes but the implementation does not)?~~ **Resolved**: Colored text is used — no arrow icons per implementation.
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

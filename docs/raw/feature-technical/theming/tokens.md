@@ -2,7 +2,7 @@
 
 ## 1. Technical Overview
 
-Design tokens are the single source of truth for visual primitives — colors, spacing, and typography. Defined in `src/theme/tokens/` as TypeScript constants. Spacing uses a 4px base unit with semantic names (`xs`, `sm`, `md`, `lg`, `xl`, `xxl`, `section`, `page`) mapped to multipliers. Color tokens define brand, background, text, and status categories with light/dark mode variants. Typography defines font families (Inter for sans, IBM Plex Mono for mono) and custom variants. Tokens are consumed by `ThemeProvider` via `createTheme()` and by components via `useTheme()` or direct imports from `astra`.
+Design tokens are the single source of truth for visual primitives — colors, spacing, and typography. Defined in `src/theme/tokens/` as TypeScript constants. Spacing uses a 4px base unit with semantic names (`xs`, `sm`, `md`, `lg`, `xl`, `xxl`, `section`, `page`) mapped to multipliers. Color tokens define brand, background, text, and status categories with light/dark mode variants. Typography defines font families (Inter for sans, IBM Plex Mono for mono) and custom variants. Tokens are consumed by `ThemeProvider` via `createTheme()` and by components via `useTheme()` or direct imports from `prati`.
 
 ## 2. Architecture Realization
 
@@ -13,7 +13,7 @@ Design tokens are the single source of truth for visual primitives — colors, s
 | Color roles | `palette.primary.main`, `palette.background.default`, `palette.text.primary`, `palette.error.main` |
 | Light/dark variants | `createTheme({ palette: { mode: 'light' } })` and `createTheme({ palette: { mode: 'dark' } })` |
 | Typography | `typography.fontFamily` from `src/theme/tokens/typography.ts` |
-| Token imports | `import { spacing, typography } from 'astra'` |
+| Token imports | `import { spacing, typography } from 'prati'` |
 
 **File locations:**
 
@@ -28,7 +28,7 @@ Design tokens are the single source of truth for visual primitives — colors, s
 
 ```typescript
 import { createTheme } from '@mui/material/styles';
-import { spacing, typography } from 'astra';
+import { spacing, typography } from 'prati';
 
 const appLightTheme = createTheme({
   palette: {
@@ -75,7 +75,7 @@ Each color category (`background`, `text`) defines both light and dark mode valu
 |---|---|
 | `sx` prop with token path | `sx={{ color: 'primary.main', mt: 2 }}` |
 | `styled` with theme access | `styled('div')(({ theme }) => ({ padding: theme.spacing(2) }))` |
-| Token constant import | `import { spacing } from 'astra'; const gap = spacing.lg;` |
+| Token constant import | `import { spacing } from 'prati'; const gap = spacing.lg;` |
 | `useTheme()` for dynamic values | `const theme = useTheme(); const bg = theme.palette.error.light;` |
 
 **Forbidden patterns (P0 — Critical):**
@@ -129,7 +129,7 @@ Tokens are static values — no interaction design. Components use tokens for vi
 |---|---|---|
 | Token definitions | TypeScript constants | `src/theme/tokens/colors.ts`, `spacing.ts`, `typography.ts` |
 | ThemeProvider consumption | `createTheme({ palette: tokens })` | Consumer's `App.tsx` |
-| Component consumption | `import { spacing } from 'astra'` or `useTheme()` | Any component |
+| Component consumption | `import { spacing } from 'prati'` or `useTheme()` | Any component |
 | sx prop resolution | MUI theme pipeline | Runtime (MUI internal) |
 | Brand customization | `createTheme` palette config at app root | Consumer's theme setup |
 | Theme sovereignty linting | Detection heuristics for hardcoded values | Code review |
@@ -143,4 +143,4 @@ Tokens are static values — no interaction design. Components use tokens for vi
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

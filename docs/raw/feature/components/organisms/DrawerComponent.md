@@ -28,6 +28,14 @@ Renders a side navigation menu that adapts to screen size: temporary overlay dra
 - **Controlled component pattern:** Open/close state is owned by the parent — the drawer has no internal open/close state, keeping the toggle decision in the parent's responsive logic.
 - **Content keep-mounted on mobile:** Drawer content stays in the DOM when closed, preserving scroll position and avoiding remount animations on toggle.
 
+## Business Rules
+
+1. Menu items with feature names not present in the feature list are silently excluded from rendering.
+2. The drawer does not manage its own open/close state — the parent must control visibility via props.
+3. On mobile, drawer content stays mounted when closed to preserve scroll position and avoid remount animations.
+4. The drawer width is fixed and does not respond to viewport resizing beyond the mobile/desktop breakpoint.
+5. Menu items render in the order provided; no built-in support for grouping, separators, or category headers.
+
 ## States
 
 - **Open (mobile)** — Temporary drawer visible on small screens; overlay active
@@ -48,6 +56,14 @@ Renders a side navigation menu that adapts to screen size: temporary overlay dra
 
 - Empty feature list — Guard clause returns empty list
 - No matching features — All items filtered out; renders empty list
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Empty feature list | Provide a populated feature list containing at least the active menu item names |
+| No matching features | Update the feature list to include feature names matching the desired menu items |
+| Missing click handler on menu item | Ensure each menu item includes a valid onClick callback |
 
 ## Authorization
 
@@ -89,9 +105,17 @@ The user sees available navigation options and can navigate by tapping an item.
 
 ### Exceptions
 The feature list is empty — all items are filtered out and the drawer shows an empty list.
-
 ### Completion Criteria
+
 The drawer renders with filtered navigation items and responds to selection.
+
+## Verification
+
+- Verify that the drawer renders as a temporary overlay on viewports below the mobile breakpoint
+- Verify that the drawer renders as a permanent sidebar on viewports above the desktop breakpoint
+- Verify that menu items whose feature names are absent from the feature list are excluded from rendering
+- Verify that the mobile drawer content remains in the DOM when closed
+- Verify that clicking a menu item fires the click handler with the correct item index
 
 ### State Transitions
 

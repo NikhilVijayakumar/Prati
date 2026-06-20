@@ -2,7 +2,7 @@
 
 ## 1. Technical Overview
 
-`HeroSection` is a template-tier component at `src/common/components/templates/HeroSection.tsx`. It renders a high-impact landing section with a prominent headline (required), optional description, optional primary action button, optional children slot, and 7 entrance animation variants powered by `framer-motion`. Includes a `TypewriterHeadline` sub-component for character-by-character reveal animation. Exported via `src/common/components/templates/index.ts` → `src/lib.ts`. Consumed as `import { HeroSection } from 'astra'`.
+`HeroSection` is a template-tier component at `src/common/components/templates/HeroSection.tsx`. It renders a high-impact landing section with a prominent headline (required), optional description, optional primary action button, optional children slot, and 7 entrance animation variants powered by `framer-motion`. Includes a `TypewriterHeadline` sub-component for character-by-character reveal animation. Exported via `src/common/components/templates/index.ts` → `src/lib.ts`. Consumed as `import { HeroSection } from 'prati'`.
 
 ```typescript
 type AnimationVariant =
@@ -29,7 +29,7 @@ interface HeroSectionProps {
 |---|---|
 | **Atomic Hierarchy** | Template tier — composes MUI atoms (Box, Typography, Button) and framer-motion `motion.*` wrappers. Section-level layout. No business logic. See `docs/raw/architecture/core/component-tiers.md`. |
 | **Stateless UI** | Partially compliant per `docs/raw/architecture/invariants/stateless-ui.md`. Uses `useState` + `useEffect` inside `TypewriterHeadline` for character reveal timing — this is UI presentation state (animation), not domain state. Framer-motion manages its own internal state for entrance animations. |
-| **Theme Sovereignty** | Partially compliant — spacing via `spacing.ts` tokens; colors via MUI theme paths for headline/description. **Violation**: Button uses hardcoded `colors.primary` / `colors.primaryHover` from token constants with `color="#fff"` instead of MUI theme path `theme.palette.primary.main`. See `docs/raw/architecture/invariants/theme-sovereignty.md`. |
+| **Theme Sovereignty** | Compliant — spacing via `spacing.ts` tokens; colors via MUI theme paths. Button uses `variant="contained"` `color="primary"` which resolves through MUI theme pipeline. No hardcoded color values. See `docs/raw/architecture/invariants/theme-sovereignty.md`. |
 | **Localization** | `headline`, `description`, `primaryActionLabel` are raw string props — consumer must pass translated strings via `useLanguage()`. See `docs/raw/architecture/core/localization.md`. |
 | **Public API Stability** | Stable — exported via barrel from `templates/index.ts`. All 7 animation variant strings are public API. See `docs/raw/architecture/core/api-surface.md`. |
 | **Dependency Safety** | Adds `framer-motion` as runtime dependency. Must be declared as peer dependency in consumer `package.json`. See `docs/raw/architecture/core/dependencies.md`. |
@@ -83,7 +83,7 @@ const animationConfigs = {
 - **Layout**: Outer `Box` with flex column, `maxWidth: 800px`, centered via `margin: "0 auto"`, `textAlign: "center"`, `padding` via `spacing.xl`
 - **Headline**: `Typography variant="h2"`, `fontWeight: 700` via `sx`, `color="text.primary"`
 - **Description**: `Typography variant="body1"`, `color="text.secondary"`
-- **Button**: **Styled via hardcoded token constants** — `backgroundColor: colors.primary`, `"&:hover": { backgroundColor: colors.primaryHover }`, `color: "#fff"` — this violates Theme Sovereignty (should reference `theme.palette.primary.main`)
+- **Button**: MUI `variant="contained"` `color="primary"` — resolves through MUI theme pipeline. No hardcoded color values.
 - **Spacing**: Inter-element gaps via `spacing.md`, `spacing.lg` from `src/theme/tokens/spacing.ts`
 
 ## 6. Interaction Design
@@ -126,9 +126,9 @@ const animationConfigs = {
 
 | Integration | Mechanism |
 |---|---|
-| **Consumer app** | Import `{ HeroSection }` from `astra`. Pass headline + optional props. |
+| **Consumer app** | Import `{ HeroSection }` from `prati`. Pass headline + optional props. |
 | **Localization** | Consumer resolves `headline`, `description`, `primaryActionLabel` via `useLanguage().literal[key]` before passing as props. |
-| **Theming** | MUI `ThemeProvider` must be ancestor. Button **must be migrated** from hardcoded `colors.primary` to `sx={{ backgroundColor: 'primary.main' }}` for dark mode support. |
+| **Theming** | MUI `ThemeProvider` must be ancestor. Button uses `variant="contained"` `color="primary"` — resolves through theme pipeline for dark mode support. |
 | **Animation customization** | Consumer tunes `animationVariant`, `duration`, `delay`, `stagger` per instance. |
 | **Reduced motion** | Consumer detects `prefers-reduced-motion` and passes `enableAnimation={false}`. |
 | **Page routing** | `onPrimaryAction` calls consumer's navigation or modal trigger. |
@@ -137,10 +137,10 @@ const animationConfigs = {
 
 - Should `animationDuration`, `animationDelay`, and `animationVariant` defaults be configurable at a theme or provider level instead of per-instance?
 - What is the expected behavior when `animationVariant="typewriter"` is combined with `enableAnimation=false` — should typewriter be treated as animation or text presentation?
-- Should the Button be migrated from hardcoded `colors.primary` to MUI theme path — and if so, should this be a breaking change for consumers relying on the current brand color?
+- ~~Should the Button be migrated from hardcoded `colors.primary` to MUI theme path — and if so, should this be a breaking change for consumers relying on the current brand color?~~ **Resolved**: Button uses `color="primary"` via MUI theme pipeline.
 - Should a secondary action button slot be added for multi-CTA hero layouts?
 - Should `prefers-reduced-motion` be detected internally or remain a consumer responsibility?
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

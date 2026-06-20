@@ -28,6 +28,14 @@ Provides the outer HTML shell for email content. Renders a centered `.container`
 - Does not apply theming tokens — uses hardcoded email-safe colors
 - Does not validate email-client compatibility beyond inline styles
 
+## Business Rules
+
+1. The template MUST render a valid HTML5 document with `<!DOCTYPE html>`, `<html>`, `<head>`, and `<body>` tags for email-client compatibility
+2. Container width MUST NOT exceed 600px to ensure consistent rendering across email clients
+3. The `{{> @partial-block }}` MUST be rendered between header and footer, never outside the `.container` div
+4. All inline styles MUST use email-safe properties only (no JavaScript, no external CSS, no unsupported CSS properties)
+5. Header and footer sections MUST be omitted entirely when their respective variables are absent — never render empty heading or footer elements
+
 ## States
 
 - **Full** — title, header, body partial, and footer all present
@@ -42,8 +50,22 @@ Provides the outer HTML shell for email content. Renders a centered `.container`
 
 ## Error Conditions
 
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+|---|---|
+| Missing `{{> @partial-block }}` content | Log a warning; render container with a "No content provided" placeholder message |
+| `title` not provided | Fall back to default title "Email"; log a warning |
+
 - Missing `{{> @partial-block }}` content — container renders empty
 - `title` not provided — `<title>` renders empty string
+
+## Verification
+
+- Render all three state variants (Full, Minimal, No footer) and verify no empty heading or footer elements appear
+- Render with empty `title` and confirm `<title>` tag is present but empty
+- Verify rendered HTML passes basic email-client inline-style checks (no external CSS references, no JavaScript)
+- Inject a known partial block and confirm content appears between header and footer in the `.container` div
 
 ## See Also
 

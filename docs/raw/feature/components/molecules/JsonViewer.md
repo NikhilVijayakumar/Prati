@@ -28,6 +28,14 @@ A specialized viewer for JSON and JSONL files. Parses JSON content and renders i
 - **JSONL line-by-line handling:** Each line of a JSONL file is parsed and rendered independently — a single malformed line produces an error entry for that line only, leaving all other lines unaffected.
 - **On-demand syntax coloring:** The syntax coloring library is loaded only when this component first renders — the user sees a brief loading indicator on first use, with no impact on initial page load.
 
+## Business Rules
+
+1. The component MUST parse JSON content and render it with syntax highlighting — raw text display is not sufficient.
+2. Invalid JSON MUST NOT crash the component — a structured error object with the raw content MUST be displayed instead.
+3. JSONL files MUST be parsed line-by-line; a single malformed line MUST NOT break parsing of subsequent lines.
+4. The syntax highlighting library MUST be loaded lazily on first render — it must not block initial page load.
+5. The component MUST NOT search, filter, edit, or validate JSON — it is a read-only viewer.
+
 ## Consumed By
 
 - [FileViewerRouter](../organisms/FileViewerRouter.md) — delegates JSON and JSONL file rendering to this component based on file extension
@@ -66,6 +74,15 @@ A specialized viewer for JSON and JSONL files. Parses JSON content and renders i
 - Invalid JSON — Structured error object rendered with raw content fallback
 - JSONL parse failures — Failed lines produce error objects in output
 - Very large JSON — Performance may degrade; no virtualization
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Missing required value (file name) | Provide a file name prop; the component cannot determine the file label without it |
+| Invalid JSON | Correct the JSON syntax in the source file; the structured error display allows the user to inspect the problem |
+| JSONL parse failures | Fix the malformed JSON line in the source; the per-line error isolates the issue to a single line |
+| Very large JSON | Reduce the JSON size or implement virtualization; the component may experience degraded performance |
 
 ## Authorization
 
@@ -110,6 +127,14 @@ Invalid JSON — a structured error object with raw content fallback is displaye
 
 ### Completion Criteria
 The JSON data is parsed and rendered with syntax highlighting.
+
+## Verification
+
+- Unit tests confirm valid JSON renders with syntax highlighting
+- Unit tests confirm invalid JSON renders a structured error object without crashing
+- Unit tests confirm JSONL files are parsed line-by-line and a single malformed line does not break other lines
+- Integration tests confirm the syntax highlighter is loaded lazily
+- Performance tests confirm acceptable rendering time for large JSON payloads
 
 ## See Also
 

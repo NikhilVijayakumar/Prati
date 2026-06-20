@@ -43,7 +43,7 @@ Exported from `src/common/theme/index.ts` → `src/common/index.ts` → `src/lib
 ### Import Contract
 
 ```tsx
-import { useTheme, ThemeContext, ThemeContextValue } from 'astra';
+import { useTheme, ThemeContext, ThemeContextValue } from 'prati';
 ```
 
 ### Return Value
@@ -83,15 +83,19 @@ function useTheme(): ThemeContextValue;
 ```ts
 // themeContext.ts
 export const ThemeContext = createContext<ThemeContextValue>(
-  {} as ThemeContextValue   // Cast — real value provided by ThemeProvider
+  {} as ThemeContextValue
 );
 
 export function useTheme() {
-  return useContext(ThemeContext);
+  const context = useContext(ThemeContext);
+  if (context.darkMode === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+  return context;
 }
 ```
 
-Note: There is no null/undefined guard — when `ThemeContext` is used outside a provider, the cast `{} as ThemeContextValue` results in a runtime error when accessing `darkMode` or `toggleDarkMode`. The feature spec describes a throw guard, but the current implementation relies on the natural runtime error.
+Note: The hook includes an explicit error guard — when `ThemeContext` is used outside a provider, it throws a descriptive error `"useTheme must be used within a ThemeProvider"` instead of producing a silent undefined access.
 
 ## Data Flow
 
@@ -121,7 +125,7 @@ Returns { darkMode, toggleDarkMode } to calling component
 
 | Condition | Behavior | Severity |
 |-----------|----------|----------|
-| Called outside `ThemeProvider` | `ThemeContext` defaults to `{}`; accessing `darkMode` → `undefined`; calling `toggleDarkMode` → throws | Runtime error — no explicit guard |
+| Called outside `ThemeProvider` | Explicit guard throws `"useTheme must be used within a ThemeProvider"` | Descriptive error — guard implemented |
 | Stale closure of `toggleDarkMode` | Stable across renders — `useState` setter from provider is stable | No risk |
 | Concurrent calls during provider re-render | Context value is updated atomically | No risk |
 
@@ -153,12 +157,12 @@ Returns { darkMode, toggleDarkMode } to calling component
 
 | Risk | Impact | Mitigation |
 |------|--------|------------|
-| No explicit error guard for missing provider | Silent `undefined` instead of descriptive throw | Gap — consider adding `if (!context.darkMode) throw Error(...)` |
+| ~~No explicit error guard for missing provider~~ | **Resolved**: Descriptive throw `"useTheme must be used within a ThemeProvider"` | Guard implemented |
 | Entire context consumed (no selector) | Re-renders on every context change even if consumer only needs `darkMode` | Consumer should memoize or split context |
 
 ## Gaps
 
-- Missing explicit error guard: `useTheme` should throw `"useTheme must be used within a ThemeProvider"` when context is undefined/default
+- ~~Missing explicit error guard~~ **Resolved**: `useTheme` throws descriptive error when called outside `ThemeProvider`
 - No memoized selector support for partial context consumption
 - No `useThemeValue(path)` utility for individual token access
 
@@ -185,8 +189,8 @@ themeContext.ts (createContext, useTheme)
 
 # Final Rule
 
-`useTheme` must remain a thin typed wrapper over `useContext(ThemeContext)`. It must never manage state, persist data, or contain business logic. The context value must always be provided by `ThemeProvider`. Consider adding an explicit guard that throws a descriptive error when the hook is called outside a provider subtree.
+`useTheme` must remain a thin typed wrapper over `useContext(ThemeContext)`. It must never manage state, persist data, or contain business logic. The context value must always be provided by `ThemeProvider`. The hook includes an explicit guard that throws a descriptive error when called outside a provider subtree.
 
 ## Authorization
 
-**Visibility:** Public — stateless Astra library primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

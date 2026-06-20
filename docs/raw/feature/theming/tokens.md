@@ -93,6 +93,14 @@ Base unit: 8px (MUI standard)
 | Color roles | Brand, background, text, and status color groups |
 | Typography system | Font families and custom variants beyond defaults |
 
+## Business Rules
+
+1. **One source of truth** — Design tokens are the only source for spacing, color, and typography values; hardcoded values in components are not permitted
+2. **Dark mode parity** — Every color category must define both light and dark variants; missing dark mode values are a spec gap
+3. **Semantic uniqueness** — Token names must be unique across all categories; collisions cause silent overrides
+4. **Base-unit scaling** — All spacing values must align to the 8px base unit grid; off-grid spacing is not permitted
+5. **Token immutability** — Tokens are static reference values; runtime modifications must go through the theme layer, not token definitions
+
 ## States
 
 - **Defined Set:** Tokens are static values — no runtime state transitions
@@ -110,6 +118,14 @@ Base unit: 8px (MUI standard)
 - **Missing token** — Consumers referencing undefined token names receive no value
 - **Token collision** — Duplicate semantic names across categories cause silent override
 - **Missing dark variant** — Color categories missing dark-mode values render incorrect colors in dark mode
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Missing token | Add the missing token definition; verify all consumers use the correct token name |
+| Token collision | Rename one of the colliding tokens to ensure semantic uniqueness across categories |
+| Missing dark variant | Add dark-mode values for every color category; verify both modes produce distinct, valid palettes |
 
 ## Authorization
 
@@ -151,9 +167,16 @@ The component renders with the correct visual value consistent with the design s
 
 ### Exceptions
 The token name is misspelled or does not exist — no value is applied and the consumer must fall back to a hardcoded value.
-
 ### Completion Criteria
+
 The component uses the correct token value and renders consistently with the rest of the application.
+
+## Verification
+
+- **Token existence test**: For every token documented, verify a corresponding definition exists in the theme object
+- **Dark mode completeness test**: Enumerate every color token and verify both light and dark values are defined
+- **Collision detection test**: Scan all token names for duplicates across spacing, color, and typography categories
+- **Base-unit compliance test**: Verify every spacing token is a multiple of the 8px base unit or a valid sub-unit (0.5)
 
 ## See Also
 

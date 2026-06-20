@@ -27,6 +27,14 @@ A smart routing component that inspects the file extension and delegates renderi
 - **Extension-based routing logic:** The file extension is extracted from the file name — this is a metadata-level decision that doesn't require reading file content, enabling early routing.
 - **Metadata pass-through:** Encoding and MIME type are forwarded only to the image viewer; other viewers ignore them.
 
+## Business Rules
+
+1. File extension is extracted from the file name after the last dot; files without a dot fall through to unsupported.
+2. Only the following extensions are recognized: .csv, .md, .txt, .png, .jpg, .jpeg, .gif, .webp, .svg, .json, .jsonl.
+3. Encoding and MIME type metadata are forwarded only to the image viewer; other sub-viewers receive content only.
+4. If a sub-viewer encounters an unrecoverable error, the router catches it and displays the unsupported-file fallback.
+5. The router does not load file content — it expects content to be provided as a prop.
+
 ## States
 
 - **Idle** — Recognized file extension with content; delegates to appropriate sub-viewer
@@ -56,6 +64,14 @@ A smart routing component that inspects the file extension and delegates renderi
 - **Unknown extension** — Renders unsupported file fallback with the extension displayed
 - **Missing content** — Delegated to sub-viewer; each handles missing content independently
 - **Sub-viewer failure** — If a sub-viewer encounters an unrecoverable error, the router displays an unsupported-file fallback and does not propagate the error to the caller
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Unknown file extension | Verify that the file has a supported extension (.csv, .md, .txt, .json, .jsonl, image formats) |
+| Missing file content | Provide file content as a string prop; each sub-viewer handles empty content independently |
+| Sub-viewer rendering failure | Validate file content format upstream; the router displays a fallback instead of crashing |
 
 ## Authorization
 
@@ -97,9 +113,17 @@ The file content is displayed through the correct specialized viewer.
 
 ### Exceptions
 Unsupported extension — an unsupported file fallback message is displayed.
-
 ### Completion Criteria
+
 The file is routed to the correct sub-viewer and the content is displayed.
+
+## Verification
+
+- Verify that a .csv file routes to CsvViewer and renders the CSV table
+- Verify that a .md file routes to MdViewer and renders the Markdown content
+- Verify that .png, .jpg, .gif files route to ImageViewer with correct encoding and MIME metadata
+- Verify that .json and .jsonl files route to JsonViewer
+- Verify that an unknown extension (e.g., .xyz) renders the unsupported file fallback message
 
 ## See Also
 

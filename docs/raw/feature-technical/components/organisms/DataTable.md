@@ -100,7 +100,7 @@ The sticky header is enabled via MUI's `stickyHeader` prop on `<Table>` — CSS-
 | `Column.id` mismatch | `column.id` does not match any key of row | `row[column.id]` returns `undefined` — cell renders "undefined" |
 | Null/undefined key value | `row[keyField]` is null | `String(null)` → key `"null"` — potential React key collision |
 | Duplicate keys | Two rows share same `row[keyField]` value | React warning: "Encountered two children with the same key" |
-| Render function error | `column.render(row)` throws | No error boundary — error propagates to parent (DataTable crashes) |
+| Render function error | `column.render(row)` throws | Contained by `ErrorBoundary` — error fallback rendered in place of failing cell |
 | Empty data | `data.length === 0` | Header renders with no body rows — table appears empty |
 | Empty columns | `columns.length === 0` | Table renders with no columns — invisible output |
 
@@ -131,11 +131,11 @@ The sticky header is enabled via MUI's `stickyHeader` prop on `<Table>` — CSS-
 
 1. Should `Column<T>.id` be constrained to `keyof T` at the type level (currently declared as `string`)?
 2. Should `React.memo` be added to the component to prevent unnecessary re-renders?
-3. Should an error boundary be added around `column.render(row)` calls?
+3. ~~Should an error boundary be added around `column.render(row)` calls?~~ **Resolved**: `ErrorBoundary` wraps each custom render call.
 4. Should `aria-label` be a configurable prop instead of a hardcoded value?
 5. Should the component export a named constant for default column width (currently implicit 100px via `minWidth || 100`)?
 6. Should `EmptyState` be composed internally when `data.length === 0` or remain external?
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

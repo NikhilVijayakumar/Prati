@@ -132,7 +132,7 @@ Error boundary can catch render errors. No user-facing recovery flow.
 **Consumer usage pattern:**
 
 ```typescript
-import { useTheme, ThemeToggle } from 'astra';
+import { useTheme, ThemeToggle } from 'prati';
 
 function AppHeader() {
   const themeContext = useTheme();
@@ -153,4 +153,4 @@ function AppHeader() {
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

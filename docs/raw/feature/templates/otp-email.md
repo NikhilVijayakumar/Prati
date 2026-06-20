@@ -26,6 +26,14 @@ Renders a heading, personalized greeting, and bolded OTP code. Intended as a par
 - Does not apply expiry time or code length constraints
 - Does not render any call-to-action or additional instructions
 
+## Business Rules
+
+1. The `code` variable MUST be rendered inside a `<strong>` element, never as plain text
+2. The greeting line MUST follow the pattern "Hello {{name}}," with a comma and space after the recipient name
+3. The template MUST NOT render any `<html>`, `<head>`, or `<body>` tags — this is a body partial only
+4. All three variables (`title`, `name`, `code`) MUST be provided; the template has no valid state when any are missing
+5. The OTP code MUST NOT be truncated, formatted, or transformed — rendered as-is for exact user verification
+
 ## States
 
 - **Default** — all three variables provided; full email body renders
@@ -37,7 +45,20 @@ Renders a heading, personalized greeting, and bolded OTP code. Intended as a par
 
 ## Error Conditions
 
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+|---|---|
+| Any variable missing | Log a warning with the missing variable name; render placeholder text for missing variables |
+
 - Any variable missing — Handlebars renders the variable reference as empty string; no crash
+
+## Verification
+
+- Render the Default state and confirm `<h1>`, greeting with name, and `<strong>` code are present
+- Render with empty `name` and confirm greeting shows "Hello ," (trailing comma, no name)
+- Render with empty `code` and confirm `<strong>` element is empty
+- Confirm output contains no `<html>`, `<head>`, or `<body>` tags (partial-only constraint)
 
 ## See Also
 

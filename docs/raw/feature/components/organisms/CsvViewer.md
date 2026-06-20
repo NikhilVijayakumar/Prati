@@ -29,6 +29,14 @@ Parses CSV content into a sortable table with configurable pagination. Auto-dete
 - **Pagination state management:** Page number and rows-per-page are managed locally — pagination is a pure UI concern scoped to this component.
 - **Sticky header with scrollable body:** Column labels remain visible while the user scrolls through data rows.
 
+## Business Rules
+
+1. Delimiter detection scans only the first line for semicolons — files with mixed delimiters may parse incorrectly.
+2. Page number and rows-per-page are managed as local state; no external state management is required.
+3. Rows-per-page is configurable to 10, 25, or 50 — values outside this set should default to a safe value.
+4. The CSV string is parsed synchronously — very large files may cause UI blocking during parsing.
+5. Sticky headers remain visible during vertical scroll; the table body scrolls independently of the header.
+
 ## Consumed By
 
 - [FileViewerRouter](./FileViewerRouter.md) — delegates CSV file rendering to this component based on file extension
@@ -62,6 +70,14 @@ Parses CSV content into a sortable table with configurable pagination. Auto-dete
 - No content or empty content — Renders empty-state message
 - Mixed-delimiter CSV — Delimiter detection on first line only; may parse subsequent lines incorrectly
 - Very large datasets — Pagination without virtualization; performance degrades beyond typical sizes
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Empty or no content | Provide a valid non-empty CSV string; the component displays an empty-state message |
+| Mixed-delimiter CSV | Pre-process the CSV file to use a consistent delimiter before passing it to the viewer |
+| Very large dataset | Implement virtualized scrolling for datasets exceeding 10,000 rows, or paginate aggressively |
 
 ## Authorization
 
@@ -103,9 +119,17 @@ The user can browse CSV data in a structured table with pagination.
 
 ### Exceptions
 Mixed delimiters — first-line detection may produce incorrect parsing for subsequent lines.
-
 ### Completion Criteria
+
 The CSV content is parsed and displayed in a paginated table.
+
+## Verification
+
+- Verify that a valid CSV string is parsed into headers and data rows in a paginated table
+- Verify that comma-delimited and semicolon-delimited CSVs are both auto-detected and parsed correctly
+- Verify that the empty state renders the appropriate message when no content is provided
+- Verify that pagination controls change the page and rows-per-page correctly
+- Verify that sticky column headers remain visible while scrolling through the data rows
 
 ## See Also
 

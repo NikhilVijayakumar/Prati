@@ -31,6 +31,14 @@ A fixed-position top bar that displays a mobile menu toggle button, a page title
 - **Responsive visibility strategy:** The mobile menu toggle icon is hidden on larger screens via CSS — a responsive pattern that avoids JavaScript breakpoint detection.
 - **Controlled callback pattern:** The drawer toggle is a required input callback — the toolbar fires the event but the parent decides what happens.
 
+## Business Rules
+
+1. The mobile menu toggle icon is visible only on small screens via CSS; no JavaScript breakpoint detection is used.
+2. The drawer toggle callback is required — the toolbar fires it on click but the parent controls the response.
+3. The title truncates with ellipsis when it exceeds the available width; no multiline wrapping is supported.
+4. The theme toggle reads from and writes to the application's theme context; the toolbar must be wrapped in a theme provider.
+5. The toolbar is fixed-position and remains at the top of the viewport during vertical scroll.
+
 ## States
 
 - **Idle** — Title, menu button (mobile), and theme toggle visible
@@ -55,6 +63,13 @@ A fixed-position top bar that displays a mobile menu toggle button, a page title
 ## Error Conditions
 
 - Missing theme context — Invariant error; must be wrapped in a theme provider
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Missing theme context | Wrap the component tree in a ThemeProvider before rendering the toolbar |
+| Missing drawer toggle callback | Pass a valid toggle handler function via the onToggleDrawer prop |
 
 ## Authorization
 
@@ -96,9 +111,17 @@ The user sees the page title and can interact with navigation and theme controls
 
 ### Exceptions
 Missing theme context — the component throws and breaks rendering.
-
 ### Completion Criteria
+
 The toolbar is rendered with title and controls, ready for user interaction.
+
+## Verification
+
+- Verify that the toolbar renders at the top of the viewport with a fixed position
+- Verify that the title truncates with ellipsis when it exceeds the toolbar width
+- Verify that the mobile menu toggle icon is visible on narrow viewports and hidden on wide viewports
+- Verify that clicking the theme toggle switches between light and dark modes via the theme context
+- Verify that the toolbar renders without error when the theme provider is present
 
 ## See Also
 

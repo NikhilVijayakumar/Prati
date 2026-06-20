@@ -27,6 +27,14 @@ A versatile card component that wraps content in a bordered surface. Supports a 
 - **Optional header pattern:** The header row only renders when at least one header prop is provided — empty props produce no header.
 - **Flex column layout:** Card body stacks vertically with consistent spacing; child components control their own sizing.
 
+## Business Rules
+
+1. The header row MUST only render when at least one header prop (title, supporting text, action) is provided.
+2. The card body MUST accept any React children without type restrictions.
+3. The card MUST NOT manage state, fetch data, or handle user interactions beyond the action slot.
+4. The action slot content MUST fit within the card width — overflow is not handled by the component.
+5. All header sections (title, supporting text, action) MUST render independently — omitting one MUST NOT affect the others.
+
 ## States
 
 - **Full** — Title, supporting text, action, and children all present
@@ -56,6 +64,14 @@ A versatile card component that wraps content in a bordered surface. Supports a 
 - **Action overflow** — Action slot content may overflow on narrow cards where the available width is insufficient for the action element
 - **Null or undefined children** — Card renders the bordered surface with no body content; header sections remain unaffected
 - **All props omitted** — Card renders as an empty bordered container; no visible content is displayed to the user
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Action overflow | Reduce action content size or increase card width via container constraints |
+| Null or undefined children | Provide valid React children; the card remains visually intact with just the header sections |
+| All props omitted | Provide at least one prop (header or children) to render meaningful content |
 
 ## Authorization
 
@@ -100,6 +116,13 @@ Action content overflows on narrow cards.
 
 ### Completion Criteria
 The card renders with its header and body content in a styled container.
+
+## Verification
+
+- Visual regression tests confirm the card renders correctly in full, no-header, and empty states
+- Integration tests confirm each header section renders independently when its prop is provided
+- Integration tests confirm the action slot does not overflow at default card widths
+- Integration tests confirm null or undefined children do not crash the component
 
 ## See Also
 

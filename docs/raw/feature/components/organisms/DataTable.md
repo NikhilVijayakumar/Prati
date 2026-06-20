@@ -27,6 +27,14 @@ Renders structured data in a table format with a header that stays visible durin
 - **Custom cell rendering:** Per-column render functions provide custom cell content without coupling the table to specific data shapes — enables buttons, badges, or any content per cell while keeping the table generic.
 - **Sticky header:** The header row remains visible at the top of the table during vertical scroll through data rows.
 
+## Business Rules
+
+1. Column definitions must include a unique key for each column; duplicate keys cause rendering warnings.
+2. Row keys must be unique; duplicate row keys produce console warnings and potential DOM reconciliation issues.
+3. Custom render functions must be pure — they receive cell value and row data and must not mutate props or trigger side effects.
+4. The columns array order determines the rendered column order; no reordering is supported.
+5. Minimum width constraints are enforced per column; content exceeding the minimum width wraps within the cell.
+
 ## States
 
 - **Idle** — Data loaded; renders sticky header with body rows
@@ -55,6 +63,14 @@ Renders structured data in a table format with a header that stays visible durin
 - Null/undefined key value — Row key becomes the string "null" or "undefined"; potential key collision
 - Duplicate keys — Console warning; may cause rendering issues
 - Component error in render function — No error boundary; propagates to parent
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Null/undefined key value | Ensure every row object contains a valid, non-null key value before passing to the component |
+| Duplicate keys | Deduplicate row keys upstream or provide a unique key generator |
+| Component error in render function | Wrap the parent's usage site in an error boundary to catch and handle render failures |
 
 ## Authorization
 
@@ -96,9 +112,17 @@ Structured tabular data is displayed with a visible header row.
 
 ### Exceptions
 A cell render function throws — the error propagates to the parent without a local boundary.
-
 ### Completion Criteria
+
 The table renders the header and all data rows.
+
+## Verification
+
+- Verify that the sticky header remains visible when scrolling through a dataset of 50+ rows
+- Verify that each column renders with the correct label, alignment, and minimum width as defined in the column specification
+- Verify that custom cell render functions render their output in the correct cells without errors
+- Verify that an empty data array renders only the header row with no body rows
+- Verify that an empty columns array renders an empty table structure
 
 ## See Also
 

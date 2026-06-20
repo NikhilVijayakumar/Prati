@@ -26,6 +26,14 @@ Renders a compact label indicating severity (CRITICAL, WARNING, URGENT, INFO, SU
 - **Relaxed type boundary:** The component accepts any string value, allowing dynamic or external data sources while typed usage gets autocomplete.
 - **Purely presentational atom:** No state, no callbacks, no interaction.
 
+## Business Rules
+
+1. The severity value lookup MUST be case-sensitive — lowercase input falls back to default styling.
+2. The component MUST accept any string value without throwing an error.
+3. The component MUST NOT render icons, indicators, or interactive elements — only text with color-coded background.
+4. At least one severity value MUST be provided for the component to render meaningfully.
+5. Each known severity level MUST have a distinct color treatment for quick visual differentiation.
+
 ## States
 
 - **Active** — Displays the badge with mapped severity colors
@@ -42,6 +50,14 @@ Renders a compact label indicating severity (CRITICAL, WARNING, URGENT, INFO, SU
 - Unknown level value — Falls back to default styling, no error thrown
 - Case mismatch — Lowercase input falls back to default (keys are uppercase)
 - Missing level — Required value not provided
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Unknown level value | Use a recognized level string (CRITICAL, WARNING, URGENT, INFO, SUCCESS); default fallback styling keeps the badge functional |
+| Case mismatch | Provide the severity value in the expected case (uppercase); the fallback ensures no crash |
+| Missing level | Supply a severity level value; the badge cannot render without it |
 
 ## Authorization
 
@@ -86,6 +102,13 @@ An unknown severity value falls back to default styling.
 
 ### Completion Criteria
 The badge renders with the correct color and label for all severity levels.
+
+## Verification
+
+- Unit tests confirm each severity level maps to the correct color pair
+- Visual regression tests confirm the semi-transparent background pattern renders correctly
+- Integration tests confirm unknown levels fall back to default styling without errors
+- Accessibility tests confirm contrast ratios meet WCAG standards for all severity levels
 
 ## See Also
 

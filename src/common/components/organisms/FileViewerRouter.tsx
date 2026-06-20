@@ -3,6 +3,7 @@ import { CsvViewer } from "./CsvViewer";
 import { MdViewer } from "../molecules/MdViewer";
 import { ImageViewer } from "../molecules/ImageViewer";
 import { JsonViewer } from "../molecules/JsonViewer";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { Box, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
@@ -28,11 +29,11 @@ export const FileViewerRouter: FC<FileViewerRouterProps> = ({
 
   switch (ext) {
     case "csv":
-      return <CsvViewer fileName={fileName} fileContent={fileContent} />;
+      return <ErrorBoundary><CsvViewer fileName={fileName} fileContent={fileContent} /></ErrorBoundary>;
     case "md":
     case "markdown":
     case "txt":
-      return <MdViewer fileName={fileName} fileContent={fileContent} />;
+      return <ErrorBoundary><MdViewer fileName={fileName} fileContent={fileContent} /></ErrorBoundary>;
     case "jpg":
     case "jpeg":
     case "png":
@@ -40,16 +41,18 @@ export const FileViewerRouter: FC<FileViewerRouterProps> = ({
     case "svg":
     case "webp":
       return (
-        <ImageViewer
-          fileName={fileName}
-          fileContent={fileContent}
-          fileEncoding={fileEncoding}
-          mimeType={mimeType}
-        />
+        <ErrorBoundary>
+          <ImageViewer
+            fileName={fileName}
+            fileContent={fileContent}
+            fileEncoding={fileEncoding}
+            mimeType={mimeType}
+          />
+        </ErrorBoundary>
       );
     case "json":
     case "jsonl":
-      return <JsonViewer fileName={fileName} fileContent={fileContent} />;
+      return <ErrorBoundary><JsonViewer fileName={fileName} fileContent={fileContent} /></ErrorBoundary>;
     default:
       return (
         <Box sx={{ p: spacing.lg, textAlign: "center" }}>

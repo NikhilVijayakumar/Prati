@@ -4,7 +4,7 @@ An inline-styled alert notification with type-based color theming.
 
 ## Overview
 
-Renders a conditionally visible alert box with inline CSS styles. Applies type-specific background, border, and text colors for `warning`, `error`, `success`, and the default `info` variant. Uses the custom `ifEquals` Handlebars helper for conditional style branches. The alert block only renders when `show` is truthy.
+Renders a conditionally visible alert box with inline CSS styles. Applies type-specific background, border, and text colors for `warning`, `error`, `success`, and the default `info` variant. Uses a custom conditional helper for style branches. The alert block only renders when `show` is truthy.
 
 ## Template Variables
 
@@ -26,15 +26,7 @@ Renders a conditionally visible alert box with inline CSS styles. Applies type-s
 
 ## Custom Helper Dependency
 
-Requires the `ifEquals` block helper registered on the Handlebars instance:
-
-```js
-handlebars.registerHelper('ifEquals', function(a, b, options) {
-  return a === b ? options.fn(this) : options.inverse(this);
-});
-```
-
-Without this helper, conditional style branches will not evaluate.
+Requires a conditional equality helper (`ifEquals`) registered on the template engine. Without this helper, conditional style branches will not evaluate correctly.
 
 ## Responsibilities
 

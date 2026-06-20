@@ -1,4 +1,4 @@
-import { FC, lazy, Suspense, useState } from "react";
+import { FC, lazy, Suspense, useState, useMemo } from "react";
 import { Box, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
@@ -59,7 +59,7 @@ export const JsonViewer: FC<JsonViewerProps> = ({ fileName, fileContent }) => {
   );
 
   const emptyMessage = literal["viewer.empty_json"];
-  const normalized = normalizeJsonForDisplay(fileName, fileContent, emptyMessage);
+  const normalized = useMemo(() => normalizeJsonForDisplay(fileName, fileContent, emptyMessage), [fileName, fileContent, emptyMessage]);
   const [style, setStyle] = useState<Record<string, React.CSSProperties> | null>(null);
 
   if (!style) {

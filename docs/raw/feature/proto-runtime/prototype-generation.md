@@ -1,212 +1,198 @@
 # Generation Process
 
+**Feature Area:** Proto Runtime Generation
+
 ## Overview
 
-Generation Process is the capability that transforms feature specifications into executable prototypes.
+Generation Process is the capability that transforms feature specifications into executable prototypes. The objective is to reduce manual prototype construction by producing a structured prototype application from documented requirements. Generation allows teams to move from feature definition to interactive prototype more efficiently while maintaining consistency with Prati Design System principles.
 
-The objective is to reduce manual prototype construction by producing a structured prototype application from documented requirements.
+Generation Process exists to accelerate prototype creation, improve consistency, reduce manual effort, standardize prototype structure, and improve design system adoption. The goal is to create realistic prototype applications directly from feature specifications.
 
-Generation allows teams to move from feature definition to interactive prototype more efficiently while maintaining consistency with Prati Design System principles.
+Generation Process consumes feature specifications including feature documentation, feature design documentation, and feature technical documentation. It may produce pages, views, components, routes, navigation configuration, localization resources, mock data, and application configuration — forming a runnable prototype application. It is intended to support feature demonstrations, UX validation, workflow validation, stakeholder reviews, internal prototypes, and application mockups.
 
----
+## Responsibilities
 
-# Purpose
+- **Prototype Scaffolding** — Creates the initial prototype directory structure and configuration.
+- **Feature Structure Creation** — Organizes prototype features in a predictable layout.
+- **Page Generation** — Produces page-level components from feature definitions.
+- **View Generation** — Produces view-level components within pages.
+- **Route Generation** — Creates navigation routes between pages and views.
+- **Localization Generation** — Produces localization entries for user-facing content.
+- **Mock Data Generation** — Produces initial datasets matching feature data shapes.
+- **Configuration Generation** — Produces application configuration from specifications.
 
-Generation Process exists to:
+## Non-Responsibilities
 
-* Accelerate Prototype Creation
-* Improve Consistency
-* Reduce Manual Effort
-* Standardize Prototype Structure
-* Improve Design System Adoption
+- Business Logic Implementation
+- Backend Development
+- API Integration
+- Production Architecture
+- Production Services
+- Production of Production Applications
+- Generation of Business Logic
+- Generation of Backend Services
+- Generation of Security Infrastructure
+- Replacement of Software Development
 
-The goal is to create realistic prototype applications directly from feature specifications.
+Its purpose is prototype creation and validation, not production implementation.
 
----
+## Core Concepts
 
-# Responsibilities
+| Concept | Description |
+| ------- | ----------- |
+| **Scaffolding** | Creating the initial prototype directory structure and configuration |
+| **Page Generation** | Producing page-level components from feature definitions |
+| **View Generation** | Producing view-level components within pages |
+| **Route Generation** | Creating navigation routes between pages and views |
+| **Mock Data Generation** | Producing initial datasets matching feature data shapes |
 
-Generation Process provides:
+## Business Rules
 
-* Prototype Scaffolding
-* Feature Structure Creation
-* Page Generation
-* View Generation
-* Route Generation
-* Localization Generation
-* Mock Data Generation
-* Configuration Generation
+1. ALL generated artifacts MUST follow Atomic Design Principles, theme rules, localization rules, accessibility rules, and responsive rules.
+2. Generation MUST NOT bypass Prati Design System requirements under any circumstances.
+3. ALL generated applications MUST follow a common structure, naming convention, design rules, and organization pattern to ensure consistency across prototypes.
+4. ALL generated artifacts MUST be localization-ready and follow Prati localization requirements.
+5. ALL generated artifacts MUST automatically participate in the Prati Theme System without additional configuration.
 
-Generation Process does not provide:
+## States
 
-* Business Logic Implementation
-* Backend Development
-* API Integration
-* Production Architecture
-* Production Services
+- **Idle** — Generation process ready but not started
+- **Scaffolding** — Prototype directory structure being created
+- **Generating Pages** — Page and view components being produced
+- **Generating Resources** — Routes, localization entries, and mock data being produced
+- **Complete** — All artifacts generated; prototype is runnable
+- **Failed** — Generation encountered an error; partial artifacts may exist
 
----
+### State Transitions
 
-# Input Sources
+| From State | To State | Trigger |
+| ---------- | -------- | ------- |
+| Idle | Scaffolding | Generation process started from feature specifications |
+| Scaffolding | Generating Pages | Directory structure created successfully |
+| Generating Pages | Generating Resources | All pages generated successfully |
+| Generating Resources | Complete | All resources generated successfully |
+| Any state | Failed | An error occurs during any generation step |
 
-Generation Process consumes feature specifications.
+## Edge Cases
 
-Primary inputs include:
+- **Empty feature specification**: No features defined; generation produces an empty prototype shell
+- **Duplicate feature names**: Two features with the same name cause file collision
+- **Partial generation failure**: Pages succeed but resources fail; prototype may run with missing routes
+- **Overwrite existing files**: Generation runs on an existing prototype directory; behavior depends on configuration
 
-* Feature Documentation
-* Feature Design Documentation
-* Feature Technical Documentation
+## Error Conditions
 
-These specifications define what the prototype should represent.
+- **Feature spec parse failure** — Input specifications cannot be read or parsed
+- **File write failure** — Generated files cannot be written to the output directory
+- **Name collision** — Two generated artifacts map to the same file path
+- **Missing required configuration** — Generation configuration is incomplete
 
----
+### Recovery Actions
 
-# Generated Artifacts
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Feature spec parse failure | Validate input specifications format and syntax; fix parsing errors before retrying generation |
+| File write failure | Check file permissions and disk space; ensure output directory is writable and accessible |
+| Name collision | Review feature definitions for duplicate names; resolve naming conflicts before retrying generation |
+| Missing required configuration | Verify generation configuration completeness; provide default values for missing configuration fields |
 
-Generation Process may produce:
+## Authorization
 
-* Pages
-* Views
-* Components
-* Routes
-* Navigation Configuration
-* Localization Resources
-* Mock Data
-* Application Configuration
+**Visibility:** Internal — prototype generation is a developer-facing feature; not exposed in end-user applications.
 
-The generated artifacts form a runnable prototype application.
+## User Journey
 
----
+### Entry Conditions
 
-# Design System Compliance
+A team has feature documentation, feature design documentation, or feature technical documentation that defines what the prototype should represent. The Prototype Boilerplate foundation is available.
 
-All generated artifacts must follow:
+### Primary Flow
 
-* Atomic Design Principles
-* Theme Rules
-* Localization Rules
-* Accessibility Rules
-* Responsive Rules
+1. User invokes the generation process with feature specifications as input.
+2. Generation process scaffolds the prototype directory structure.
+3. Pages and views are generated from feature definitions.
+4. Routes, localization entries, and mock data are generated.
+5. Application configuration is generated.
+6. A runnable prototype application is produced.
 
-Generation must never bypass Prati Design System requirements.
+### Alternate Flows
 
----
+- Generation runs on an existing prototype directory, potentially overwriting existing files depending on configuration.
+- User manually extends or modifies generated artifacts after generation completes.
 
-# Consistency Goals
+### Failure Flows
 
-Generation promotes consistency across prototypes.
+- Feature specification parsing fails; no artifacts are generated.
+- Partial generation failure leaves some artifacts missing; prototype may run with degraded capabilities (e.g., missing routes).
+- Name collision occurs; two generated artifacts map to the same file path.
 
-Generated applications should:
+### Recovery Flows
 
-* Follow Common Structure
-* Follow Common Naming Conventions
-* Follow Common Design Rules
-* Follow Common Organization Patterns
+- Fix feature specification errors and re-run generation.
+- Resolve file conflicts or naming collisions and retry generation.
+- Provide missing configuration values and restart generation.
 
-This allows teams to move between prototypes with minimal learning effort.
+### Exit Conditions
 
----
+A runnable prototype application is produced that follows Prati standards, supports localization, theming, navigation, and persistence, and allows teams to rapidly validate feature ideas.
 
-# Relationship to Boilerplate
+## Workflow
 
-Generation Process builds upon Prototype Boilerplate.
+### Trigger
 
-```text
-Prototype Boilerplate
+A team needs to create an interactive prototype from documented feature specifications.
 
-        ↓
+### Preconditions
 
-Generation Process
+- Feature specifications (documentation, design documentation, technical documentation) are available.
+- Prototype Boilerplate foundation is installed.
+- Prati Design System components, theming, localization, navigation, and persistence features are accessible.
+- Generation configuration is complete.
 
-        ↓
+### Steps
 
-Prototype Application
-```
+1. Parse input feature specifications.
+2. Scaffold prototype directory structure.
+3. Generate page-level and view-level components.
+4. Generate navigation routes.
+5. Generate localization resources.
+6. Generate mock data.
+7. Generate application configuration.
+8. Produce a runnable prototype application.
 
-The boilerplate provides the foundation while generation populates the application structure.
+### Outcomes
 
----
+A realistic, interactive prototype generated from documented feature specifications, following Prati standards, with localization, theming, navigation, and persistence support — independent from production implementation.
 
-# Relationship to HTML Components
+### Exceptions
 
-Generation Process utilizes HTML Components when constructing prototype interfaces.
+- Feature spec parse failure prevents generation from starting.
+- File write failure stops generation mid-process.
+- Name collision causes file conflicts.
+- Missing required configuration results in incomplete prototype.
 
-Generated screens should be composed using prototype-compatible component implementations.
+### Completion Criteria
 
----
+Prototype creation effort is reduced, generated artifacts follow Prati standards, generated applications remain consistent, localization is supported, theme support is available, navigation is available, persistence is available, and teams can rapidly validate feature ideas.
 
-# Relationship to Navigation
+## Verification
 
-Generation Process may create navigation structures based on feature definitions.
+1. **Consistency**: Verify that generated artifacts (pages, views, routes, localization, mock data) follow Prati Design System standards across multiple generation runs.
+2. **Structure**: Verify that generated prototypes have a consistent directory structure and naming convention.
+3. **Localization**: Verify that localization resources are generated and functional for all user-facing content in the generated prototype.
+4. **Theming**: Verify that generated prototypes support theme switching without additional configuration.
+5. **Navigation**: Verify that navigation routes are correctly wired between all generated pages and views.
 
-Navigation behavior remains the responsibility of the Navigation feature.
+## See Also
 
----
-
-# Relationship to Persistence
-
-Generation Process may create mock data structures and persistence configurations.
-
-Persistence behavior remains the responsibility of the Persistence feature.
-
----
-
-# Relationship to Localization
-
-Generation Process must support localization.
-
-Generated artifacts should be localization-ready and follow Prati localization requirements.
-
-Localization behavior is defined by the Localization feature.
-
----
-
-# Relationship to Theming
-
-Generated artifacts automatically participate in the Prati Theme System.
-
-Theme behavior is defined by the Theming feature.
-
----
-
-# Supported Use Cases
-
-Generation Process is intended to support:
-
-* Feature Demonstrations
-* UX Validation
-* Workflow Validation
-* Stakeholder Reviews
-* Internal Prototypes
-* Application Mockups
-
----
-
-# Non-Goals
-
-Generation Process is not intended to:
-
-* Produce Production Applications
-* Generate Business Logic
-* Generate Backend Services
-* Generate Security Infrastructure
-* Replace Software Development
-
-Its purpose is prototype creation and validation.
-
----
-
-# Success Criteria
-
-Generation Process is considered successful when:
-
-* Prototype creation effort is reduced.
-* Generated artifacts follow Prati standards.
-* Generated applications remain consistent.
-* Localization is supported.
-* Theme support is available.
-* Navigation is available.
-* Persistence is available.
-* Teams can rapidly validate feature ideas.
-
-The result should be a realistic, interactive prototype generated from documented feature specifications while remaining independent from production implementation.
+- [Prototype Boilerplate](./boilerplate.md)
+- [Proto Runtime Overview](./overview.md)
+- [HTML Components](./html-components.md)
+- [Navigation](./navigation.md)
+- [Persistence](./persistence.md)
+- [Mock Data](./mock-data.md)
+- [Localization](../../architecture/core/localization.md)
+- [Theming](../../architecture/core/theming.md)
+- [../workflows/prototype-authoring.md](../workflows/prototype-authoring.md)
+- [../concepts/glossary.md](../concepts/glossary.md)
+- [../concepts/authorization.md](../concepts/authorization.md)

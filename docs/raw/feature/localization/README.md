@@ -1,6 +1,6 @@
 # Localization System
 
-The Astra i18n system provides runtime language switching with dictionary-based translations.
+The Prati i18n system provides runtime language switching with dictionary-based translations.
 
 ## Overview
 
@@ -29,6 +29,14 @@ The application can display content in multiple languages. Users switch language
 | **Language Provider** | Wraps the application, provides translation context |
 | **Runtime Switching** | Language changes propagate via re-render, no reload needed |
 | **Translation Keys** | Dot-notation keys for looking up strings |
+
+## Business Rules
+
+1. **Runtime switching without reload** — Language changes must propagate instantly to all consumers without a page reload; full-page refresh is not acceptable
+2. **Graceful missing keys** — A missing translation key must never throw an error; the consuming code must handle with a fallback (the key itself or a default string)
+3. **Provider wrapping** — The LanguageProvider must wrap the entire component tree that requires localization; partial wrapping causes untranslated text
+4. **Empty dictionary safety** — An empty translation dictionary is valid but must never crash the provider; components render without translated text rather than throwing
+5. **Translation before display** — All user-facing text must pass through the localization system; raw hardcoded strings for user-facing content are not permitted
 
 ## States
 
@@ -60,6 +68,15 @@ The application can display content in multiple languages. Users switch language
 - **Invalid language code** — Sets state but produces empty dictionary; UI may show no text
 - **Provider nesting** — Inner provider shadows outer; consumers lose outer translations
 - **Empty translations map** — UI renders without localized text
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Missing translation key | Add the missing key to all language dictionaries; verify the component uses a fallback (key name or default text) in the interim |
+| Invalid language code | Verify the language code matches a registered dictionary; use a valid ISO language code |
+| Provider nesting | Remove the inner LanguageProvider; let the root provider propagate to all consumers |
+| Empty translations map | Populate the dictionary with at least core UI keys before mounting the provider |
 
 ## Authorization
 
@@ -101,15 +118,24 @@ All localized text in the application displays in the selected language.
 
 ### Exceptions
 The selected language has an empty dictionary — the UI renders without text, requiring the developer to populate translations.
-
 ### Completion Criteria
+
 The selected language is active and all translatable content displays in that language.
+
+## Verification
+
+- **Runtime switch test**: Switch language at runtime; verify all translatable text updates without page reload
+- **Missing key test**: Remove a key from the active dictionary; verify the component falls back gracefully (shows key name, not an error)
+- **Provider nesting test**: Nest two LanguageProviders; verify inner provider shadows outer correctly
+- **Empty dictionary test**: Mount the provider with an empty dictionary; verify no crash — components render without translated text
 
 ## See Also
 
 - [Glossary](../concepts/glossary.md) — concept-to-feature ownership map
 - [Authorization Model](../concepts/authorization.md) — cross-cutting permission rules
 - [Translation Patterns](./patterns.md) — key-naming conventions for translation dictionaries
+- [Application Rendering Workflow](../workflows/application-rendering.md) — rendering pipeline that consumes translation dictionaries
+- [Template Delivery Workflow](../workflows/template-delivery.md) — template rendering flow for localized HTML output
 
 ## Future Enhancements
 

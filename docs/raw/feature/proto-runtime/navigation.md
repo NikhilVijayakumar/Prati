@@ -1,299 +1,197 @@
 # Navigation
 
+**Feature Area:** Proto Runtime — Screen and workflow navigation
+
 ## Overview
 
-Navigation provides the ability for users to move between screens, workflows, and application areas within a prototype.
+Navigation provides the ability for users to move between screens, workflows, and application areas within a prototype. It enables prototype applications to simulate realistic application behavior and user journeys without requiring production routing frameworks. Navigation exists to support exploration and validation of prototype applications, allowing users to move between screens, execute workflows, explore features, validate user journeys, and review application structure. The goal is to allow stakeholders and users to experience application workflows as they would in a real application, with navigation feeling natural and intuitive.
 
-Navigation enables prototype applications to simulate realistic application behavior and user journeys without requiring production routing frameworks.
+Navigation supports dashboard applications, administrative applications, workflow applications, form-based applications, internal tools, and desktop and web application prototypes. Throughout all scenarios, navigation should behave predictably — users should understand where they are, where they can go, and how to return to previous locations. Navigation is workflow-oriented: it supports business workflows without implementing business logic, demonstrating application behavior rather than executing application rules. Navigation must operate independently from React routing, Electron routing, backend routing systems, and application frameworks to keep prototypes lightweight and portable.
 
-The goal is to allow stakeholders and users to experience application workflows as they would in a real application.
+## Responsibilities
+
+- Screen Navigation
+- Workflow Navigation
+- Application Flow Support
+- Navigation State Management
+- Deep Link Support
+- Navigation History
 
----
+## Non-Responsibilities
 
-# Purpose
+- Business Rules
+- Permission Enforcement
+- Authorization Logic
+- Backend Routing
+- API Integration
+- Production Routing Frameworks
+- Authorization Rules
+- Permission Systems
+- Backend Route Management
+- Microservice Routing
+- Application Security
 
-Navigation exists to support exploration and validation of prototype applications.
+## Core Concepts
 
-It enables users to:
+| Concept | Description |
+| ------- | ----------- |
+| **Screen Navigation** | Moving between application screens and pages |
+| **Workflow Navigation** | Moving through multi-step flows (wizards, approvals) |
+| **Navigation State** | Tracking current location and available transitions |
+| **Navigation History** | Allowing back/forward movement through visited screens |
+| **Deep Link** | Entering the prototype directly at a specific screen |
 
-* Move Between Screens
-* Execute Workflows
-* Explore Features
-* Validate User Journeys
-* Review Application Structure
+## Business Rules
 
-without requiring production implementation.
+1. Navigation must support realistic user journeys without implementing production routing systems.
+2. Navigation must behave consistently throughout the prototype — users must always know their current location, available destinations, and how to return.
+3. Navigation must support business workflow progression (creation, approval, review, wizard flows) without implementing business logic.
+4. Navigation must operate independently of React, Electron, backend routing, and application frameworks.
+5. Navigation must preserve relevant prototype state (form progress, selected records, filters, search criteria) across screen transitions.
 
----
+## States
 
-# Responsibilities
+- **Idle** — Navigation initialized; awaiting user or programmatic navigation
+- **Navigating** — Screen transition in progress
+- **Stale** — Current screen reference is outdated; route points to a missing screen
+- **Error** — Navigation target does not exist or cannot be reached
 
-Navigation provides:
+### State Transitions
 
-* Screen Navigation
-* Workflow Navigation
-* Application Flow Support
-* Navigation State Management
-* Deep Link Support
-* Navigation History
+| From State | To State | Trigger |
+| ---------- | -------- | ------- |
+| Idle | Navigating | User clicks a navigation element or programmatic navigation fires |
+| Navigating | Idle | Screen transition completes successfully |
+| Navigating | Error | Target screen does not exist or cannot be resolved |
+| Idle | Stale | Current screen is removed or renamed during prototype update |
+| Stale | Idle | Navigation to a valid screen is initiated |
+| Error | Idle | Fallback navigation to a default screen |
 
-Navigation does not provide:
+## Edge Cases
 
-* Business Rules
-* Permission Enforcement
-* Authorization Logic
-* Backend Routing
-* API Integration
+- **Navigation to current screen**: Navigation fires but target is the same as current; no transition occurs
+- **Rapid navigation clicks**: Multiple navigation events fire before previous transition completes
+- **Empty route table**: No routes defined; all navigation fails
+- **Circular navigation loop**: Navigation repeatedly cycles between two screens without user action
+- **Deep link to non-existent screen**: Target screen does not exist in route table
 
----
+## Error Conditions
 
-# Core Principles
+- **Target screen not found** — Navigation target is not in the route table
+- **Navigation loop detected** — Repeated navigation between the same screens
+- **Missing route configuration** — Route table is empty or not initialized
+- **State corruption** — Navigation state becomes inconsistent
 
-## User Journey First
+### Recovery Actions
 
-Navigation exists to support realistic user journeys.
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Target screen not found | Navigate to a default fallback screen and log the unresolved target |
+| Navigation loop detected | Break the loop by navigating to a safe default screen after N consecutive cycles |
+| Missing route configuration | Initialize an empty route table with a single default route pointing to the home screen |
+| State corruption | Reset navigation state to Idle and reload the route table from configuration |
 
-The focus is validating how users move through an application rather than implementing production routing systems.
+## Authorization
 
----
+**Visibility:** Internal — navigation is a prototype infrastructure feature; not directly exposed to end users.
 
-## Predictable Behavior
+## User Journey
 
-Navigation should behave consistently throughout the prototype.
+### Entry Conditions
 
-Users should be able to understand where they are, where they can go, and how to return to previous locations.
+- User opens the prototype application
+- Navigation system is initialized and the route table is configured with at least one route
 
----
+### Primary Flow
 
-## Workflow Oriented
+1. User clicks a navigation element (menu item, button, breadcrumb, tab, drawer link) or a programmatic navigation request fires
+2. System resolves the target screen from the route table
+3. Screen transition executes
+4. Current location and navigation history update
+5. New screen renders
 
-Navigation should support business workflows without implementing business logic.
+### Alternate Flows
 
-The objective is to demonstrate application behavior rather than execute application rules.
+- **Screen Navigation**: User moves between screens such as Dashboard to Details, List to Form, Form to Summary, Home to Settings
+- **Workflow Navigation**: User moves through multi-step flows including creation flows, approval flows, review flows, and wizard flows
+- **Master Detail Navigation**: User navigates between collections (Project List, User List, Task List) and their corresponding detail screens
+- **Dashboard Navigation**: User navigates between dashboard views and related screens such as Reports, Analytics, and Configuration
+- **Deep Navigation**: User enters the prototype directly at a specific application area via a direct link
 
----
+### Failure Flows
 
-## Framework Independent
+- Target screen does not exist in the route table — system transitions to Error state
+- Navigation loop detected between two screens — system breaks the cycle and returns to a safe screen
+- Route table is empty or uninitialized — all navigation attempts fail
 
-Navigation must operate independently from:
+### Recovery Flows
 
-* React Routing
-* Electron Routing
-* Backend Routing Systems
-* Application Frameworks
+- From Error state: navigate to a default fallback screen
+- From Stale state: initiate navigation to a valid screen to return to Idle
 
-Prototype applications should remain lightweight and portable.
+### Exit Conditions
 
----
+- User closes the prototype application
+- User completes the final screen in a workflow and no further navigation is available
 
-# Supported Navigation Scenarios
+## Workflow
 
-## Screen Navigation
+### Trigger
 
-Users can move between application screens.
+User action (click on navigation element, gesture) or programmatic navigation request
 
-Examples:
+### Preconditions
 
-* Dashboard to Details
-* List to Form
-* Form to Summary
-* Home to Settings
+- Route table is initialized with at least one valid route
+- Navigation state is Idle
 
----
+### Steps
 
-## Workflow Navigation
+1. Navigation event fires
+2. System checks the route table for the target screen
+3. If the target is found and differs from the current screen, transition begins
+4. Screen transition executes
+5. Navigation state updates to reflect the new location
+6. Prototype state (form progress, selections, filters) is preserved across the transition
+7. Navigation history is updated
 
-Users can move through multi-step workflows.
+### Outcomes
 
-Examples:
+- Users can move naturally through the prototype
+- Workflows can be completed from start to finish
+- Screen relationships are visually and logically clear
+- Navigation feels realistic and intuitive
+- State is preserved appropriately across transitions
+- Localization functions correctly on all navigation labels
+- Theme integration functions correctly on all navigation elements
 
-* Creation Flows
-* Approval Flows
-* Review Flows
-* Wizard Flows
+### Exceptions
 
----
+- Target screen not found — navigation enters Error state
+- Navigation loop detected — system breaks the cycle
+- Missing route configuration — navigation subsystem initializes with a default route
+- State corruption — navigation resets to Idle with a fresh route table
+- Navigation to current screen — no transition occurs
 
-## Master Detail Navigation
+### Completion Criteria
 
-Users can navigate between collections and details.
+Users can successfully navigate between screens, execute multi-step workflows, and understand the application structure without confusion.
 
-Examples:
+## Verification
 
-* Project List → Project Details
-* User List → User Details
-* Task List → Task Details
+1. Verify users can navigate between all defined screens using navigation elements (menus, buttons, breadcrumbs, tabs).
+2. Verify multi-step workflows (creation, approval, review, wizard flows) can be completed without navigation failure.
+3. Verify screen relationships are visually and logically clear to the user at all times.
+4. Verify prototype state (form progress, selections, filters, search criteria) is preserved across screen transitions.
+5. Verify localization labels and theme tokens apply correctly to all navigation elements.
 
----
+## See Also
 
-## Dashboard Navigation
-
-Users can navigate between dashboard views and related screens.
-
-Examples:
-
-* Dashboard → Reports
-* Dashboard → Analytics
-* Dashboard → Configuration
-
----
-
-## Deep Navigation
-
-Users may enter directly into a specific area of the application.
-
-This supports realistic demonstrations and targeted reviews.
-
----
-
-# Navigation Experience
-
-Navigation should feel natural and intuitive.
-
-Users should be able to:
-
-* Understand their current location
-* Access related screens
-* Return to previous screens
-* Continue workflows
-* Resume application activities
-
-without confusion.
-
----
-
-# Relationship to Workflows
-
-Navigation enables workflow execution.
-
-```text
-Workflow
-
-    ↓
-
-Navigation
-
-    ↓
-
-Screen Transitions
-
-    ↓
-
-User Progress
-```
-
-Navigation provides movement between workflow steps while workflow behavior remains the responsibility of the prototype itself.
-
----
-
-# Relationship to Persistence
-
-Navigation should preserve relevant prototype state.
-
-Users should be able to move between screens without unnecessarily losing information.
-
-Examples:
-
-* Form Progress
-* Selected Records
-* Filters
-* Search Criteria
-
-Persistence behavior is defined separately by the Persistence feature.
-
----
-
-# Relationship to Components
-
-Navigation is consumed by prototype components.
-
-Examples include:
-
-* Menus
-* Drawers
-* Tabs
-* Breadcrumbs
-* Action Buttons
-* Cards
-
-These components may initiate navigation while remaining independent of navigation implementation details.
-
----
-
-# Relationship to Templates
-
-Templates provide application structure.
-
-Navigation provides movement between template instances and application areas.
-
-Together they create a realistic application experience.
-
----
-
-# Relationship to Localization
-
-Navigation must fully support localization.
-
-Examples:
-
-* Navigation Labels
-* Menu Labels
-* Breadcrumb Labels
-* Workflow Labels
-
-All user-facing navigation content must participate in the Prati Localization System.
-
----
-
-# Relationship to Theming
-
-Navigation participates in the Prati Theme System.
-
-Navigation elements should automatically consume design tokens and theme values.
-
-Theme behavior is defined by the Theming feature.
-
----
-
-# Supported Use Cases
-
-Navigation is intended to support:
-
-* Dashboard Applications
-* Administrative Applications
-* Workflow Applications
-* Form-Based Applications
-* Internal Tools
-* Desktop Application Prototypes
-* Web Application Prototypes
-
----
-
-# Non-Goals
-
-Navigation is not intended to provide:
-
-* Production Routing Frameworks
-* Authorization Rules
-* Permission Systems
-* Backend Route Management
-* Microservice Routing
-* Application Security
-
-These concerns belong to production implementations.
-
----
-
-# Success Criteria
-
-Navigation is considered successful when:
-
-* Users can move naturally through the prototype.
-* Workflows can be completed.
-* Screen relationships are clear.
-* Navigation feels realistic.
-* State is preserved appropriately.
-* Localization functions correctly.
-* Theme integration functions correctly.
-
-The result should be a prototype that accurately represents how users interact with and move through an application.
+- [Glossary](../concepts/glossary.md)
+- [Authorization](../concepts/authorization.md)
+- [Persistence](persistence.md)
+- [HTML Components](html-components.md)
+- [Templates](../features/templates.md)
+- [Localization](../features/localization.md)
+- [Theming](../features/theming.md)
+- [Workflows](../features/workflows.md)

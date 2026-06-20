@@ -2,7 +2,7 @@
 
 ## 1. Technical Overview
 
-`SummaryPanel` is a template-tier component at `src/common/components/templates/SummaryPanel.tsx`. It renders a bordered panel with a title header and a mapped array of `SummaryLine` entries, each configurable with variant-based typography (`body2` inline / `caption` block) for visual hierarchy. Exported via `src/common/components/templates/index.ts` → `src/lib.ts`. Consumed as `import { SummaryPanel } from 'astra'`.
+`SummaryPanel` is a template-tier component at `src/common/components/templates/SummaryPanel.tsx`. It renders a bordered panel with a title header and a mapped array of `SummaryLine` entries, each configurable with variant-based typography (`body2` inline / `caption` block) for visual hierarchy. Exported via `src/common/components/templates/index.ts` → `src/lib.ts`. Consumed as `import { SummaryPanel } from 'prati'`.
 
 ```typescript
 interface SummaryLine {
@@ -88,7 +88,7 @@ Flow is strictly **props → render**. No callbacks, no event handlers, no upwar
 
 | Integration | Mechanism |
 |---|---|
-| **Consumer app** | Import `{ SummaryPanel }` from `astra`. Pass `title` and `lines[]` props. |
+| **Consumer app** | Import `{ SummaryPanel }` from `prati`. Pass `title` and `lines[]` props. |
 | **Localization** | Consumer resolves `title` and each `line.text` via `useLanguage().literal[key]` before constructing the props object. |
 | **Theming** | MUI `ThemeProvider` must be ancestor. Border, typography, colors resolve through theme. |
 | **Page layout** | Consumer controls panel width, positioning, and adjacent components. Template is width-100% within its parent. |
@@ -103,4 +103,4 @@ Flow is strictly **props → render**. No callbacks, no event handlers, no upwar
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

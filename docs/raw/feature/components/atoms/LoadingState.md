@@ -25,6 +25,14 @@ A simple full-width loading indicator consisting of a spinning animation and a l
 - **Localization-driven text:** The loading message resolves through the localization system, making it locale-aware without any prop plumbing.
 - **Centered layout:** Uses flexbox centering for bidirectional alignment within its parent container.
 
+## Business Rules
+
+1. The component MUST accept zero props — it is a fully self-contained loading indicator.
+2. The spinner animation MUST run continuously until the parent unmounts the component.
+3. The text message MUST resolve through the localization system; if the key is missing, the spinner MUST render without text.
+4. The component MUST be centered both horizontally and vertically within its parent container.
+5. The component MUST NOT accept custom messages, content, or configuration.
+
 ## States
 
 - **Loading** — Always in loading state by definition; spinner animating, text displayed
@@ -37,6 +45,12 @@ A simple full-width loading indicator consisting of a spinning animation and a l
 ## Error Conditions
 
 - Missing localization key — Spinner renders without visible text
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Missing localization key | Ensure the localization key is defined in the locale file; the spinner continues to animate without text as a functional fallback |
 
 ## Authorization
 
@@ -81,6 +95,13 @@ The localization key is missing — the spinner renders without text.
 
 ### Completion Criteria
 The loading indicator is displayed until the operation completes and the parent replaces it.
+
+## Verification
+
+- Visual tests confirm the spinner is centered both horizontally and vertically
+- Integration tests confirm the spinner resolves the text through the localization system
+- Integration tests confirm the component renders without crashing when localization key is missing
+- Performance tests confirm the animation does not cause layout reflows
 
 ## See Also
 

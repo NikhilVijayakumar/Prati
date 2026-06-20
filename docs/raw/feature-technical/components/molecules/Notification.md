@@ -121,7 +121,7 @@ Per `docs/raw/architecture/core/component-tiers.md:107`, the component has no er
 
 | Integration | Details |
 |---|---|
-| **Consumer import** | `import { Notification, NotificationProps } from "astra"` via barrel, or directly from `@/common/components/molecules/Notification` |
+| **Consumer import** | `import { Notification, NotificationProps } from "prati"` via barrel, or directly from `@/common/components/molecules/Notification` |
 | **Used by** | Any organism or page that needs to surface transient system feedback (success, error, info, warning) |
 | **Pattern** | Controlled component — parent must hold `open` state and pass `onClose` to reset it |
 | **Test file** | `src/common/components/molecules/Notification.test.tsx` (vitest, 5 tests, Snackbar/Alert mocked) |
@@ -140,4 +140,4 @@ Per `docs/raw/architecture/core/component-tiers.md:107`, the component has no er
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

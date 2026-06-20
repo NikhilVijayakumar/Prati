@@ -85,6 +85,14 @@ Before creating an atom, verify:
 - **Data Fetching:** Atoms must not perform API calls or data retrieval
 - **Side Effects:** Atoms must not produce side effects outside rendering
 
+## Business Rules
+
+1. **Single visual primitive** — An atom renders exactly one visual primitive; composing multiple primitives makes it a molecule
+2. **No child components** — Atoms must not contain or render other components; rendering another atom violates the single-primitive rule
+3. **Prop limit** — Atoms must not exceed 3 configuration props; 4+ props should be evaluated as a molecule
+4. **State prohibition** — Atoms must not manage internal state; state belongs in molecules or organisms
+5. **Side-effect free** — Atoms must not produce side effects (analytics, logging, data mutation); rendering atoms is a pure function of their props
+
 ## States
 
 - **Compliant** — Meets all atom criteria (1-3 props, no children, no state, no side effects)
@@ -106,6 +114,14 @@ Before creating an atom, verify:
 - **Invalid prop combination** — Mutually exclusive or contradictory props (e.g. error + success simultaneously)
 - **Missing required prop** — Atom renders incorrectly or not at all if required props are omitted
 - **Wrong value** — Incorrect value renders incorrect visual state
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Invalid prop combination | Validate prop values before rendering; use type checking or runtime guards to prevent incompatible combinations |
+| Missing required prop | Ensure the calling component provides all required props; add default values for optional props to maintain rendering |
+| Wrong value | Validate the prop value against the expected set of values; fall back to a safe default for unrecognized values |
 
 ## Authorization
 
@@ -147,9 +163,16 @@ A reusable primitive is available for molecules and organisms to compose.
 
 ### Exceptions
 The component has more than 3 props — the developer considers if it should be a molecule.
-
 ### Completion Criteria
+
 The atom passes the design checklist and is placed in the correct directory.
+
+## Verification
+
+- **Prop count test**: Verify every atom component in the library has 3 or fewer configuration props
+- **Child component test**: Audit atom source files; verify no atom imports or renders another component
+- **State detection test**: Verify no atom uses internal state management (useState, internal variables with lifecycle)
+- **Side-effect audit**: Confirm no atom contains analytics calls, mutation logic, or side-effect-producing code
 
 ## See Also
 

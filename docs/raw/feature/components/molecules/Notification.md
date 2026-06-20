@@ -27,6 +27,14 @@ A toast-style notification that displays a message with a configurable severity 
 - **Timer-driven auto-dismiss:** Auto-dismiss is configured via a duration setting; setting it to null disables auto-dismiss entirely for persistent notifications.
 - **Bottom-anchored toast positioning:** Deliberate UX choice for non-intrusive global notifications at the bottom-center of the viewport.
 
+## Business Rules
+
+1. The component MUST be a controlled component — the parent owns visibility state and the component fires close callbacks.
+2. Auto-dismiss MUST be configurable via a duration prop; setting it to null MUST disable auto-dismiss entirely.
+3. The notification MUST fire a close callback when dismissed, whether auto-dismissed or manually closed.
+4. The component MUST NOT manage an app-wide notification queue or stacking logic.
+5. The notification MUST be anchored to the bottom-center of the viewport with no positioning customization.
+
 ## States
 
 - **Open** — Notification visible with content displayed
@@ -56,6 +64,13 @@ A toast-style notification that displays a message with a configurable severity 
 
 - Missing required inputs (open state, message, close callback) — Required values must be provided
 - Close callback throws — Error propagates to parent
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Missing required inputs (open state, message, close callback) | Ensure all required props are provided by the parent component |
+| Close callback throws | Wrap the callback in a try-catch in the parent to prevent the error from propagating |
 
 ## Authorization
 
@@ -100,6 +115,13 @@ Auto-dismiss is null — the notification persists until manually closed.
 
 ### Completion Criteria
 The notification is displayed and dismissed either automatically or manually.
+
+## Verification
+
+- Unit tests confirm the close callback fires on both manual dismiss and auto-dismiss timeout
+- Integration tests confirm auto-dismiss is disabled when duration is null
+- Visual tests confirm the notification renders at the bottom-center of the viewport
+- Integration tests confirm the notification renders with all severity styles (success, info, warning, error)
 
 ## See Also
 

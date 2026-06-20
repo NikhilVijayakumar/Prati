@@ -29,6 +29,14 @@ The UI component library is organized by atomic design methodology into four tie
 - **Theme Integration**: All components adapt to light/dark theme
 - **Localization Ready**: Components display translated text based on active language
 
+## Business Rules
+
+1. **Composition direction** — Components may only reference components at their own tier or below (atoms compose into molecules, molecules into organisms, organisms into templates); reverse references are not permitted
+2. **Tier assignment before use** — Every component must be assigned to exactly one atomic tier before it is referenced by another component; unclassified components are not composable
+3. **Single home per component** — A component belongs to exactly one tier directory; duplicate entries across tiers are not permitted
+4. **Theme and localization participation** — Every component must participate in the active theme and language; components that ignore theme or locale are not permitted in the library
+5. **Tier migration requires reference updates** — Moving a component between tiers requires updating all references in higher-tier components simultaneously
+
 ## States
 
 - **Organized** — All components correctly filed by atomic tier
@@ -55,6 +63,13 @@ The UI component library is organized by atomic design methodology into four tie
 
 - **Cross-tier dependency violation** — A lower-tier component depends on a higher-tier component, creating a composition direction that violates atomic design ordering
 - **Unclassified component** — A component is added to the library without tier assignment, making it undiscoverable and inconsistently composed
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Cross-tier dependency violation | Move the lower-tier dependency up to the correct tier or refactor the higher-tier component to remove the reverse reference |
+| Unclassified component | Run the atomic design classification flowchart and assign the component to the correct tier directory |
 
 ## Authorization
 
@@ -96,9 +111,16 @@ The developer understands which component to use or where to place a new compone
 
 ### Exceptions
 A component could fit multiple tiers — the developer uses the atomic design flowchart to resolve the ambiguity.
-
 ### Completion Criteria
+
 The developer locates the correct component or assigns the new component to the correct tier.
+
+## Verification
+
+- **Composition direction test**: Audit every component's imports; verify no lower-tier component imports from a higher tier
+- **Tier assignment audit**: Verify every component file exists in exactly one tier directory (atoms/, molecules/, organisms/, templates/)
+- **Theme participation test**: Random-sampling — verify 3 components from each tier participate in theme context
+- **Localization participation test**: Random-sampling — verify 3 components from each tier use translation keys for user-facing strings
 
 ## See Also
 
@@ -106,6 +128,7 @@ The developer locates the correct component or assigns the new component to the 
 - [Authorization Model](../concepts/authorization.md) — cross-cutting permission rules
 - [Atomic Design Methodology](./atomic-design/README.md) — classification rules and decision flowchart
 - [Template System](../templates/README.md) — Handlebars server-side HTML templates (separate from UI component templates)
+- [Application Rendering Workflow](../workflows/application-rendering.md) — rendering pipeline for component composition
 
 ## Atomic Design Methodology
 

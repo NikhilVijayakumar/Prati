@@ -4,7 +4,7 @@ A styled task list with completion status and optional due dates.
 
 ## Overview
 
-Renders a titled summary panel containing a list of tasks. Each task displays its text with a strikethrough style when `status` is `completed`, and an optional due date label. Uses the custom `ifEquals` Handlebars helper for conditional text decoration. Omits the list entirely when the `tasks` array is empty.
+Renders a titled summary panel containing a list of tasks. Each task displays its text with a strikethrough style when `status` is `completed`, and an optional due date label. Uses a custom conditional helper for text decoration branching. Omits the list entirely when the `tasks` array is empty.
 
 ## Template Variables
 
@@ -18,13 +18,7 @@ Renders a titled summary panel containing a list of tasks. Each task displays it
 
 ## Custom Helper Dependency
 
-Requires the `ifEquals` block helper registered on the Handlebars instance:
-
-```js
-handlebars.registerHelper('ifEquals', function(a, b, options) {
-  return a === b ? options.fn(this) : options.inverse(this);
-});
-```
+Requires a conditional equality helper (`ifEquals`) registered on the template engine.
 
 ## Responsibilities
 
@@ -39,6 +33,14 @@ handlebars.registerHelper('ifEquals', function(a, b, options) {
 - Does not sort or filter tasks — renders in array order
 - Does not handle click or check interactions — static HTML only
 - Does not compute counts or progress — display only
+
+## Business Rules
+
+1. Tasks with `status: "completed"` MUST render with strikethrough and muted color; all other status values MUST render without strikethrough
+2. The task list (`<ul>`) MUST be omitted entirely when the `tasks` array is empty or not provided — never render an empty list
+3. Tasks MUST render in the order they appear in the `tasks` array — no sorting, filtering, or reordering
+4. Each task's `dueDate`, when provided, MUST be rendered next to the task text in muted styling
+5. The `ifEquals` custom helper MUST be registered on the template engine before rendering; no graceful fallback exists for a missing helper
 
 ## States
 
@@ -55,8 +57,23 @@ handlebars.registerHelper('ifEquals', function(a, b, options) {
 
 ## Error Conditions
 
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+|---|---|
+| `ifEquals` helper not registered | Log a warning; render all tasks without strikethrough as fallback |
+| `title` not provided | Log a warning; render panel without heading |
+
 - `ifEquals` helper not registered — completed tasks render without strikethrough
 - `title` not provided — heading renders empty
+
+## Verification
+
+- Render Populated state with mixed statuses and verify strikethrough applies only to `completed` tasks
+- Render Empty state and verify `<ul>` is absent from output
+- Render All completed state and verify every task text has strikethrough
+- Render tasks with and without `dueDate` and verify the label appears only when provided
+- Simulate missing `ifEquals` helper and verify all tasks render without strikethrough (no crash)
 
 ## See Also
 

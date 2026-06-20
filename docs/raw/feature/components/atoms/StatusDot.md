@@ -26,6 +26,14 @@ Displays a small colored dot representing one of several predefined states (ok, 
 - **Fallback chain:** Unknown status values silently fall back to a neutral default color.
 - **Static indicator pattern:** The component is a pure function of its inputs — no internal state, no side effects, no interaction.
 
+## Business Rules
+
+1. The component MUST map exactly one color per status value — no two statuses may share the same color.
+2. The component MUST NOT render a tooltip, label, or text alongside the dot.
+3. The component MUST render as a pure function of its props — no internal state or side effects.
+4. The size prop MUST be a positive numeric value; values of zero or below render the dot invisible.
+5. The component MUST fall back to a neutral default color for any unrecognized status value.
+
 ## States
 
 - **ok** — Green dot; normal operation
@@ -46,6 +54,13 @@ Displays a small colored dot representing one of several predefined states (ok, 
 
 - Invalid status value — Falls back to neutral default appearance
 - Negative or zero size — Dot becomes invisible
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Invalid status value | Provide a valid status from the supported set (ok, warning, error, executing, waiting); the fallback color maintains a functional display in the meantime |
+| Negative or zero size | Provide a positive numeric size value; the dot will re-render with visible dimensions |
 
 ## Authorization
 
@@ -90,6 +105,13 @@ An unknown status falls back to a neutral default color.
 
 ### Completion Criteria
 The status indicator renders correctly for all severity levels.
+
+## Verification
+
+- Unit tests confirm each status value maps to the correct color
+- Visual regression tests confirm the dot renders at all configured sizes
+- Accessibility tests confirm the dot has an accessible label for screen readers
+- Integration tests confirm the fallback behavior for unknown status values
 
 ## See Also
 

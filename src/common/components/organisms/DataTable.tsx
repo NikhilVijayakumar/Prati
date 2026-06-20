@@ -7,7 +7,9 @@ import {
   TableRow,
   Paper,
   Box,
+  Typography,
 } from '@mui/material';
+import { ErrorBoundary } from "./ErrorBoundary";
 import { spacing } from "../../../theme/tokens/spacing";
 
 export interface Column<T> {
@@ -79,7 +81,7 @@ export const DataTable = <T extends Record<string, any>>({ columns, data, keyFie
                       align={column.align}
                       sx={{ px: spacing.md, py: spacing.sm }}
                     >
-                      {column.render ? column.render(row) : row[column.id]}
+                      {column.render ? <ErrorBoundary fallback={<Typography variant="caption" color="error.main">Error</Typography>}>{column.render(row)}</ErrorBoundary> : row[column.id]}
                     </TableCell>
                   );
                 })}

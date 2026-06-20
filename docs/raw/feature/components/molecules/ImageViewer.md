@@ -28,6 +28,14 @@ Renders base64-encoded image data with a toolbar for zoom (0.5x to 3x) and rotat
 - **Pre-loaded content rendering:** The component renders image content that has already been loaded and encoded by the caller — it does not perform any file loading or format conversion itself.
 - **Clamped zoom range:** Zoom is bounded between its minimum and maximum values; rotation cycles through fixed degree increments with no upper bound.
 
+## Business Rules
+
+1. The component MUST render base64-encoded image data only — file loading from disk or network is the caller's responsibility.
+2. Zoom MUST be clamped between 0.5x (minimum) and 3x (maximum).
+3. Rotation MUST cycle through 0, 90, 180, and 270 degrees in 90-degree increments.
+4. When no image content is provided, the component MUST render a placeholder message — never a broken image.
+5. Zoom and rotation MUST be managed as internal UI-only state — they MUST NOT persist or be shared with the parent.
+
 ## Consumed By
 
 - [FileViewerRouter](../organisms/FileViewerRouter.md) — delegates image file rendering to this component based on file extension
@@ -67,6 +75,14 @@ Renders base64-encoded image data with a toolbar for zoom (0.5x to 3x) and rotat
 - Missing required value (file name) — Required value must be provided
 - Invalid encoding — Falls to empty state
 - Image load failure — Browser broken image icon; no custom error handler
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Missing required value (file name) | Provide a file name prop; the component cannot render the heading without it |
+| Invalid encoding | Provide valid base64-encoded image data; the component falls to empty state as a safe fallback |
+| Image load failure | Provide a valid image source; the browser shows a broken image icon as a native fallback — the component does not intercept this |
 
 ## Authorization
 
@@ -111,6 +127,14 @@ Corrupted image data — the browser shows a broken image icon.
 
 ### Completion Criteria
 The image is displayed and toolbar controls are responsive.
+
+## Verification
+
+- Unit tests confirm zoom is clamped at 0.5x minimum and 3x maximum
+- Unit tests confirm rotation cycles through 0°, 90°, 180°, 270°
+- Integration tests confirm the placeholder renders when no content is provided
+- Visual regression tests confirm the toolbar controls are correctly positioned and functional
+- Integration tests confirm zoom and rotation state resets when the component remounts
 
 ## See Also
 

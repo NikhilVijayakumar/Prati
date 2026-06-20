@@ -27,6 +27,14 @@ Converts raw Markdown content into styled HTML for reading. Displays the file na
 - **Fallback for missing content:** When content is absent or empty, the component shows a "no content" message rather than an error — the layout remains stable regardless of whether content is provided.
 - **File name as heading pattern:** The file name is always rendered as a heading above the Markdown content, separating metadata from content.
 
+## Business Rules
+
+1. The Markdown parser MUST be loaded lazily on first render — it must not block the initial page load.
+2. When content is absent, empty, or whitespace-only, the component MUST render a "no content" message — never an error or crash.
+3. The file name MUST always be rendered as a heading above the Markdown content.
+4. Invalid Markdown syntax MUST render as plain text — the component MUST NOT throw or crash.
+5. The component MUST NOT load file content from disk or network — the caller provides the content string.
+
 ## Consumed By
 
 - [FileViewerRouter](../organisms/FileViewerRouter.md) — delegates Markdown and plain-text file rendering to this component based on file extension
@@ -60,6 +68,13 @@ Converts raw Markdown content into styled HTML for reading. Displays the file na
 
 - Missing required value (file name) — Required value must be provided
 - Invalid Markdown — Renders as plain text; no crash
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Missing required value (file name) | Provide a file name prop; the component cannot render the heading without it |
+| Invalid Markdown | Correct the Markdown syntax; the component renders the content as plain text as a safe fallback without crashing |
 
 ## Authorization
 
@@ -104,6 +119,13 @@ Invalid Markdown — renders as plain text without crashing.
 
 ### Completion Criteria
 The Markdown content is rendered as styled HTML beneath the file name heading.
+
+## Verification
+
+- Unit tests confirm invalid Markdown renders as plain text without throwing
+- Integration tests confirm the parser is loaded lazily and does not block initial render
+- Visual regression tests confirm headings, paragraphs, lists, blockquotes, and horizontal rules are styled correctly
+- Integration tests confirm the empty-state message appears when content is absent
 
 ## See Also
 

@@ -94,13 +94,13 @@ Zoom and rotation are independent: a user can rotate the image and zoom in simul
 ## 7. Accessibility Implementation
 
 - **Icon buttons**: Each toolbar button uses MUI `IconButton` with an icon. MUI `IconButton` renders as a `<button>` element with no default accessible label. The component should include `aria-label` on each `IconButton` (e.g., `aria-label="Zoom in"`, `aria-label="Rotate right"`).
-- **Image alt text**: The `<img>` element has no `alt` attribute. The `fileName` is displayed in the toolbar but is not passed as `alt` on the image.
+- **Image alt text**: The `<img>` element uses `alt={fileName}` from the prop.
 - **Keyboard navigation**: Toolbar buttons are natively focusable and keyboard-activatable (Enter/Space) via MUI `IconButton`.
 - **Zoom level**: The zoom level is displayed as visible text — no `aria-live` region announces zoom changes.
 
 **Accessibility gaps**:
 - Missing `aria-label` on `IconButton` components — screen readers will announce the icon name (e.g., "Zoom in icon") based on the icon's SVG title, not a semantic label.
-- Missing `alt` attribute on `<img>` — screen readers cannot describe the image content. `fileName` should be used as `alt` text.
+- ~~Missing `alt` attribute on `<img>`~~ **Resolved**: `alt={fileName}` is set on the image element.
 - No `aria-live` region for zoom/rotation state announcements.
 
 ## 8. Error Handling
@@ -129,10 +129,10 @@ Zoom and rotation are independent: a user can rotate the image and zoom in simul
 
 | Integration | Details |
 |---|---|
-| **Consumer import** | `import { ImageViewer } from "astra"` via barrel, or directly from `@/common/components/molecules/ImageViewer` |
+| **Consumer import** | `import { ImageViewer } from "prati"` via barrel, or directly from `@/common/components/molecules/ImageViewer` |
 | **Consumed by** | `FileViewerRouter` organism (`docs/raw/feature/components/molecules/ImageViewer.md:33`) — delegates image file rendering based on file extension |
 | **Pattern** | Pre-loaded base64 content — parent (FileViewerRouter) reads file content and passes it as props |
-| **Test file** | **No test file** (`ImageViewer.test.tsx` does not exist) — gap identified |
+| **Test file** | `ImageViewer.test.tsx` with `vitest` + `@testing-library/react` — covers empty state, image rendering, zoom, rotation, and alt text |
 | **Barrel export** | `src/common/components/molecules/index.ts` re-exports `ImageViewer` |
 | **MUI dependencies** | `@mui/material` (`Box`, `Typography`, `IconButton`), `@mui/icons-material/ZoomIn`, `ZoomOut`, `RotateRight` |
 | **Localization** | Uses `useLanguage` from `../../localization/LanguageContext` |
@@ -144,10 +144,10 @@ Zoom and rotation are independent: a user can rotate the image and zoom in simul
 
 1. Should `fileEncoding` prop type be narrowed from `string` to `"text" | "base64" | undefined` for better compile-time safety? (Current: `string | undefined` — `"base64"` check is a runtime string comparison.)
 2. Should an `onError` handler be added to the `<img>` element to show the application's ErrorState component instead of the browser's native broken image icon?
-3. Should an `alt` attribute be set on the `<img>` element using `fileName` for screen reader accessibility?
+3. ~~Should an `alt` attribute be set on the `<img>` element using `fileName` for screen reader accessibility?~~ **Resolved**: `alt={fileName}` is set.
 4. Should `aria-label` attributes be added to `IconButton` controls for better screen reader support?
-5. Should a test file be created (`ImageViewer.test.tsx`) to cover zoom, rotation, empty state, and error scenarios?
+5. ~~Should a test file be created (`ImageViewer.test.tsx`) to cover zoom, rotation, empty state, and error scenarios?~~ **Resolved**: Test file created at `ImageViewer.test.tsx`.
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

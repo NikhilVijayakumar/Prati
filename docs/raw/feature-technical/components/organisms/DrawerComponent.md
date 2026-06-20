@@ -133,7 +133,7 @@ Parent component (App shell)
 
 ## 11. Open Questions
 
-1. Should `drawerWidth` be derived from the MUI theme (spacing tokens) instead of a hardcoded constant?
+1. ~~Should `drawerWidth` be derived from the MUI theme (spacing tokens) instead of a hardcoded constant?~~ **Resolved**: `drawerWidth = 240` remains as a named constant in `drawerData.ts`. Deriving from theme spacing (60× base unit 4px = 240px) adds unnecessary indirection without clarity benefit.
 2. Should silent feature exclusion log a warning in development mode for debugging?
 3. Should active/highlighted navigation state be added with `aria-current`?
 4. Should collapsible/expandable sub-navigation be supported?
@@ -142,4 +142,4 @@ Parent component (App shell)
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

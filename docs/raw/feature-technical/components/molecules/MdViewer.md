@@ -143,8 +143,8 @@ The error handling is designed for graceful degradation — the component never 
 ## 9. Performance Considerations
 
 - **Lazy loading**: `react-markdown` is loaded via `React.lazy()` — the markdown parser module (~15KB gzipped) is not included in the initial bundle. This is the primary performance optimization, ensuring that users who never view markdown files do not pay the download cost.
-- **Render cost**: No `useState`, no `useEffect`, no `useMemo`, no `useCallback`. Re-render scope is the entire content area on each prop change.
-- **Re-render**: Re-renders fully when `fileContent` or `fileName` change. The markdown parser must re-parse the content on each render — no memoization of parsed output.
+- **Render cost**: No `useState`, no `useEffect`, no `useCallback`. The markdown content is a derived value from props — `react-markdown` handles its own parsing internally.
+- **Re-render**: Re-renders fully when `fileContent` or `fileName` change. Markdown parsing is delegated to `react-markdown`, which handles memoization internally.
 - **Long content**: No virtualization — very long markdown documents render all DOM nodes at once. `overflow-y: auto` provides native scrolling.
 - **Bundle size**: ~73 lines. Imports `react-markdown` lazily, MUI atoms eagerly.
 - **Suspense overhead**: `React.lazy()` + `<Suspense>` adds minimal overhead — the fallback renders only on first mount.
@@ -153,10 +153,10 @@ The error handling is designed for graceful degradation — the component never 
 
 | Integration | Details |
 |---|---|
-| **Consumer import** | `import { MdViewer } from "astra"` via barrel, or directly from `@/common/components/molecules/MdViewer` |
+| **Consumer import** | `import { MdViewer } from "prati"` via barrel, or directly from `@/common/components/molecules/MdViewer` |
 | **Consumed by** | `FileViewerRouter` organism (`docs/raw/feature/components/molecules/MdViewer.md:32`) — delegates markdown and plain-text file rendering based on file extension |
 | **Pattern** | Lazy-loaded markdown parser with pre-loaded content from props |
-| **Test file** | **No test file** (`MdViewer.test.tsx` does not exist) — gap identified |
+| **Test file** | `MdViewer.test.tsx` with `vitest` + `@testing-library/react` — covers empty state, markdown rendering, and whitespace-only content |
 | **Barrel export** | `src/common/components/molecules/index.ts` re-exports `MdViewer` |
 | **MUI dependencies** | `@mui/material` (`Box`, `Typography`, `Divider`) |
 | **Third-party dependency** | `react-markdown` (lazy-loaded via `React.lazy()`) |
@@ -170,9 +170,9 @@ The error handling is designed for graceful degradation — the component never 
 1. Should the lazy-loaded `react-markdown` import have retry logic for network failures? (Currently relies on `React.lazy()` default behavior — a network failure will leave Suspense in fallback state indefinitely.)
 2. Should `aria-live="polite"` be added to the content area for screen reader announcements when content loads?
 3. Should the file name heading accept an optional `aria-label` override for accessible context?
-4. Should the markdown output be memoized (e.g., `useMemo`) to avoid re-parsing on unrelated re-renders?
-5. Should a test file be created (`MdViewer.test.tsx`) to cover empty state, loading state, and rendering scenarios?
+4. ~~Should the markdown output be memoized (e.g., `useMemo`) to avoid re-parsing on unrelated re-renders?~~ **Resolved**: `react-markdown` handles parsing internally; component-level memoization is unnecessary since MdViewer has no local state that would cause re-renders independent of prop changes.
+5. ~~Should a test file be created (`MdViewer.test.tsx`) to cover empty state, loading state, and rendering scenarios?~~ **Resolved**: Test file created at `MdViewer.test.tsx`.
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

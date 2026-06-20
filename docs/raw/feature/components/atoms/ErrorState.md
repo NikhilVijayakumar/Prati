@@ -25,6 +25,14 @@ Displays an error message with appropriate visual treatment for error states. Ac
 - **Optional prop with conditional rendering:** The message is optional — the component adapts its output based on presence or absence.
 - **Purely presentational atom:** No state, no callbacks, no error recovery logic.
 
+## Business Rules
+
+1. The component MUST display a custom message when provided, falling back to a localized default when absent.
+2. The component MUST NOT capture, log, or transmit error data to any external service.
+3. The component MUST NOT provide retry, dismiss, or action callbacks — it is purely presentational.
+4. The component MUST NOT render stack traces, error codes, or technical details.
+5. When both the custom message and localization key are missing, the component MUST render with no visible content rather than crashing.
+
 ## States
 
 - **Error** — Active rendering state; error message displayed
@@ -40,6 +48,12 @@ Displays an error message with appropriate visual treatment for error states. Ac
 ## Error Conditions
 
 - Missing message and missing localization key — Alert renders with no visible content
+
+### Recovery Actions
+
+| Error Condition | Recovery Action |
+| --------------- | --------------- |
+| Missing message and missing localization key | Provide either a custom message prop or ensure the localization key exists in locale files; the component remains mounted but renders invisibly as a safe fallback |
 
 ## Authorization
 
@@ -84,6 +98,13 @@ No message and no localization key — the component renders invisibly.
 
 ### Completion Criteria
 The error message is displayed and the user is aware of the failure.
+
+## Verification
+
+- Unit tests confirm the fallback chain: custom message → localized default → empty render
+- Integration tests confirm no error logging or external calls are made
+- Visual tests confirm error styling is applied correctly
+- Accessibility tests confirm the error message is announced by screen readers
 
 ## See Also
 

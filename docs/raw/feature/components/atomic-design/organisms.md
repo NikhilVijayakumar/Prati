@@ -96,6 +96,14 @@ Before creating an organism, verify:
 - **Page Specificity:** Organisms must not be written for a single page context
 - **Over-Simplification:** Organisms that compose only 1-2 atoms should be molecules
 
+## Business Rules
+
+1. **Complex composition required** — An organism must compose 3+ molecules or multiple atom types; simpler compositions should be molecules
+2. **Data state handling** — Every organism that fetches or processes data must implement the full lifecycle: Idle, Loading, Error, Empty, Success
+3. **Single discrete section** — Each organism represents exactly one discrete UI section; an organism attempting to serve multiple sections should be split
+4. **Page-context agnostic** — Organisms must not depend on a specific page context; they should be reusable across pages
+5. **Not a layout** — An organism must not define page layout structure; layout belongs to templates
+
 ## States
 
 - **Idle** — Mounted, awaiting user interaction or data trigger
@@ -122,6 +130,15 @@ Before creating an organism, verify:
 - **Missing required data** — Prop or context dependency is undefined at render time
 - **Performance degradation** — Large datasets cause slow renders; organisms must define their maximum expected data volume and behavior at that threshold
 - **Over-composition** — Too many responsibilities makes organism unmaintainable; should be split
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Data fetch failure | Ensure the organism transitions to Error state with a clear message and retry mechanism |
+| Missing required data | Verify all required props and context dependencies are provided; add fallback handling for undefined values |
+| Performance degradation | Implement virtualization, pagination, or lazy-loading for large datasets; document the data volume threshold |
+| Over-composition | Split the organism into smaller, single-responsibility organisms and compose them in the template |
 
 ## Authorization
 
@@ -163,9 +180,16 @@ A self-contained complex UI section is ready for use within a template or page.
 
 ### Exceptions
 The organism is actually a page layout — it is reclassified as a template.
-
 ### Completion Criteria
+
 The organism passes the design checklist, is placed in the correct directory, and handles all data states.
+
+## Verification
+
+- **State lifecycle test**: Verify every organism that fetches data implements Loading, Error, Empty, and Success visual states
+- **Reusability test**: Verify no organism is designed for a single page context; check for page-specific hardcoded references
+- **Composition count test**: Verify every organism composes 3+ molecules or multiple distinct atom types
+- **Layout boundary test**: Confirm no organism defines page-level layout structure (grid, flex on page shell, etc.)
 
 ## See Also
 

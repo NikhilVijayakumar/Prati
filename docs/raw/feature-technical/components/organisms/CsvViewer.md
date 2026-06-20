@@ -4,16 +4,16 @@
 
 `CsvViewer` (`src/common/components/organisms/CsvViewer.tsx`) is a CSV file viewer organism that parses raw CSV strings into tabular data and renders a paginated table with sticky headers, built on MUI `Table`, `TablePagination`, and `Typography`. It auto-detects comma vs. semicolon delimiters from the first line using a lightweight heuristic (`lines[0].includes(";") ? ";" : ","`).
 
-The component manages its own pagination UI state (`page`, `rowsPerPage`) via `useState` — this is pure visual state, not domain state, compliant with the Stateless UI invariant. The parse logic lives in a module-level pure function `parseCsv()` co-located in the component file.
+The component manages its own pagination UI state (`page`, `rowsPerPage`) via `useState` — this is pure visual state, not domain state, compliant with the Stateless UI invariant. The parse logic is extracted to a separate utility module `parseCsv.ts` for independent testability and wrapped in `useMemo` to prevent re-parsing on pagination state changes. Renders via the shared `DataTable` organism for consistent table presentation.
 
 ## 2. Architecture Realization
 
 | Architecture Pattern | Realization |
 |---|---|
-| **Stateless UI** (invariant) | Partial — `page` and `rowsPerPage` are UI interaction state (compliant); `parseCsv` is domain-adjacent logic that should be externalized |
-| **Atomic Hierarchy** (component-tiers.md) | Organism — composes MUI atoms/molecules (`Table`, `TableHead`, `TableBody`, `TableRow`, `TableCell`, `TableContainer`, `TablePagination`, `Typography`, `Paper`, `Box`) |
+| **Stateless UI** (invariant) | Compliant — `page` and `rowsPerPage` are UI interaction state; `parseCsv` extracted to utility module |
+| **Atomic Hierarchy** (component-tiers.md) | Organism — composes organism (`DataTable`), MUI atoms (`TablePagination`, `Typography`, `Box`) |
 | **Theme Sovereignty** (theming.md) | All styling via theme tokens: `background.default/paper`, `palette.text.primary/secondary`, `borderColor: 'divider'`, `spacing.md/sm` |
-| **MVVM Separation** (mvvm-pattern.md) | View with co-located parse utility — `parseCsv` is a model-adjacent pure function, not a ViewModel hook |
+| **MVVM Separation** (mvvm-pattern.md) | View with extracted parse utility in `parseCsv.ts` — model-adjacent logic externalized for independent testability |
 | **Localization** (localization.md) | Uses `useLanguage` for `viewer.empty_csv` key with hardcoded fallback `"No CSV content available"` |
 | **Dependency Safety** (dependencies.md) | Minimal imports: MUI components, `useLanguage`, `spacing` tokens |
 | **Platform Neutrality** (platform-abstraction.md) | Pure React + MUI — no platform-specific APIs |
@@ -29,7 +29,7 @@ Parent / FileViewerRouter
         v
   CsvViewer
     |
-    +-> parseCsv(fileContent ?? "")
+    +-> useMemo(() => parseCsv(fileContent ?? ""), [fileContent])
     |     +-> Split by newline (CRLF / LF)
     |     +-> Trim lines, filter empty
     |     +-> If lines.length === 0 -> { headers: [], rows: [] }
@@ -37,14 +37,12 @@ Parent / FileViewerRouter
     |     +-> headers = lines[0].split(delimiter)
     |     +-> rows = lines[1..n].map(line => line.split(delimiter))
     |
-    +-> Derived: visibleRows = rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
+    +-> Derived: tableData = rows.slice(page * rowsPerPage, (page + 1) * rowsPerPage)
     |
     +-> Render:
           +-> fileName as Typography variant="h4"
           +-> If headers.length === 0 -> empty-state message (localized)
-          +-> Table (stickyHeader)
-          |     +-> TableHead -> header cells
-          |     +-> TableBody -> visibleRows.map() -> TableRow -> cells
+          +-> DataTable (shared organism, sticky header via composition)
           +-> TablePagination
                 +-> rowsPerPageOptions: [10, 25, 50]
                 +-> count: rows.length
@@ -125,16 +123,12 @@ The sticky header is enabled via MUI's `stickyHeader` prop on `<Table>` — CSS-
 ## 9. Performance Considerations
 
 | Factor | Analysis |
-|---|---|
-| Parse complexity | O(n) on lines — runs on every render (no `useMemo`) |
-| Render complexity | O(currentPageRows x columns) — only visible rows rendered |
-| Re-render behavior | Full re-render on every `page`/`rowsPerPage` change, including re-parse of CSV content |
+|---|---|---|
+| Parse complexity | O(n) on lines — memoized with `useMemo`, re-parses only on `fileContent` change |
+| Render complexity | O(currentPageRows x columns) — only visible rows rendered via `DataTable` |
+| Re-render behavior | Pagination state changes do not trigger re-parse (thanks to `useMemo` on `fileContent`) |
 | Pagination state | `page` resets to 0 on rows-per-page change to prevent invalid page index |
 | Virtualization | Not implemented — 10K+ rows will cause DOM performance issues |
-
-**Risk:** `parseCsv` executes on every render with no memoization via `useMemo`. For large files, this causes unnecessary re-parsing on every state change.
-
-**Recommendation:** Wrap `parseCsv` call in `useMemo` with `fileContent` as dependency.
 
 ## 10. Integration Points
 
@@ -144,18 +138,18 @@ The sticky header is enabled via MUI's `stickyHeader` prop on `<Table>` — CSS-
 | **Barrel export** | `src/common/components/organisms/index.ts` re-exports `CsvViewer`, `CsvViewerProps` |
 | **Language provider** | Requires `LanguageProvider` ancestor for `viewer.empty_csv` localization key |
 | **Theme provider** | Requires MUI `ThemeProvider` ancestor for theme token resolution |
-| **DataTable** | Related organism — `CsvViewer` currently renders its own MUI Table inline instead of composing `DataTable` |
+| **DataTable** | Composes `DataTable` (shared organism) for consistent table presentation with sticky header |
 
 ## 11. Open Questions
 
-1. Should `parseCsv` be extracted to a separate utility module within the organism's scope for independent testability?
-2. Should `parseCsv` be wrapped in `useMemo` to prevent re-parsing on pagination state changes?
+1. ~~Should `parseCsv` be extracted to a separate utility module within the organism's scope for independent testability?~~ **Resolved**: Extracted to `parseCsv.ts`.
+2. ~~Should `parseCsv` be wrapped in `useMemo` to prevent re-parsing on pagination state changes?~~ **Resolved**: Wrapped in `useMemo`.
 3. Should column sorting by clicking header cells be implemented?
 4. Should column search/filter input be added for quick data filtering?
 5. What is the expected behavior for malformed CSV rows — skip, highlight, or surface an error?
 6. Should CSV export functionality be added as a toolbar action?
-7. Should the component compose `DataTable` internally instead of rendering its own MUI Table?
+7. ~~Should the component compose `DataTable` internally instead of rendering its own MUI Table?~~ **Resolved**: Composes `DataTable` shared organism.
 
 ## 12. Authorization
 
-**Visibility:** Public — stateless Astra library component/primitive. No authentication or role requirement enforced by Astra. Authorization enforcement is consumer-managed at the application layer.
+**Visibility:** Public — stateless Prati library component/primitive. No authentication or role requirement enforced by Prati. Authorization enforcement is consumer-managed at the application layer.

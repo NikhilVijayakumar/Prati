@@ -70,6 +70,14 @@ es: {
 | **Per-language dictionary** | Each language is an independent flat set of key-value pairs |
 | **Partial coverage** | Languages may define a subset of keys — missing keys surface as undefined at runtime |
 
+## Business Rules
+
+1. **Flat key structure** — Translation keys must be flat dot-notation strings; nested object dictionaries are not supported
+2. **Value type constraint** — All translation values must be strings; objects, numbers, or arrays as values cause rendering errors
+3. **Key collision prevention** — Keys must not mix depth levels (e.g., `form.name` and `form.name.label`); ambiguous lookups result
+4. **Category prefix convention** — Every key must start with a category prefix (`ui.*`, `msg.*`, `form.*`, `validation.*`); unnamespaced keys are not permitted
+5. **Dictionary independence** — Each language dictionary is fully independent; keys in one language do not imply the same keys exist in another
+
 ## States
 
 - **Defined:** Translation structure is fully specified with conventions and examples
@@ -98,6 +106,15 @@ es: {
 - **Dot key collision** — Mixing keys at different depths causes ambiguous lookups
 - **Non-string values** — Objects or numbers in translation values cause rendering errors
 - **Partial language coverage** — Languages with subset of keys render missing text as empty values
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Missing key in active language | Add the missing key to the language dictionary; ensure component has a fallback handler in the interim |
+| Dot key collision | Normalize all keys to a single depth level; remove nested key references |
+| Non-string values | Replace non-string values with plain text strings; move structured data to component logic, not translation dictionaries |
+| Partial language coverage | Add missing keys to the language dictionary; run key-coverage comparison against the primary language |
 
 ## Authorization
 
@@ -139,9 +156,16 @@ The string renders in the user's active language.
 
 ### Exceptions
 A key is added to only some languages — missing languages show no text at runtime.
-
 ### Completion Criteria
+
 The new translation key exists in all language dictionaries and renders the correct text in the UI.
+
+## Verification
+
+- **Flat structure test**: Verify every translation dictionary uses flat dot-notation keys (no nested objects)
+- **Value type test**: Verify every translation value is a string type
+- **Depth collision test**: Scan all keys for mixed-depth collisions (e.g., `form.name` vs `form.name.label`)
+- **Category prefix test**: Verify every key starts with a recognized category prefix
 
 ## See Also
 

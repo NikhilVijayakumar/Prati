@@ -88,6 +88,14 @@ Before creating a molecule, verify:
 - **Side Effects:** Molecules must not produce side effects such as analytics tracking or logging
 - **Page Layout:** Molecules must not define page-level layout or structure
 
+## Business Rules
+
+1. **Composes 2+ atoms** — A molecule must compose two or more atoms; a component wrapping a single atom with no added behavior should remain an atom
+2. **Single functional purpose** — Each molecule serves exactly one clear use case; molecules with multiple purposes should be split
+3. **No data fetching** — Molecules must not fetch or manage external data; data fetching belongs in organisms
+4. **No complex state** — Molecules may manage minimal local UI state (open/closed toggle) but not async state, external data, or significant business logic
+5. **Self-contained** — Molecules must not depend on external context (theme and localization are system-wide, not external dependencies)
+
 ## States
 
 - **Compliant** — Composes 2+ atoms, single purpose, no data fetching, self-contained
@@ -107,6 +115,13 @@ Before creating a molecule, verify:
 
 - **Missing composed atom** — Required atom is not rendered or receives invalid props
 - **Invalid content type** — Molecule designed for specific data shape receives incompatible input
+
+### Recovery Actions
+
+| Error Condition | Recovery |
+| --------------- | -------- |
+| Missing composed atom | Ensure all required atoms are imported and rendered; verify prop contracts between molecule and its atoms |
+| Invalid content type | Validate input data before passing to the molecule; use type guards or runtime validation |
 
 ## Authorization
 
@@ -148,9 +163,16 @@ A self-contained reusable unit is available for organisms to compose into sectio
 
 ### Exceptions
 The component has complex state or data fetching — it is promoted to organism tier.
-
 ### Completion Criteria
+
 The molecule passes the design checklist and is placed in the correct directory.
+
+## Verification
+
+- **Atom composition test**: Verify every molecule composes 2+ distinct atoms; flag single-wrapper components as potential atoms
+- **Data fetching audit**: Verify no molecule contains network calls, API requests, or external data access
+- **State complexity test**: Verify no molecule manages async state, external subscriptions, or complex business logic
+- **Purpose uniqueness test**: Verify no two molecules serve the same functional purpose
 
 ## See Also
 

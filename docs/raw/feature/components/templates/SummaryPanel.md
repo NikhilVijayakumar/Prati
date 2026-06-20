@@ -27,6 +27,14 @@ Renders a panel with a title header and an array of text lines, each configurabl
 - **Border-based panel pattern:** Uses a subtle border instead of shadow for the panel surface, consistent with the premium UI approach.
 - **Structured data pattern:** Lines are plain objects rather than rendered nodes, ensuring consistent styling and simple data handling.
 
+## Business Rules
+
+1. The title prop is required; the lines array is optional and defaults to an empty array.
+2. Each line object must have a text property; the variant property defaults to "body" if omitted.
+3. Lines with the "body" variant render as inline elements; lines with the "caption" variant render as block elements.
+4. The panel uses a border-based surface rather than a shadow, consistent with the premium design system.
+5. The lines array is iterated in order; no sorting, filtering, or grouping is applied.
+
 ## States
 
 - **Populated** — Title and one or more lines rendered
@@ -57,6 +65,14 @@ Renders a panel with a title header and an array of text lines, each configurabl
 - Empty lines array — Renders title only; no crash
 - Missing variant on line — Defaults gracefully to body
 - Long text — Wraps within panel width; no overflow
+
+### Recovery Actions
+
+| Condition | Recovery |
+| --------- | -------- |
+| Empty lines array | The panel renders with only the title and no body content; no crash occurs |
+| Missing variant on line | The line defaults to the "body" variant gracefully |
+| Long text content | Text wraps within the panel width; consider truncating very long lines |
 
 ## Authorization
 
@@ -98,9 +114,17 @@ A bordered summary panel with title and styled text lines is displayed.
 
 ### Exceptions
 Empty lines array — the panel renders with only the title.
-
 ### Completion Criteria
+
 The summary panel renders with title and all text lines.
+
+## Verification
+
+- Verify that the panel renders a bordered container with a title header
+- Verify that lines appear in the order specified in the lines array
+- Verify that "body" variant lines render inline and "caption" variant lines render as block elements
+- Verify that an empty lines array renders the title with no body content
+- Verify that a line without a variant property defaults to "body" style without errors
 
 ## See Also
 
