@@ -6,6 +6,7 @@ import {
 } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
+import { ErrorBoundary } from ".";
 
 interface MdViewerProps {
   fileName: string;
@@ -20,6 +21,26 @@ export const MdViewer: FC<MdViewerProps> = ({ fileName, fileContent }) => {
   const LoadingFallback = () => (
     <Box sx={{ p: spacing.md, color: 'text.secondary' }}>{literal["msg.loading"]}</Box>
   );
+
+  const PlainTextFallback = () => (
+    <Box
+      component="pre"
+      sx={{
+        p: spacing.md,
+        color: 'text.primary',
+        backgroundColor: 'action.hover',
+        borderRadius: 1,
+        overflowX: 'auto',
+        fontFamily: 'monospace',
+        fontSize: '0.875rem',
+        whiteSpace: 'pre-wrap',
+        wordBreak: 'break-word',
+      }}
+    >
+      {fileContent}
+    </Box>
+  );
+
   const emptyMessage = literal["viewer.empty_markdown"];
   const content =
     fileContent && fileContent.trim().length > 0
@@ -64,9 +85,11 @@ export const MdViewer: FC<MdViewerProps> = ({ fileName, fileContent }) => {
           "& hr": { my: spacing.lg, opacity: 0.1 },
         }}
       >
-        <Suspense fallback={<LoadingFallback />}>
-          <Markdown>{content}</Markdown>
-        </Suspense>
+        <ErrorBoundary fallback={<PlainTextFallback />}>
+          <Suspense fallback={<LoadingFallback />}>
+            <Markdown>{content}</Markdown>
+          </Suspense>
+        </ErrorBoundary>
       </Box>
     </Box>
   );

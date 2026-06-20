@@ -26,8 +26,9 @@ export const ImageViewer: FC<ImageViewerProps> = ({
   const { literal } = useLanguage();
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
+  const [imgError, setImgError] = useState(false);
   const imageSource =
-    fileContent && fileEncoding === "base64"
+    fileContent && fileEncoding === "base64" && !imgError
       ? `data:${mimeType || "image/png"};base64,${fileContent}`
       : null;
 
@@ -59,18 +60,21 @@ export const ImageViewer: FC<ImageViewerProps> = ({
         <Box>
           <IconButton
             size="small"
+            aria-label={literal["viewer.zoom_in"] ?? "Zoom in"}
             onClick={() => setZoom((prev) => Math.min(prev + 0.2, 3))}
           >
             <ZoomInIcon fontSize="small" />
           </IconButton>
           <IconButton
             size="small"
+            aria-label={literal["viewer.zoom_out"] ?? "Zoom out"}
             onClick={() => setZoom((prev) => Math.max(prev - 0.2, 0.5))}
           >
             <ZoomOutIcon fontSize="small" />
           </IconButton>
           <IconButton
             size="small"
+            aria-label={literal["viewer.rotate_right"] ?? "Rotate right"}
             onClick={() => setRotation((prev) => (prev + 90) % 360)}
           >
             <RotateRightIcon fontSize="small" />
@@ -93,6 +97,7 @@ export const ImageViewer: FC<ImageViewerProps> = ({
             component="img"
             src={imageSource}
             alt={fileName}
+            onError={() => setImgError(true)}
             sx={{
               maxWidth: `${zoom * 100}%`,
               maxHeight: `${zoom * 100}%`,

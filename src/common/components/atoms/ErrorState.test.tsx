@@ -1,7 +1,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import ErrorState from './ErrorState';
+import { ErrorState } from './ErrorState';
 
 // Mock the useLanguage hook
 vi.mock('../../localization/LanguageContext', () => ({

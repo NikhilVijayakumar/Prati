@@ -17,6 +17,7 @@ export const Card = ({
 }: CardProps) => {
   return (
     <Paper
+      component="article"
       elevation={0}
       sx={{
         p: spacing.lg,
@@ -40,6 +41,7 @@ export const Card = ({
           <Box>
             {title && (
               <Typography
+                component="h2"
                 variant="h4"
                 color="text.primary"
               >

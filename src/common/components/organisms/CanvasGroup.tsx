@@ -27,9 +27,7 @@ export const CanvasGroup = memo(({
         sx={{
           width: '100%',
           height: '100%',
-          backgroundColor: theme.palette.mode === 'dark'
-            ? 'rgba(255, 255, 255, 0.05)'
-            : 'rgba(0, 0, 0, 0.04)',
+          backgroundColor: theme.palette.action.hover,
           border: selected
             ? `2px dashed ${theme.palette.text.secondary}`
             : `1px dashed ${theme.palette.divider}`,
@@ -57,8 +55,8 @@ export const CanvasGroup = memo(({
             style={{
               border: 'none',
               background: 'transparent',
-              fontWeight: 'bold',
-              fontSize: '14px',
+              fontWeight: theme.typography.fontWeightBold,
+              fontSize: theme.typography.body2.fontSize,
               outline: 'none',
               width: '100%',
               color: 'inherit',
@@ -78,7 +76,7 @@ export const CanvasGroup = memo(({
               height: '100%',
               border: 'none',
               background: 'transparent',
-              fontSize: '12px',
+              fontSize: theme.typography.caption.fontSize,
               color: 'inherit',
               resize: 'none',
               outline: 'none',

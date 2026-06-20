@@ -1,4 +1,4 @@
-// src/common/components/ErrorState.tsx
+// src/common/components/atoms/ErrorState.tsx
 
 import { FC } from "react";
 import { Box, Alert } from "@mui/material";
@@ -9,16 +9,14 @@ interface ErrorStateProps {
   message?: string;
 }
 
-const ErrorState: FC<ErrorStateProps> = ({ message }) => {
+export const ErrorState: FC<ErrorStateProps> = ({ message }) => {
   const { literal } = useLanguage();
 
   const finalMessage = message || literal.unknown_message;
 
   return (
-    <Box sx={{ p: spacing.lg, textAlign: "center", mt: spacing.xl }}>
+    <Box role="alert" sx={{ p: spacing.lg, textAlign: "center", mt: spacing.xl }}>
       <Alert severity="error">{finalMessage}</Alert>
     </Box>
   );
 };
-
-export default ErrorState;

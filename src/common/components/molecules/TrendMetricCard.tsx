@@ -11,6 +11,18 @@ export interface TrendMetricCardProps {
   trend?: MetricTrend;
 }
 
+const trendArrow: Record<MetricTrend, string> = {
+  up: '▲',
+  down: '▼',
+  neutral: '—',
+};
+
+const trendAriaLabel: Record<MetricTrend, string> = {
+  up: 'trending up',
+  down: 'trending down',
+  neutral: 'no change',
+};
+
 export const TrendMetricCard: FC<TrendMetricCardProps> = ({
   label,
   value,
@@ -54,12 +66,20 @@ export const TrendMetricCard: FC<TrendMetricCardProps> = ({
         </Typography>
         {!!trendValue && (
           <Typography
+            component="span"
             variant="caption"
+            aria-label={trend ? trendAriaLabel[trend] : undefined}
             sx={{
               color: trend === 'up' ? 'success.main' : trend === 'down' ? 'error.main' : 'text.secondary',
               fontWeight: 600,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '2px',
             }}
           >
+            {trend && (
+              <span aria-hidden="true">{trendArrow[trend]}</span>
+            )}
             {trendValue}
           </Typography>
         )}

@@ -1,10 +1,10 @@
-// src/common/components/LoadingState.tsx
+// src/common/components/atoms/LoadingState.tsx
 import { FC } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
 
-const LoadingState: FC = () => {
+export const LoadingState: FC = () => {
   const { literal } = useLanguage();
 
   return (
@@ -27,5 +27,3 @@ const LoadingState: FC = () => {
     </Box>
   );
 };
-
-export default LoadingState;

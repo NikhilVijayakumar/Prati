@@ -55,7 +55,7 @@ export const FileViewerRouter: FC<FileViewerRouterProps> = ({
       return <ErrorBoundary><JsonViewer fileName={fileName} fileContent={fileContent} /></ErrorBoundary>;
     default:
       return (
-        <Box sx={{ p: spacing.lg, textAlign: "center" }}>
+        <Box role="alert" aria-live="polite" sx={{ p: spacing.lg, textAlign: "center" }}>
           <Typography variant="h4">
             {fallbackTitle}
           </Typography>

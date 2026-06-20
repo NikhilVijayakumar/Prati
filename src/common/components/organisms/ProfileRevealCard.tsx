@@ -78,8 +78,8 @@ export const ProfileRevealCard: React.FC<ProfileRevealCardProps> = ({ name, name
                         variant="h5" 
                         sx={{ 
                             fontWeight: 700, 
-                            color: theme.palette.text.primary, 
-                            textShadow: '0 2px 10px rgba(0,0,0,0.5)'
+                            color: 'text.primary', 
+                            textShadow: `0 2px 10px ${theme.palette.common.black}80`
                         }}
                     >
                         {t(nameKey)}
@@ -161,16 +161,16 @@ export const ProfileRevealCard: React.FC<ProfileRevealCardProps> = ({ name, name
                                         width: 32, 
                                         height: 32, 
                                         borderRadius: '50%', 
-                                        bgcolor: 'rgba(255,255,255,0.1)', 
+                                        bgcolor: theme.palette.action.hover, 
                                         display: 'flex', 
                                         alignItems: 'center', 
                                         justifyContent: 'center',
-                                        border: '1px solid rgba(255,255,255,0.2)'
+                                        border: `1px solid ${theme.palette.divider}`
                                     }}
                                 >
                                     <Play size={14} fill="white" />
                                 </Box>
-                                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
+                                <Typography variant="caption" sx={{ color: 'text.disabled' }}>
                                     {t('common.voice_preview')}
                                 </Typography>
                             </Box>

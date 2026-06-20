@@ -4,6 +4,12 @@ import { Notification } from "./Notification";
 
 const mockHandleClose = vi.fn();
 
+vi.mock("../../localization/LanguageContext", () => ({
+  useLanguage: () => ({
+    literal: { 'action.close': 'Close' },
+  }),
+}));
+
 vi.mock("@mui/material", async () => {
   const actual = await vi.importActual("@mui/material");
   return {

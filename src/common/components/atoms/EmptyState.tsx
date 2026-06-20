@@ -1,10 +1,10 @@
-// src/common/components/EmptyState.tsx
+// src/common/components/atoms/EmptyState.tsx
 import { FC } from "react";
 import { Box, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
 
-const EmptyState: FC = () => {
+export const EmptyState: FC = () => {
   const { literal } = useLanguage();
 
   return (
@@ -15,5 +15,3 @@ const EmptyState: FC = () => {
     </Box>
   );
 };
-
-export default EmptyState;

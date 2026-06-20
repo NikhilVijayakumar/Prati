@@ -10,6 +10,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Features, DrawerProps, drawerWidth } from './drawerData';
+import { useLanguage } from '../../localization/LanguageContext';
 
 
 export const DrawerComponent = <T extends Features>(props: DrawerProps<T>) => {
@@ -22,6 +23,7 @@ export const DrawerComponent = <T extends Features>(props: DrawerProps<T>) => {
     mobileOpen,
     handleDrawerToggle,
   } = props;
+  const { literal } = useLanguage();
 
   // The internal handler now just calls the prop directly
   const handleListItemClick = (index: number) => {
@@ -76,7 +78,7 @@ export const DrawerComponent = <T extends Features>(props: DrawerProps<T>) => {
     <Box
       component="nav"
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      aria-label="mailbox folders"
+      aria-label={literal['nav.drawer_label'] ?? 'Navigation'}
     >
       <Drawer
         container={container}

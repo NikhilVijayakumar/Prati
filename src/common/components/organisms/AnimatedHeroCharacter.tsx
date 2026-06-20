@@ -1,4 +1,4 @@
-import { motion, useSpring, useTransform, MotionValue } from 'framer-motion';
+import { motion, useSpring, useTransform, MotionValue, useReducedMotion } from 'framer-motion';
 import { useTheme, Box, Typography } from '@mui/material';
 
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
 
 export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, index, zIndex, t }: Props) => {
     const theme = useTheme();
+    const prefersReducedMotion = useReducedMotion();
 
     // Physics: Different depth based on index (Parallax)
     const depth = index % 2 === 0 ? 0.02 : 0.05;
@@ -26,46 +27,39 @@ export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, i
     const springX = useSpring(x, { stiffness: 150, damping: 15 });
     const springY = useSpring(y, { stiffness: 150, damping: 15 });
 
+    // Respect prefers-reduced-motion: freeze parallax and disable animations
+    const motionStyle = prefersReducedMotion
+        ? { zIndex, display: 'inline-block', cursor: 'pointer', position: 'relative' as const }
+        : { zIndex, display: 'inline-block', cursor: 'pointer', position: 'relative' as const, x: springX, y: springY };
+
+    const floatAnimation = prefersReducedMotion
+        ? undefined
+        : { y: [0, -15, 0], opacity: [1, 0.8, 1] };
+
+    const floatTransition = prefersReducedMotion
+        ? undefined
+        : {
+            y: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: index * 0.2 },
+            opacity: { duration: 3, repeat: Infinity, ease: "easeInOut", delay: index * 0.2 },
+            default: { duration: 0.2 }
+        };
+
+    const hoverVariants = prefersReducedMotion
+        ? { idle: { scale: 1, opacity: 1 }, hover: { scale: 1, opacity: 1 } }
+        : { idle: { scale: 1, opacity: 1 }, hover: { scale: 1.05, opacity: 0.9 } };
+
     return (
         <motion.div
-            style={{
-                zIndex, // Applied dynamic z-index
-                display: 'inline-block',
-                cursor: 'pointer',
-                position: 'relative',
-                x: springX,
-                y: springY
-            }}
+            style={motionStyle}
             data-testid="animated-hero-character"
             initial="idle"
-            whileHover="hover"
+            whileHover={prefersReducedMotion ? undefined : "hover"}
         >
             <Box
                 component={motion.h1}
-                animate={{
-                    y: [0, -15, 0],
-                    opacity: [1, 0.8, 1]
-                }}
-                transition={{
-                    y: {
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: index * 0.2
-                    },
-
-                    opacity: {
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: index * 0.2
-                    },
-                    default: { duration: 0.2 } // snappy hover
-                }}
-                variants={{
-                    idle: { scale: 1, opacity: 1 },
-                    hover: { scale: 1.05, opacity: 0.9 }
-                }}
+                animate={floatAnimation}
+                transition={floatTransition}
+                variants={hoverVariants}
                 sx={{
                     ...theme.typography.h1,
                     fontSize: { xs: '4rem', sm: '6rem', md: '10rem' }, // Responsive font size
@@ -85,7 +79,7 @@ export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, i
                     idle: { opacity: 0, y: 10 },
                     hover: { opacity: 1, y: 0 }
                 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                 style={{
                     position: 'absolute',
                     top: '-3rem',
@@ -113,7 +107,7 @@ export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, i
                     idle: { opacity: 0, y: -10 },
                     hover: { opacity: 1, y: 0 }
                 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
                 style={{
                     position: 'absolute',
                     bottom: '-4.5rem',

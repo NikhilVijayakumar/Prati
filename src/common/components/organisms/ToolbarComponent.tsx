@@ -8,12 +8,14 @@ import Typography from "@mui/material/Typography";
 import { ThemeToggle } from "../../theme/ThemeToggle";
 import { ToolbarProps } from "./ToolbarData";
 import { spacing } from "../../../theme/tokens/spacing";
+import { useLanguage } from "../../localization/LanguageContext";
 
 export const ToolbarComponent: FC<ToolbarProps> = ({
   handleDrawerToggle,
   title,
   themeContext,
 }) => {
+  const { literal } = useLanguage();
   return (
     <AppBar
       position="fixed"
@@ -23,7 +25,7 @@ export const ToolbarComponent: FC<ToolbarProps> = ({
       <Toolbar>
         <IconButton
           color="inherit"
-          aria-label="open drawer"
+          aria-label={literal["nav.open_drawer"] ?? "Open drawer"}
           edge="start"
           onClick={handleDrawerToggle}
           sx={{ mr: spacing.md, display: { sm: "none" } }}

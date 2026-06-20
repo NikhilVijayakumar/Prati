@@ -165,6 +165,8 @@ export type PageShellProps = BaseProps & {
   sidebar?: string;
   main?: string;
   dataA11yRole?: string;
+  skipLinkText?: string;
+  lang?: string;
 };
 
 export type ListTemplateProps = BaseProps & {

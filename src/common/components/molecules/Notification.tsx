@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Snackbar, Alert, AlertColor } from '@mui/material';
+import { useLanguage } from '../../localization/LanguageContext';
 
 export interface NotificationProps {
   open: boolean;
@@ -16,6 +17,7 @@ export const Notification: FC<NotificationProps> = ({
   onClose,
   autoHideDuration = 4000,
 }) => {
+  const { literal } = useLanguage();
   return (
     <Snackbar
       open={open}
@@ -26,6 +28,7 @@ export const Notification: FC<NotificationProps> = ({
       <Alert
         onClose={onClose}
         severity={severity}
+        closeText={literal['action.close'] ?? 'Close'}
         sx={{
           width: '100%',
           boxShadow: 3,

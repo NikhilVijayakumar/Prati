@@ -1,7 +1,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import LoadingState from './LoadingState';
+import { LoadingState } from './LoadingState';
 
 // Mock the useLanguage hook
 vi.mock('../../localization/LanguageContext', () => ({
@@ -15,9 +15,9 @@ vi.mock('../../localization/LanguageContext', () => ({
 describe('LoadingState', () => {
   it('renders the loading spinner', () => {
     render(<LoadingState />);
-    // CircularProgress has role="progressbar"
-    const spinner = screen.getByRole('progressbar');
-    expect(spinner).toBeTruthy();
+    // The outer Box has role="status" — the CircularProgress is aria-hidden
+    const statusRegion = screen.getByRole('status');
+    expect(statusRegion).toBeTruthy();
   });
 
   it('renders the localized loading message', () => {

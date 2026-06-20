@@ -4,10 +4,13 @@ import { spacing } from "../../../theme/tokens/spacing";
 
 export type SeverityLevel =
   | "CRITICAL"
-  | "WARNING"
-  | "URGENT"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW"
   | "INFO"
-  | "SUCCESS";
+  | "SUCCESS"
+  | "WARNING"
+  | "ERROR";
 
 export interface SeverityBadgeProps {
   level: SeverityLevel | string;
@@ -16,13 +19,15 @@ export interface SeverityBadgeProps {
 export const SeverityBadge: FC<SeverityBadgeProps> = ({ level }) => {
   const colorMap: Record<string, string> = {
     CRITICAL: 'error.main',
-    ERROR: 'error.main',
-    WARNING: 'warning.main',
-    URGENT: 'warning.main',
-    SUCCESS: 'success.main',
-    INFO: 'info.main',
+    HIGH:     'error.main',
+    ERROR:    'error.main',
+    MEDIUM:   'warning.main',
+    WARNING:  'warning.main',
+    LOW:      'info.main',
+    INFO:     'info.main',
+    SUCCESS:  'success.main',
   };
-  const tone = colorMap[level] || 'info.main';
+  const tone = colorMap[level?.toString().toUpperCase()] || 'text.secondary';
 
   return (
     <Typography
@@ -33,6 +38,8 @@ export const SeverityBadge: FC<SeverityBadgeProps> = ({ level }) => {
         borderRadius: 1,
         backgroundColor: `${tone}15`,
         color: tone,
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em',
       }}
     >
       {level}

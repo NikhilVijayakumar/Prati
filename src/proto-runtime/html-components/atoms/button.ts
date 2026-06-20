@@ -1,10 +1,10 @@
 import type { HTMLComponent, ButtonProps } from '../types';
 
 const variantStyles: Record<string, string> = {
-  primary: 'background-color: var(--pr-primary); color: #FFFFFF; border: none;',
+  primary: 'background-color: var(--pr-primary); color: var(--pr-text-on-primary); border: none;',
   secondary: 'background-color: transparent; color: var(--pr-text-primary); border: 1px solid var(--pr-border-strong);',
   ghost: 'background-color: transparent; color: var(--pr-text-primary); border: none;',
-  danger: 'background-color: var(--pr-error); color: #FFFFFF; border: none;',
+  danger: 'background-color: var(--pr-error); color: var(--pr-text-on-primary); border: none;',
 };
 
 const sizeStyles: Record<string, string> = {

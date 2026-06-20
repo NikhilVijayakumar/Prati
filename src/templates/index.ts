@@ -9,5 +9,3 @@ export const bundledTemplates: Record<string, string> = {
   alert: alertT,
   'task-summary': taskSummary,
 };
-
-export default bundledTemplates;

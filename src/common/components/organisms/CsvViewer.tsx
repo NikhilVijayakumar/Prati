@@ -74,6 +74,19 @@ export const CsvViewer: FC<CsvViewerProps> = ({ fileName, fileContent }) => {
           setRowsPerPage(parseInt(e.target.value, 10));
           setPage(0);
         }}
+        labelRowsPerPage={literal['pagination.rows_per_page'] ?? 'Rows per page:'}
+        labelDisplayedRows={({ from, to, count }) =>
+          (literal['pagination.displayed_rows'] ?? '{from}–{to} of {count}')
+            .replace('{from}', String(from))
+            .replace('{to}', String(to))
+            .replace('{count}', count !== -1 ? String(count) : `more than ${to}`)
+        }
+        getItemAriaLabel={(type) => {
+          if (type === 'first') return literal['pagination.first_page'] ?? 'first page';
+          if (type === 'last') return literal['pagination.last_page'] ?? 'last page';
+          if (type === 'next') return literal['pagination.next_page'] ?? 'next page';
+          return literal['pagination.previous_page'] ?? 'previous page';
+        }}
       />
     </Box>
   );

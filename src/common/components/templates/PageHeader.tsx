@@ -59,7 +59,7 @@ export const PageHeader: FC<PageHeaderProps> = ({
     >
       <Box>
         <Typography
-          variant="h2"
+          variant="h1"
           sx={{ color: 'text.primary', mb: spacing.xs, fontWeight: 600 }}
         >
           {title}

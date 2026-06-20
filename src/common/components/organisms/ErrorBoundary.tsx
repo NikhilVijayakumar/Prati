@@ -1,13 +1,16 @@
-import { Component, ReactNode } from "react";
+import { Component, ErrorInfo, ReactNode } from "react";
 import { Box, Typography } from "@mui/material";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
+  /** Optional localized error message. Overrides the default English fallback text. */
+  localizedFallbackText?: string;
 }
 
 interface ErrorBoundaryState {
   hasError: boolean;
+  error?: Error;
 }
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
@@ -16,8 +19,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo): void {
+    console.error('[ErrorBoundary] Caught render error:', error, info.componentStack);
   }
 
   render() {
@@ -25,7 +32,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
       return this.props.fallback ?? (
         <Box sx={{ p: 4, textAlign: "center" }}>
           <Typography variant="body1" color="error.main">
-            Something went wrong rendering this content.
+            {this.props.localizedFallbackText ?? 'Something went wrong rendering this content.'}
           </Typography>
         </Box>
       );

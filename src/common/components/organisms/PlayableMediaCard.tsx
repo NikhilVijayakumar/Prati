@@ -29,7 +29,7 @@ export const PlayableMediaCard: React.FC<PlayableMediaCardProps> = ({ title, art
                     overflow: 'hidden', 
                     aspectRatio: '1/1',
                     mb: 2,
-                    boxShadow: '0 8px 30px rgba(0,0,0,0.3)'
+                    boxShadow: theme.shadows[8]
                 }}
             >
                 <img 
@@ -43,7 +43,7 @@ export const PlayableMediaCard: React.FC<PlayableMediaCardProps> = ({ title, art
                     sx={{ 
                         position: 'absolute', 
                         inset: 0, 
-                        bgcolor: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.3)', 
+                        bgcolor: theme.palette.action.focus,
                         display: 'flex', 
                         alignItems: 'center', 
                         justifyContent: 'center',
@@ -65,16 +65,16 @@ export const PlayableMediaCard: React.FC<PlayableMediaCardProps> = ({ title, art
                             border: `1px solid ${theme.palette.divider}`
                         }}
                     >
-                        <Play size={20} fill={theme.palette.common.white} color={theme.palette.common.white} />
+                        <Play size={20} fill={theme.palette.common.white} color={theme.palette.common.white} aria-hidden="true" />
                     </Box>
                 </Box>
             </Box>
 
-            <Typography variant="h6" sx={{ color: theme.palette.text.primary, fontWeight: 600, fontSize: '1rem', mb: 0.5 }}>
+            <Typography variant="h6" sx={{ color: 'text.primary', fontWeight: 600, fontSize: theme.typography.body1.fontSize, mb: 0.5 }}>
                 {t(title)}
             </Typography>
             {artist && (
-                <Typography variant="subtitle2" sx={{ color: theme.palette.secondary.main, fontSize: '0.85rem', mb: 0.5, fontWeight: 500 }}>
+                <Typography variant="subtitle2" sx={{ color: 'secondary.main', fontSize: theme.typography.caption.fontSize, mb: 0.5, fontWeight: 500 }}>
                     {t(artist)}
                 </Typography>
             )}

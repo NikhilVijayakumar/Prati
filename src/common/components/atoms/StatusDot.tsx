@@ -6,6 +6,7 @@ export type StatusDotTone = 'ok' | 'warning' | 'error' | 'executing' | 'waiting'
 export interface StatusDotProps {
   tone: StatusDotTone;
   size?: number;
+  ariaLabel?: string;
 }
 
 const toneColorMap: Record<StatusDotTone, string> = {
@@ -13,18 +14,22 @@ const toneColorMap: Record<StatusDotTone, string> = {
   warning: 'warning.main',
   error: 'error.main',
   executing: 'info.main',
-  waiting: 'warning.main',
+  waiting: 'text.disabled',   // distinct from 'warning' — pending/idle state
   default: 'text.secondary',
 };
 
-export const StatusDot: FC<StatusDotProps> = ({ tone, size = 10 }) => {
+export const StatusDot: FC<StatusDotProps> = ({ tone, size = 10, ariaLabel }) => {
   return (
     <Box
+      role={ariaLabel ? 'img' : undefined}
+      aria-label={ariaLabel}
       sx={{
         width: size,
         height: size,
         borderRadius: '50%',
         backgroundColor: toneColorMap[tone] || toneColorMap.default,
+        display: 'inline-block',
+        flexShrink: 0,
       }}
     />
   );

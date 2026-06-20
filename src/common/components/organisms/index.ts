@@ -9,6 +9,7 @@ export * from "./DecisionActionCard";
 export * from "./DrawerComponent";
 export * from "./EntityConfidenceRow";
 export * from "./EntryLayoutFrame";
+export * from "./ErrorBoundary";
 export * from "./FeatureSegmentCard";
 export * from "./FileTree";
 export * from "./FileViewerRouter";

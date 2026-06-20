@@ -10,7 +10,7 @@ export interface FormLayoutProps {
 
 export const FormLayout: FC<FormLayoutProps> = ({ title, children, actions }) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: spacing.xl, maxWidth: '600px' }}>
+    <Box component="section" sx={{ display: 'flex', flexDirection: 'column', gap: spacing.xl, maxWidth: '600px' }}>
       {title && (
         <Typography variant="h5" color="text.primary">
           {title}
@@ -22,7 +22,7 @@ export const FormLayout: FC<FormLayoutProps> = ({ title, children, actions }) =>
       </Box>
 
       {actions && (
-        <Box sx={{ display: 'flex', gap: spacing.md, mt: spacing.md, pt: spacing.lg, borderTop: '1px solid', borderColor: 'divider' }}>
+        <Box component="footer" sx={{ display: 'flex', gap: spacing.md, mt: spacing.md, pt: spacing.lg, borderTop: '1px solid', borderColor: 'divider' }}>
           {actions}
         </Box>
       )}
