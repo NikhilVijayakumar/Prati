@@ -1,7 +1,8 @@
-import { type FC, lazy, Suspense, useState, useMemo, useEffect } from "react";
+import { type FC, type ReactElement, lazy, Suspense, useState, useMemo, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
+import { fonts } from "../../../theme/tokens/typography";
 
 const SyntaxHighlighter = lazy(() =>
   import("react-syntax-highlighter").then((mod) => ({ default: mod.Prism }))
@@ -51,7 +52,7 @@ const normalizeJsonForDisplay = (
   }
 };
 
-export const JsonViewer: FC<JsonViewerProps> = ({ fileName, fileContent }) => {
+export const JsonViewer: FC<JsonViewerProps> = ({ fileName, fileContent }): ReactElement => {
   const { literal } = useLanguage();
 
   const LoadingFallback = () => (
@@ -102,7 +103,7 @@ export const JsonViewer: FC<JsonViewerProps> = ({ fileName, fileContent }) => {
               padding: spacing.md,
               borderRadius: 1,
               fontSize: "0.75rem",
-              fontFamily: '"IBM Plex Mono", "Menlo", monospace',
+              fontFamily: fonts.mono,
               backgroundColor: 'background.paper',
             }}
           >

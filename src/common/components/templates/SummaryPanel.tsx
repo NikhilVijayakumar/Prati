@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, Typography } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 
@@ -12,7 +12,7 @@ export interface SummaryPanelProps {
   lines: SummaryLine[];
 }
 
-export const SummaryPanel: FC<SummaryPanelProps> = ({ title, lines }) => {
+export const SummaryPanel: FC<SummaryPanelProps> = ({ title, lines }): ReactElement => {
   return (
     <Box
       sx={{

@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 import { StatusDot } from "../atoms/StatusDot";
@@ -35,7 +35,7 @@ export const OperationHealthPanel: FC<OperationHealthPanelProps> = ({
   actions = [],
   footerText,
   isBusy = false,
-}) => {
+}): ReactElement => {
   return (
     <Box
       sx={{

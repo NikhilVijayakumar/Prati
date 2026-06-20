@@ -33,26 +33,7 @@ export interface ReviewDecisionDialogLabels {
   back: string;
 }
 
-export interface ReviewDecisionDialogProps {
-  isOpen: boolean;
-  mode: ReviewDecisionMode;
-  entityType: string;
-  entityName?: string;
-  entitySummary?: string;
-  approveNote: string;
-  rejectNote: string;
-  onModeChange: (mode: ReviewDecisionMode) => void;
-  onApproveNoteChange: (note: string) => void;
-  onRejectNoteChange: (note: string) => void;
-  onApprove: (reviewNote?: string) => void;
-  onReject: (reviewNote: string) => void;
-  onCancel: () => void;
-  isLoading?: boolean;
-  minRejectNoteLength?: number;
-  labels?: Partial<ReviewDecisionDialogLabels>;
-}
-
-const defaultLabels: ReviewDecisionDialogLabels = {
+export const defaultReviewLabels: ReviewDecisionDialogLabels = {
   title: "Review Decision",
   selectAction: "Choose an action below.",
   approveLabel: "Approve",
@@ -69,6 +50,25 @@ const defaultLabels: ReviewDecisionDialogLabels = {
   cancel: "Cancel",
   back: "Back",
 };
+
+export interface ReviewDecisionDialogProps {
+  isOpen: boolean;
+  mode: ReviewDecisionMode;
+  entityType: string;
+  entityName?: string;
+  entitySummary?: string;
+  approveNote: string;
+  rejectNote: string;
+  onModeChange: (mode: ReviewDecisionMode) => void;
+  onApproveNoteChange: (note: string) => void;
+  onRejectNoteChange: (note: string) => void;
+  onApprove: (reviewNote?: string) => void;
+  onReject: (reviewNote: string) => void;
+  onCancel: () => void;
+  isLoading?: boolean;
+  minRejectNoteLength?: number;
+  labels: ReviewDecisionDialogLabels;
+}
 
 export const ReviewDecisionDialog = ({
   isOpen,
@@ -89,7 +89,7 @@ export const ReviewDecisionDialog = ({
   labels,
 }: ReviewDecisionDialogProps): ReactElement => {
   const muiTheme = useMuiTheme();
-  const text = { ...defaultLabels, ...labels };
+  const text = labels;
 
   const isRejectMode = mode === "reject";
   const isApproveMode = mode === "approve";

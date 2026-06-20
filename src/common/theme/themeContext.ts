@@ -2,9 +2,10 @@
 import { createContext, useContext } from 'react';
 import type { ThemeContextValue } from './themeData';
 
-export const ThemeContext = createContext<ThemeContextValue>(
-  {} as ThemeContextValue
-);
+export const ThemeContext = createContext<ThemeContextValue>({
+  darkMode: false,
+  toggleDarkMode: () => {},
+});
 
 export function useTheme() {
   const context = useContext(ThemeContext);

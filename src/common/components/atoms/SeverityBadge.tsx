@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Typography } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 
@@ -16,7 +16,7 @@ export interface SeverityBadgeProps {
   level: SeverityLevel | string;
 }
 
-export const SeverityBadge: FC<SeverityBadgeProps> = ({ level }) => {
+export const SeverityBadge: FC<SeverityBadgeProps> = ({ level }): ReactElement => {
   const colorMap: Record<string, string> = {
     CRITICAL: 'error.main',
     HIGH:     'error.main',

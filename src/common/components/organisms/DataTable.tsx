@@ -1,3 +1,4 @@
+import type { ReactElement, ReactNode } from 'react';
 import {
   Table,
   TableBody,
@@ -17,7 +18,7 @@ export interface Column<T> {
   label: string;
   minWidth?: number;
   align?: 'right' | 'left' | 'center';
-  render?: (row: T) => React.ReactNode;
+  render?: (row: T) => ReactNode;
 }
 
 export interface DataTableProps<T> {
@@ -25,9 +26,10 @@ export interface DataTableProps<T> {
   data: T[];
   keyField: keyof T;
   'aria-label'?: string;
+  cellErrorText?: string;
 }
 
-export const DataTable = <T extends Record<string, any>>({ columns, data, keyField, 'aria-label': ariaLabel }: DataTableProps<T>) => {
+export const DataTable = <T extends Record<string, unknown>>({ columns, data, keyField, 'aria-label': ariaLabel, cellErrorText }: DataTableProps<T>): ReactElement => {
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer
@@ -81,7 +83,7 @@ export const DataTable = <T extends Record<string, any>>({ columns, data, keyFie
                       align={column.align}
                       sx={{ px: spacing.md, py: spacing.sm }}
                     >
-                      {column.render ? <ErrorBoundary fallback={<Typography variant="caption" color="error.main">Error</Typography>}>{column.render(row)}</ErrorBoundary> : row[column.id]}
+                      {column.render ? <ErrorBoundary fallback={cellErrorText ? <Typography variant="caption" color="error.main">{cellErrorText}</Typography> : undefined}>{column.render(row)}</ErrorBoundary> : row[column.id] as React.ReactNode}
                     </TableCell>
                   );
                 })}

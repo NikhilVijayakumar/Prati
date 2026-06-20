@@ -1,10 +1,10 @@
 // src/common/components/atoms/EmptyState.tsx
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
 
-export const EmptyState: FC = () => {
+export const EmptyState: FC = (): ReactElement => {
   const { literal } = useLanguage();
 
   return (

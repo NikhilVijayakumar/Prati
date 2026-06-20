@@ -1,6 +1,9 @@
+import type { ReactElement } from 'react';
 import { motion } from "framer-motion";
 import { useTheme, Paper, Typography, Box, Chip } from "@mui/material";
+import { alpha } from '@mui/material/styles';
 import { spacing } from "../../../theme/tokens/spacing";
+import { fonts } from "../../../theme/tokens/typography";
 
 interface TimelineNodeProps {
   phase: string;
@@ -22,20 +25,16 @@ export const TimelineNode = ({
   tags,
   alignRight = false,
   t,
-}: TimelineNodeProps) => {
+}: TimelineNodeProps): ReactElement => {
   const theme = useTheme();
 
-  // Status badge color
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "active":
-        return "success";
-      case "planned":
-        return "primary";
-      case "vision":
-        return "default";
-      default:
-        return "default";
+  type ChipColor = 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning';
+  const getStatusColor = (s: string): ChipColor => {
+    switch (s) {
+      case "active": return "success";
+      case "planned": return "primary";
+      case "vision": return "default";
+      default: return "default";
     }
   };
 
@@ -76,7 +75,7 @@ export const TimelineNode = ({
             height: 16,
             borderRadius: "50%",
             bgcolor: !alignRight ? "primary.main" : "secondary.main",
-            boxShadow: `0 0 10px ${theme.palette.mode === "dark" ? theme.palette.common.white : theme.palette.common.black}`,
+            boxShadow: `0 0 10px ${alpha(theme.palette.text.primary, 0.5)}`,
             zIndex: 2,
             left: { xs: -28, md: "50%" },
             transform: { xs: "none", md: "translateX(-50%)" },
@@ -132,7 +131,7 @@ export const TimelineNode = ({
             </Typography>
             <Chip
               label={t(`common.status_${status.toLowerCase()}`).toUpperCase()}
-              color={getStatusColor(status) as any}
+              color={getStatusColor(status)}
               size="small"
               sx={{ letterSpacing: "0.05em", height: 20 }}
             />

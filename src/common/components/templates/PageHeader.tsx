@@ -1,4 +1,4 @@
-import { type FC, type ReactNode } from "react";
+import { type FC, type ReactElement, type ReactNode } from "react";
 import {
   Box,
   Button,
@@ -45,7 +45,7 @@ export const PageHeader: FC<PageHeaderProps> = ({
   secondaryAction,
   leadingMeta,
   trailingMeta,
-}) => {
+}): ReactElement => {
   return (
     <Box
       sx={{

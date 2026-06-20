@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 import { Box, Typography } from '@mui/material';
 import { spacing } from "../../../theme/tokens/spacing";
 
@@ -8,7 +8,7 @@ export interface FormLayoutProps {
   actions?: React.ReactNode;
 }
 
-export const FormLayout: FC<FormLayoutProps> = ({ title, children, actions }) => {
+export const FormLayout: FC<FormLayoutProps> = ({ title, children, actions }): ReactElement => {
   return (
     <Box component="section" sx={{ display: 'flex', flexDirection: 'column', gap: spacing.xl, maxWidth: '600px' }}>
       {title && (

@@ -1,11 +1,13 @@
-import { type FC, lazy, Suspense } from "react";
+import { type FC, type ReactElement, lazy, Suspense } from "react";
 import {
   Box,
   Typography,
   Divider,
+  Alert,
 } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
+import { fonts } from "../../../theme/tokens/typography";
 import { ErrorBoundary } from ".";
 
 interface MdViewerProps {
@@ -15,29 +17,34 @@ interface MdViewerProps {
 
 const Markdown = lazy(() => import("react-markdown").then(module => ({ default: module.default })));
 
-export const MdViewer: FC<MdViewerProps> = ({ fileName, fileContent }) => {
+export const MdViewer: FC<MdViewerProps> = ({ fileName, fileContent }): ReactElement => {
   const { literal } = useLanguage();
 
   const LoadingFallback = () => (
     <Box sx={{ p: spacing.md, color: 'text.secondary' }}>{literal["msg.loading"]}</Box>
   );
 
-  const PlainTextFallback = () => (
-    <Box
-      component="pre"
-      sx={{
-        p: spacing.md,
-        color: 'text.primary',
-        backgroundColor: 'action.hover',
-        borderRadius: 1,
-        overflowX: 'auto',
-        fontFamily: 'monospace',
-        fontSize: '0.875rem',
-        whiteSpace: 'pre-wrap',
-        wordBreak: 'break-word',
-      }}
-    >
-      {fileContent}
+  const MarkdownErrorFallback = () => (
+    <Box>
+      <Alert severity="warning" sx={{ mb: spacing.sm }}>
+        {literal["viewer.markdown_render_error"] ?? 'Could not render markdown — showing plain text.'}
+      </Alert>
+      <Box
+        component="pre"
+        sx={{
+          p: spacing.md,
+          color: 'text.primary',
+          backgroundColor: 'action.hover',
+          borderRadius: 1,
+          overflowX: 'auto',
+          fontFamily: fonts.mono,
+          fontSize: '0.875rem',
+          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-word',
+        }}
+      >
+        {fileContent}
+      </Box>
     </Box>
   );
 
@@ -85,7 +92,7 @@ export const MdViewer: FC<MdViewerProps> = ({ fileName, fileContent }) => {
           "& hr": { my: spacing.lg, opacity: 0.1 },
         }}
       >
-        <ErrorBoundary fallback={<PlainTextFallback />}>
+        <ErrorBoundary fallback={<MarkdownErrorFallback />}>
           <Suspense fallback={<LoadingFallback />}>
             <Markdown>{content}</Markdown>
           </Suspense>

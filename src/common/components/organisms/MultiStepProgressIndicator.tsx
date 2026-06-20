@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, Typography, useTheme as useMuiTheme } from "@mui/material";
 import type { Theme } from "@mui/material/styles";
 import { spacing } from "../../../theme/tokens/spacing";
@@ -39,7 +39,7 @@ const statusColorByTone = (
 
 export const MultiStepProgressIndicator: FC<
   MultiStepProgressIndicatorProps
-> = ({ steps, currentStepId }) => {
+> = ({ steps, currentStepId }): ReactElement => {
   const muiTheme = useMuiTheme();
 
   return (

@@ -1,5 +1,5 @@
 // ToolbarComponent.tsx
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
@@ -14,7 +14,7 @@ export const ToolbarComponent: FC<ToolbarProps> = ({
   handleDrawerToggle,
   title,
   themeContext,
-}) => {
+}): ReactElement => {
   const { literal } = useLanguage();
   return (
     <AppBar

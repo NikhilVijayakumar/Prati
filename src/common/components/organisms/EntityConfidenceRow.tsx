@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, Typography, useTheme as useMuiTheme } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 
@@ -24,7 +24,7 @@ export const EntityConfidenceRow: FC<EntityConfidenceRowProps> = ({
   confidence,
   confidenceLabel,
   showDivider = false,
-}) => {
+}): ReactElement => {
   const muiTheme = useMuiTheme();
 
   return (

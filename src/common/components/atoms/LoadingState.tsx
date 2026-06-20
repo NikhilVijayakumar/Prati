@@ -1,10 +1,10 @@
 // src/common/components/atoms/LoadingState.tsx
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
 
-export const LoadingState: FC = () => {
+export const LoadingState: FC = (): ReactElement => {
   const { literal } = useLanguage();
 
   return (

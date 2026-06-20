@@ -10,6 +10,8 @@ import type {
 import type { NavigateOptions, RouterState } from './types';
 import { createNavigationState, navigationStateReducer } from './navigation-state';
 
+const canUseDOM = typeof window !== 'undefined';
+
 export class Router {
   private static instance: Router | null = null;
   private state: RouterState;
@@ -45,12 +47,14 @@ export class Router {
   }
 
   start(): void {
+    if (!canUseDOM) return;
     this.onHashChange = this.handleHashChange.bind(this);
     window.addEventListener('hashchange', this.onHashChange);
     this.handleInitialNavigation();
   }
 
   stop(): void {
+    if (!canUseDOM) return;
     if (this.onHashChange) {
       window.removeEventListener('hashchange', this.onHashChange);
       this.onHashChange = null;
@@ -80,7 +84,9 @@ export class Router {
       this.state.navigationState,
       { type: 'NAVIGATE', screen: screenId, params: resolvedParams, replace: options?.replace },
     );
-    window.location.hash = this.buildHash(screenId, resolvedParams);
+    if (canUseDOM) {
+      window.location.hash = this.buildHash(screenId, resolvedParams);
+    }
     this.emit('navigation', { target: screenId, state: { ...this.state.navigationState } });
   }
 
@@ -89,7 +95,9 @@ export class Router {
     this.state.navigationState = navigationStateReducer(this.state.navigationState, { type: 'GO_BACK' });
     const prev = this.state.navigationState.currentScreen;
     if (prev) {
-      window.location.hash = this.buildHash(prev, this.state.navigationState.params);
+      if (canUseDOM) {
+        window.location.hash = this.buildHash(prev, this.state.navigationState.params);
+      }
       this.emit('navigation', { target: prev, state: { ...this.state.navigationState } });
     }
   }
@@ -216,6 +224,7 @@ export class Router {
   }
 
   private handleInitialNavigation(): void {
+    if (!canUseDOM) return;
     if (window.location.hash) {
       this.handleHashChange();
     } else {
@@ -227,6 +236,7 @@ export class Router {
   }
 
   private handleHashChange(): void {
+    if (!canUseDOM) return;
     const hash = window.location.hash.slice(1);
     const screenId = hash.split('?')[0];
     const params = this.parseHashParams(hash);
@@ -265,6 +275,7 @@ export class Router {
   }
 
   private getHashParam(name: string): string | undefined {
+    if (!canUseDOM) return undefined;
     return this.parseHashParams(window.location.hash.slice(1))[name];
   }
 
@@ -278,7 +289,7 @@ export class Router {
       try {
         listener(event);
       } catch {
-        console.warn('[Router] Listener error');
+        // swallow — one failing listener must not block others
       }
     }
   }

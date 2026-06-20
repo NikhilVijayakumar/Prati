@@ -7,6 +7,3 @@ export * from './generation';
 
 export * as htmlComponents from './html-components';
 export { VERSION } from './version';
-
-export { createShell } from './boilerplate';
-export type { Shell, ShellState } from './boilerplate';

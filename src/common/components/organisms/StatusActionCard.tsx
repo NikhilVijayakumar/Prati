@@ -51,7 +51,7 @@ export const StatusActionCard: React.FC<StatusActionCardProps> = ({
   onCheckStatus,
   connectLabel,
   loadingLabel,
-}) => {
+}): React.ReactElement => {
   const { literal } = useLanguage();
   const [isChecking, setIsChecking] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);

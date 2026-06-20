@@ -1,6 +1,8 @@
-import { memo, useState } from 'react';
+import { memo, useState, type ReactElement } from 'react';
 import { Paper, InputBase, Typography, Box, useTheme } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import ReactMarkdown from 'react-markdown';
+import { fonts } from '../../../theme/tokens/typography';
 
 export interface CanvasNoteProps {
   label: string;
@@ -8,7 +10,7 @@ export interface CanvasNoteProps {
   onChange?: (val: string) => void;
 }
 
-export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNoteProps) => {
+export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNoteProps): ReactElement => {
   const [isEditing, setIsEditing] = useState(false);
   const theme = useTheme();
 
@@ -27,7 +29,7 @@ export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNot
         width: 250,
         height: 'auto',
         minHeight: 150,
-        backgroundColor: theme.palette.mode === 'dark' ? 'grey.900' : 'warning.light',
+        backgroundColor: alpha(theme.palette.warning.main, 0.12),
         color: 'text.primary',
         borderRadius: 1,
         border: selected
@@ -58,7 +60,7 @@ export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNot
             onBlur={handleBlur}
             sx={{
               fontSize: '0.9rem',
-              fontFamily: 'sans-serif',
+              fontFamily: fonts.sans,
               alignItems: 'flex-start',
               height: '100%',
             }}

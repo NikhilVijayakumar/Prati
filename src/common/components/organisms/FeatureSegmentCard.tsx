@@ -22,7 +22,7 @@ export const FeatureSegmentCard: React.FC<FeatureSegmentCardProps> = ({
   tags = [],
   index,
   t,
-}) => {
+}): React.ReactElement => {
   const theme = useTheme();
 
   return (
@@ -40,10 +40,7 @@ export const FeatureSegmentCard: React.FC<FeatureSegmentCardProps> = ({
           borderRadius: spacing.md,
           position: "relative",
           overflow: "hidden",
-          background:
-            theme.palette.mode === "dark"
-              ? `linear-gradient(180deg, ${theme.palette.background.paper} 0%, transparent 100%)`
-              : theme.palette.background.paper,
+          background: theme.palette.background.paper,
           backdropFilter: "blur(12px)",
           border: `1px solid ${theme.palette.divider}`,
           boxShadow: theme.shadows[1],

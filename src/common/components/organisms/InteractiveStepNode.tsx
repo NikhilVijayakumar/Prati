@@ -19,7 +19,7 @@ export const InteractiveStepNode: React.FC<InteractiveStepNodeProps> = ({
   isActive,
   onClick,
   index,
-}) => {
+}): React.ReactElement => {
   const theme = useTheme();
 
   return (

@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 import { Snackbar, Alert, type AlertColor } from '@mui/material';
 import { useLanguage } from '../../localization/LanguageContext';
 
@@ -16,7 +16,7 @@ export const Notification: FC<NotificationProps> = ({
   severity = 'info',
   onClose,
   autoHideDuration = 4000,
-}) => {
+}): ReactElement => {
   const { literal } = useLanguage();
   return (
     <Snackbar

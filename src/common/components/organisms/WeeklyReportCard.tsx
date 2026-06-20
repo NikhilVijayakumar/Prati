@@ -66,7 +66,7 @@ export const WeeklyReportCard: FC<WeeklyReportCardProps> = ({
   slips,
   risks,
   labels,
-}) => {
+}): ReactElement => {
   const muiTheme = useMuiTheme();
 
   return (

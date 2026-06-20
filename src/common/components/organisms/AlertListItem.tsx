@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, Typography, useTheme as useMuiTheme } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 import { SeverityBadge } from "../atoms/SeverityBadge";
@@ -13,6 +13,7 @@ export interface AlertListItemProps {
   message: string;
   severity: "CRITICAL" | "WARNING" | "INFO";
   read: boolean;
+  locale?: string;
 }
 
 export const AlertListItem: FC<AlertListItemProps> = ({
@@ -21,7 +22,8 @@ export const AlertListItem: FC<AlertListItemProps> = ({
   message,
   severity,
   read,
-}) => {
+  locale,
+}): ReactElement => {
   const muiTheme = useMuiTheme();
 
   return (
@@ -66,7 +68,7 @@ export const AlertListItem: FC<AlertListItemProps> = ({
             variant="caption"
             sx={{ color: muiTheme.palette.text.secondary }}
           >
-            {new Date(timestamp).toLocaleTimeString([], {
+            {new Date(timestamp).toLocaleTimeString(locale ? [locale] : [], {
               hour: "2-digit",
               minute: "2-digit",
             })}

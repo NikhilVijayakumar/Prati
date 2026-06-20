@@ -1,4 +1,4 @@
-import { type FC, useState, useMemo } from "react";
+import { type FC, type ReactElement, useState, useMemo } from "react";
 import { Box, Typography, TablePagination } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
@@ -12,7 +12,7 @@ interface CsvViewerProps {
 
 type CsvRow = Record<string, string>;
 
-export const CsvViewer: FC<CsvViewerProps> = ({ fileName, fileContent }) => {
+export const CsvViewer: FC<CsvViewerProps> = ({ fileName, fileContent }): ReactElement => {
   const { literal } = useLanguage();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);

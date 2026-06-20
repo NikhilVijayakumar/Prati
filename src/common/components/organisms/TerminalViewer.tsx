@@ -27,7 +27,7 @@ export const TerminalViewer: React.FC<TerminalViewerProps> = ({
   logs,
   emptyMessage,
   bottomRef,
-}) => {
+}): React.ReactElement => {
   const { literal } = useLanguage();
   const defaultMessage = literal["viewer.waiting_logs"];
   const displayMessage = emptyMessage || defaultMessage;

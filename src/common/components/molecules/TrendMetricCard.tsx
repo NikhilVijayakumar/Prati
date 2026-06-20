@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, Typography } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 
@@ -28,7 +28,7 @@ export const TrendMetricCard: FC<TrendMetricCardProps> = ({
   value,
   trendValue,
   trend,
-}) => {
+}): ReactElement => {
   return (
     <Box
       sx={{

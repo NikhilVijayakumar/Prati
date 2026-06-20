@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import type { FC, ReactElement, ReactNode } from "react";
 import { Box, Typography } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 
@@ -12,7 +12,7 @@ export const EntryLayoutFrame: FC<EntryLayoutFrameProps> = ({
   children,
   titleText = "Authentication",
   enableDragRegion = false,
-}) => {
+}): ReactElement => {
   return (
     <Box
       sx={{

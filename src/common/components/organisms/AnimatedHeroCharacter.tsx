@@ -1,5 +1,7 @@
+import type { ReactElement } from 'react';
 import { motion, useSpring, useTransform, MotionValue, useReducedMotion } from 'framer-motion';
 import { useTheme, Box, Typography } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 
 interface Props {
     char: string;
@@ -12,7 +14,7 @@ interface Props {
     t: (key: string) => string;
 }
 
-export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, index, zIndex, t }: Props) => {
+export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, index, zIndex, t }: Props): ReactElement => {
     const theme = useTheme();
     const prefersReducedMotion = useReducedMotion();
 
@@ -66,7 +68,7 @@ export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, i
                     margin: 0,
                     color: theme.palette.text.primary,
                     textShadow: theme.palette.mode === 'dark'
-                        ? '0px 0px 30px rgba(255,255,255,0.2)'
+                        ? `0px 0px 30px ${alpha(theme.palette.common.white, 0.2)}`
                         : 'none'
                 }}
             >

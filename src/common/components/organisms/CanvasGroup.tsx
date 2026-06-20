@@ -17,7 +17,7 @@ export const CanvasGroup = memo(({
   onChangeLabel,
   onChangeDescription,
   children
-}: CanvasGroupProps) => {
+}: CanvasGroupProps): React.ReactElement => {
   const theme = useTheme();
 
   return (
@@ -43,9 +43,7 @@ export const CanvasGroup = memo(({
             left: 0,
             padding: '4px 12px',
             borderRadius: 4,
-            backgroundColor: theme.palette.mode === 'dark'
-              ? theme.palette.grey[800]
-              : theme.palette.grey[200],
+            backgroundColor: theme.palette.background.default,
             border: `1px solid ${theme.palette.divider}`,
           }}
         >
@@ -80,7 +78,7 @@ export const CanvasGroup = memo(({
               color: 'inherit',
               resize: 'none',
               outline: 'none',
-              fontFamily: 'inherit',
+              fontFamily: theme.typography.fontFamily,
               opacity: 0.7,
             }}
             className="nodrag"

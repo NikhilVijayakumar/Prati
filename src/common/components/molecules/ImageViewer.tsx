@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC, type ReactElement, useState } from "react";
 import {
   Box,
   Typography,
@@ -22,7 +22,7 @@ export const ImageViewer: FC<ImageViewerProps> = ({
   fileContent,
   fileEncoding,
   mimeType,
-}) => {
+}): ReactElement => {
   const { literal } = useLanguage();
   const [zoom, setZoom] = useState(1);
   const [rotation, setRotation] = useState(0);

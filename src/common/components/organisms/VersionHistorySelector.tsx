@@ -5,7 +5,6 @@ import {
   MenuItem,
   Select,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 
@@ -22,6 +21,7 @@ export interface VersionHistorySelectorProps {
   versionPrefix?: string;
   latestLabel?: string;
   availableLabel?: string;
+  locale?: string;
 }
 
 export const VersionHistorySelector: React.FC<VersionHistorySelectorProps> = ({
@@ -32,9 +32,8 @@ export const VersionHistorySelector: React.FC<VersionHistorySelectorProps> = ({
   versionPrefix = "v",
   latestLabel = "Latest",
   availableLabel = "available",
-}) => {
-  const theme = useTheme();
-
+  locale,
+}): React.ReactElement | null => {
   if (!entries || entries.length <= 1) {
     return null;
   }
@@ -44,7 +43,7 @@ export const VersionHistorySelector: React.FC<VersionHistorySelectorProps> = ({
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString("en-US", {
+      return date.toLocaleDateString(locale, {
         year: "numeric",
         month: "short",
         day: "numeric",
@@ -65,8 +64,7 @@ export const VersionHistorySelector: React.FC<VersionHistorySelectorProps> = ({
         p: spacing.sm,
         borderBottom: 1,
         borderColor: "divider",
-        backgroundColor:
-          theme.palette.mode === "dark" ? "background.paper" : "grey.50",
+        backgroundColor: "background.paper",
       }}
     >
       <Typography variant="body2" fontWeight="medium">

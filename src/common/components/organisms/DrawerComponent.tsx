@@ -1,5 +1,6 @@
 // package src/common/components/navigation/DrawerComponent.tsx
 
+import type { ReactElement } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -13,7 +14,7 @@ import { type Features, type DrawerProps, drawerWidth } from './drawerData';
 import { useLanguage } from '../../localization/LanguageContext';
 
 
-export const DrawerComponent = <T extends Features>(props: DrawerProps<T>) => {
+export const DrawerComponent = <T extends Features>(props: DrawerProps<T>): ReactElement => {
   const {
     sortedFeatures,
     UiFeatureList,

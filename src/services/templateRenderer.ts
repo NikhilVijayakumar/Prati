@@ -1,10 +1,5 @@
 import handlebars from "handlebars";
-import fs from "fs/promises";
-import path from "path";
 
-handlebars.registerHelper("ifEquals", function (this: unknown, a: unknown, b: unknown, options: Handlebars.HelperOptions) {
-  return a === b ? options.fn(this) : options.inverse(this);
-});
 import type {
   TemplateRendererConfig,
   RenderTemplateOptions,
@@ -21,6 +16,10 @@ export function createTemplateRenderer(cfg?: TemplateRendererConfig & { template
   const templates = cfg?.templates ?? bundledTemplates ?? null;
   const basePath = cfg?.basePath;
 
+  handlebars.registerHelper("ifEquals", function (this: unknown, a: unknown, b: unknown, options: Handlebars.HelperOptions) {
+    return a === b ? options.fn(this) : options.inverse(this);
+  });
+
   async function render(options: RenderTemplateOptions): Promise<RenderResult> {
     const { templateName, data } = options;
 
@@ -34,8 +33,12 @@ export function createTemplateRenderer(cfg?: TemplateRendererConfig & { template
     }
 
     if (isNode() && basePath) {
-      const filePath = path.join(basePath, `${templateName}.hbs`);
       try {
+        const [{ default: fs }, { default: path }] = await Promise.all([
+          import('fs/promises'),
+          import('path'),
+        ]);
+        const filePath = path.join(basePath, `${templateName}.hbs`);
         const source = await fs.readFile(filePath, "utf-8");
         const compiled = handlebars.compile(source);
         return { success: true, html: compiled(data) };

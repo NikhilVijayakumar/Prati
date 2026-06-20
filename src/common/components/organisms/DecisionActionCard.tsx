@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import {
   Box,
   Button,
@@ -27,7 +27,7 @@ export const DecisionActionCard: FC<DecisionActionCardProps> = ({
   description,
   expiryText,
   actions,
-}) => {
+}): ReactElement => {
   const muiTheme = useMuiTheme();
 
   return (

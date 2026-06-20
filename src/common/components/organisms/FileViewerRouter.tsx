@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { CsvViewer } from "./CsvViewer";
 import { MdViewer } from "../molecules/MdViewer";
 import { ImageViewer } from "../molecules/ImageViewer";
@@ -20,7 +20,7 @@ export const FileViewerRouter: FC<FileViewerRouterProps> = ({
   fileContent,
   fileEncoding,
   mimeType,
-}) => {
+}): ReactElement => {
   const { literal } = useLanguage();
   const ext = fileName.split(".").pop()?.toLowerCase();
 

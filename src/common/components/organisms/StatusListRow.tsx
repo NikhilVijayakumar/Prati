@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { Box, Typography, useTheme as useMuiTheme } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 import { StatusDot, type StatusDotTone } from "../atoms/StatusDot";
@@ -17,7 +17,7 @@ export const StatusListRow: FC<StatusListRowProps> = ({
   statusLine,
   health,
   showDivider = false,
-}) => {
+}): ReactElement => {
   const muiTheme = useMuiTheme();
 
   return (

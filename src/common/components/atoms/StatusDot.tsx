@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
 import { Box } from '@mui/material';
 
 export type StatusDotTone = 'ok' | 'warning' | 'error' | 'executing' | 'waiting' | 'default';
@@ -18,7 +18,7 @@ const toneColorMap: Record<StatusDotTone, string> = {
   default: 'text.secondary',
 };
 
-export const StatusDot: FC<StatusDotProps> = ({ tone, size = 10, ariaLabel }) => {
+export const StatusDot: FC<StatusDotProps> = ({ tone, size = 10, ariaLabel }): ReactElement => {
   return (
     <Box
       role={ariaLabel ? 'img' : undefined}

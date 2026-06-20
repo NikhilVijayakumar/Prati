@@ -30,7 +30,7 @@ export const FileTree: React.FC<FileTreeProps> = ({
   onToggle,
   onSelect,
   level = 0
-}) => {
+}): React.ReactElement => {
   return (
     <List component="div" disablePadding>
       {nodes.map((node) => {

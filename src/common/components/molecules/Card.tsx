@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, ReactElement } from "react";
 import { Box, Paper, Typography } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 
@@ -14,7 +14,7 @@ export const Card = ({
   supportingText,
   children,
   action,
-}: CardProps) => {
+}: CardProps): ReactElement => {
   return (
     <Paper
       component="article"

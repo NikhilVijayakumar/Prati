@@ -11,7 +11,7 @@ interface IconDescriptionListItemProps {
     t: (key: string) => string;
 }
 
-export const IconDescriptionListItem: React.FC<IconDescriptionListItemProps> = ({ title, description, Icon, index, t }) => {
+export const IconDescriptionListItem: React.FC<IconDescriptionListItemProps> = ({ title, description, Icon, index, t }): React.ReactElement => {
     const theme = useTheme();
 
     return (

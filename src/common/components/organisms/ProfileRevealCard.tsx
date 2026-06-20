@@ -15,7 +15,7 @@ interface ProfileRevealCardProps {
     t: (key: string) => string;
 }
 
-export const ProfileRevealCard: React.FC<ProfileRevealCardProps> = ({ name, nameKey, role, bio, imageUrl, themeColor, primaryBadge, secondaryMetadata, t }) => {
+export const ProfileRevealCard: React.FC<ProfileRevealCardProps> = ({ name, nameKey, role, bio, imageUrl, themeColor, primaryBadge, secondaryMetadata, t }): React.ReactElement => {
     const theme = useTheme();
     return (
         <motion.div

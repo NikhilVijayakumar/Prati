@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, useTheme } from '@mui/material';
+import { alpha } from '@mui/material/styles';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -24,7 +25,7 @@ interface MultiPhaseWorkflowDiagramProps {
   t: (key: string) => string;
 }
 
-export const MultiPhaseWorkflowDiagram: React.FC<MultiPhaseWorkflowDiagramProps> = ({ flows, activeStepId, onStepChange, t }) => {
+export const MultiPhaseWorkflowDiagram: React.FC<MultiPhaseWorkflowDiagramProps> = ({ flows, activeStepId, onStepChange, t }): React.ReactElement => {
   const theme = useTheme();
 
   // Collect all steps for lookup
@@ -55,9 +56,7 @@ export const MultiPhaseWorkflowDiagram: React.FC<MultiPhaseWorkflowDiagramProps>
             left: '5%',
             right: '5%',
             height: '2px',
-            background: theme.palette.mode === 'dark' 
-              ? 'linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 100%)' 
-              : 'linear-gradient(90deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.05) 100%)',
+            background: `linear-gradient(90deg, ${alpha(theme.palette.text.primary, 0.05)} 0%, ${alpha(theme.palette.text.primary, 0.1)} 50%, ${alpha(theme.palette.text.primary, 0.05)} 100%)`,
             transform: 'translateY(-50%)',
             zIndex: -1,
             display: { xs: 'none', md: 'block' }

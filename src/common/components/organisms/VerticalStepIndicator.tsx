@@ -10,7 +10,7 @@ interface VerticalStepIndicatorProps {
     sx?: SxProps<Theme>;
 }
 
-export const VerticalStepIndicator: React.FC<VerticalStepIndicatorProps> = ({ activeIndex, totalSteps, sx }) => {
+export const VerticalStepIndicator: React.FC<VerticalStepIndicatorProps> = ({ activeIndex, totalSteps, sx }): React.ReactElement => {
     const theme = useTheme();
 
     return (

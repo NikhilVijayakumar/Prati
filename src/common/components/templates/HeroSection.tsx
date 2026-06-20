@@ -1,4 +1,4 @@
-import { type FC, type ReactNode, useState, useEffect } from "react";
+import { type FC, type ReactElement, type ReactNode, useState, useEffect } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { spacing } from "../../../theme/tokens/spacing";
@@ -110,7 +110,7 @@ export const HeroSection: FC<HeroSectionProps> = ({
   animationDuration = 600,
   animationDelay = 0,
   animationStagger: _animationStagger = 100,
-}) => {
+}): ReactElement => {
   const config = animationConfigs[animationVariant];
   const shouldAnimate = enableAnimation && config;
   const isTypewriter = animationVariant === "typewriter";

@@ -14,7 +14,7 @@ interface PlayableMediaCardProps {
     t: (key: string) => string;
 }
 
-export const PlayableMediaCard: React.FC<PlayableMediaCardProps> = ({ title, artist, category, duration, coverUrl, isPlaying, onPlay, t }) => {
+export const PlayableMediaCard: React.FC<PlayableMediaCardProps> = ({ title, artist, category, duration, coverUrl, isPlaying, onPlay, t }): React.ReactElement => {
     const theme = useTheme();
     return (
         <motion.div

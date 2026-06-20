@@ -22,7 +22,7 @@ export const AudioPlayerBar: React.FC<AudioPlayerBarProps> = ({
   audioUrl,
   isPlaying,
   onTogglePlay,
-}) => {
+}): React.ReactElement => {
   const theme = useTheme();
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
