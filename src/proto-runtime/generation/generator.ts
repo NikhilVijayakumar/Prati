@@ -119,6 +119,7 @@ function generateShellHtml(config: ProtoRuntimeConfig): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self';" />
   <title>${config.localization?.resources?.en?.['shell.title'] ?? 'Prototype'}</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono&display=swap" />
   <style>
@@ -157,7 +158,7 @@ function generateShellHtml(config: ProtoRuntimeConfig): string {
         var screenId = window.location.hash.slice(1).split('?')[0];
         var viewport = document.getElementById('pr-viewport');
         if (viewport) {
-          viewport.innerHTML = '<p style="color: var(--pr-text-secondary); text-align: center; padding: var(--pr-spacing-6);">Screen: ' + screenId + '</p>';
+          viewport.textContent = 'Screen: ' + screenId;
         }
       }
     });
