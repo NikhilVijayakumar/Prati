@@ -2,7 +2,7 @@
 // path: src/common/theme/ThemeProvider.tsx
 import { useState, useMemo, useEffect } from "react";
 import { ThemeContext } from "./themeContext";
-import { ThemeProviderProps } from "./themeData";
+import type { ThemeProviderProps } from "./themeData";
 import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 
 // We extend the original props type to add our optional prop
@@ -11,6 +11,12 @@ type ControllableThemeProviderProps = ThemeProviderProps & {
   forceTheme?: "light" | "dark";
 };
 
+/**
+ * @stateless-exception
+ * Reason: Dark mode preference persistence — UX convenience for ThemeProvider only.
+ * Scope: ThemeProvider exclusively. Not a general pattern.
+ * SSR guard required: typeof localStorage !== 'undefined'
+ */
 export function ThemeProvider({
   children,
   lightTheme,

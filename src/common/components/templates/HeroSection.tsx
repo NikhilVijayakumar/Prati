@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState, useEffect } from "react";
+import { type FC, type ReactNode, useState, useEffect } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { spacing } from "../../../theme/tokens/spacing";

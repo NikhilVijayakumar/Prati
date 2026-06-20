@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Box, Typography, useTheme as useMuiTheme } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
-import { StatusDot, StatusDotTone } from "../atoms/StatusDot";
+import { StatusDot, type StatusDotTone } from "../atoms/StatusDot";
 
 const DOMAIN_COLUMN_WIDTH = 150;
 

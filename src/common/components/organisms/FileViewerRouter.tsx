@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { CsvViewer } from "./CsvViewer";
 import { MdViewer } from "../molecules/MdViewer";
 import { ImageViewer } from "../molecules/ImageViewer";

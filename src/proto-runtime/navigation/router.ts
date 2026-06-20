@@ -5,11 +5,13 @@ import type {
   RouterEvent,
   ScreenDefinition,
   WorkflowDefinition,
+  WorkflowStep,
 } from '../types';
 import type { NavigateOptions, RouterState } from './types';
 import { createNavigationState, navigationStateReducer } from './navigation-state';
 
 export class Router {
+  private static instance: Router | null = null;
   private state: RouterState;
   private onHashChange: (() => void) | null = null;
 
@@ -39,6 +41,7 @@ export class Router {
       listeners: new Set(),
       deepLinks,
     };
+    Router.instance = this;
   }
 
   start(): void {
@@ -54,8 +57,8 @@ export class Router {
     }
   }
 
-  getInstance(): Router | null {
-    return routerInstance;
+  static getInstance(): Router | null {
+    return Router.instance;
   }
 
   navigate(screenId: string, options?: NavigateOptions): void {
@@ -145,7 +148,7 @@ export class Router {
       this.emit('error', { error: `Workflow not found: ${workflowId}` });
       return;
     }
-    const stepIndex = workflow.steps.findIndex((s) => s.id === stepId);
+    const stepIndex = workflow.steps.findIndex((s: WorkflowStep) => s.id === stepId);
     if (stepIndex < 0) {
       this.emit('error', { error: `Step not found: ${stepId}` });
       return;

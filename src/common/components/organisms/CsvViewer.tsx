@@ -1,8 +1,8 @@
-import { FC, useState, useMemo } from "react";
+import { type FC, useState, useMemo } from "react";
 import { Box, Typography, TablePagination } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
-import { DataTable, Column } from "./DataTable";
+import { DataTable, type Column } from "./DataTable";
 import { parseCsv } from "./parseCsv";
 
 interface CsvViewerProps {

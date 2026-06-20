@@ -1,21 +1,16 @@
 import { memo, useState } from 'react';
 import { Paper, InputBase, Typography, Box, useTheme } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
-import { useLanguage } from '../../localization/LanguageContext';
 
 export interface CanvasNoteProps {
   label: string;
   selected?: boolean;
   onChange?: (val: string) => void;
-  noteLabel?: string;
-  placeholderLabel?: string;
-  emptyLabel?: string;
 }
 
-export const CanvasNote = memo(({ label, selected = false, onChange, noteLabel, placeholderLabel, emptyLabel }: CanvasNoteProps) => {
+export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNoteProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const theme = useTheme();
-  const { literal } = useLanguage();
 
   const handleDoubleClick = () => {
     setIsEditing(true);

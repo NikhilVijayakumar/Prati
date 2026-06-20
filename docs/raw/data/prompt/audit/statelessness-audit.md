@@ -287,3 +287,110 @@ When checking compliance:
 - Do NOT override invariant rules based on perceived convenience
 - A component that receives data through props and renders without side effects is compliant even if the parent fetches data
 - Findings overlapping with component-purity audit (same invariant, same evidence) must be flagged for deduplication in the fix plan
+
+---
+
+# Required Report Structure
+
+## 1. Executive Summary
+
+```text
+# Statelessness Audit Report — {timestamp}
+
+Overall Assessment:
+Audit Score:
+Critical Findings (P0):
+Major Findings (P1):
+Minor Findings (P2):
+Compliant (P3):
+Files Audited:
+```
+
+## 2. Audited Files
+
+Numbered list of all files reviewed.
+
+## 3. Summary
+
+Count per severity (P0–P3).
+
+## 4. Overall Score
+
+Per-dimension score out of 100.
+
+| Dimension | Score |
+| --------- | ----- |
+| Mutable State | X/100 |
+| Hidden Side Effects | X/100 |
+| Persistence Leakage | X/100 |
+| Runtime Coupling | X/100 |
+| **Overall** | **X/100** |
+
+## 5. Findings
+
+All detailed findings using the Finding Format.
+
+## 6. Cross-Suite Overlap
+
+Findings shared with component-purity audit (Stateless UI dimension); deduplication guidance for fix plan.
+
+## 7. Transitional Violations
+
+Known documented tech debt.
+
+## 8. Score Improvement Summary
+
+Compare against the previous report from `docs/raw/report/statelessness/archive/` (highest timestamp). If no previous report exists, state "Baseline — no prior report to compare."
+
+```text
+Previous Report: {filename}
+Previous Score: X/100
+Current Score: Y/100
+Change: +N / -N / No change
+```
+
+| Dimension | Previous | Current | Change |
+| --------- | -------- | ------- | ------ |
+| Mutable State | X | Y | +N |
+| Hidden Side Effects | X | Y | +N |
+| Persistence Leakage | X | Y | +N |
+| Runtime Coupling | X | Y | +N |
+
+If score improved, highlight the categories that drove the improvement and what fixes were applied since the prior audit. If score declined, flag regressions with specific category breakdowns.
+
+## 9. Final Verdict
+
+```text
+{Assessment} ({Score}/100)
+```
+
+## 10. Audit Traceability
+
+| Reference | Location |
+| --------- | -------- |
+| Invariant Document | docs/raw/architecture/invariants/stateless-ui.md |
+| Component Source | src/common/components/** |
+| Hook Source | src/common/hooks/** |
+| Audit Report | docs/raw/report/statelessness/latest/statelessness-{module}-{timestamp}.md |
+| Previous Report | docs/raw/report/statelessness/archive/{previous-filename} |
+
+---
+
+# Report Rotation
+
+Before writing the new report, rotate the previous report:
+
+```text
+mv docs/raw/report/statelessness/latest/* docs/raw/report/statelessness/archive/
+mkdir -p docs/raw/report/statelessness/latest
+```
+
+---
+
+# Output Location
+
+Write the final report to:
+
+```text
+docs/raw/report/statelessness/latest/statelessness-{module}-{timestamp}.md
+```

@@ -1,6 +1,8 @@
 import type {
   NavigationState,
   NavigationListener,
+  ScreenDefinition,
+  WorkflowDefinition,
 } from '../types';
 
 export type {

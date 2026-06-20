@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import { Features, DrawerProps, drawerWidth } from './drawerData';
+import { type Features, type DrawerProps, drawerWidth } from './drawerData';
 import { useLanguage } from '../../localization/LanguageContext';
 
 

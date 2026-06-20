@@ -1,6 +1,6 @@
 //src\common\localization\LanguageProvider.tsx
-import { useState, useEffect, ReactNode } from 'react';
-import { LanguageContext, LanguageDefinition } from './LanguageContext';
+import { useState, useEffect, type ReactNode } from 'react';
+import { LanguageContext, type LanguageDefinition } from './LanguageContext';
 
 export type TranslationMap = {
   [key: string]: Record<string, string>;

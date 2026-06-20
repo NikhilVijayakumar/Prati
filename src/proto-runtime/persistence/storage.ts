@@ -44,10 +44,13 @@ class MemoryStorage implements StorageAdapter {
 }
 
 class WebStorageAdapter implements StorageAdapter {
-  constructor(
-    private backend: StorageBackend,
-    private namespace: string,
-  ) {}
+  private backend: StorageBackend;
+  private namespace: string;
+
+  constructor(backend: StorageBackend, namespace: string) {
+    this.backend = backend;
+    this.namespace = namespace;
+  }
 
   private get storage(): Storage | null {
     try {

@@ -1,5 +1,5 @@
 // ToolbarData.ts
-import { ThemeContextValue } from "../../theme/themeData";
+import type { ThemeContextValue } from "../../theme/themeData";
 
 export interface ToolbarProps {
   handleDrawerToggle: () => void;

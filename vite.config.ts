@@ -3,6 +3,30 @@ import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import path from "path";
 
+const globals: Record<string, string> = {
+  react: "React",
+  "react-dom": "ReactDOM",
+  "react/jsx-runtime": "ReactJsxRuntime",
+  "react/jsx-dev-runtime": "ReactJsxDevRuntime",
+  "@mui/material": "MaterialUI",
+  "@mui/material/styles": "materialStyles",
+  "@mui/icons-material": "MUIIcons",
+  "@emotion/react": "emotionReact",
+  "@emotion/styled": "emotionStyled",
+};
+
+const subpathGlobal = (id: string): string | undefined => {
+  if (id.startsWith("@mui/material/")) {
+    const name = id.split("/").pop()!;
+    return name;
+  }
+  if (id.startsWith("@mui/icons-material/")) {
+    const name = id.split("/").pop()!;
+    return name.endsWith("Icon") ? name : `${name}Icon`;
+  }
+  return undefined;
+};
+
 export default defineConfig({
   plugins: [
     react(),
@@ -24,11 +48,10 @@ export default defineConfig({
   ],
 
   build: {
+    sourcemap: true,
     lib: {
       entry: path.resolve(__dirname, "src/lib.ts"),
       name: "Prati",
-      formats: ["es", "umd"],
-      fileName: (format) => `prati.${format}.js`,
     },
     rollupOptions: {
       external: (id) => {
@@ -44,32 +67,18 @@ export default defineConfig({
       output: [
         {
           format: "es",
-          globals: {
-            react: "React",
-            "react-dom": "ReactDOM",
-            "react/jsx-runtime": "ReactJsxRuntime",
-            "react/jsx-dev-runtime": "ReactJsxDevRuntime",
-            "@mui/material": "MaterialUI",
-            "@mui/material/styles": "materialStyles",
-            "@mui/icons-material": "MUIIcons",
-            "@emotion/react": "emotionReact",
-            "@emotion/styled": "emotionStyled",
+          entryFileNames: "prati.es.js",
+          globals(id: string) {
+            return globals[id] ?? subpathGlobal(id);
           },
         },
         {
           format: "umd",
           name: "Prati",
+          entryFileNames: "prati.umd.js",
           interop: "default",
-          globals: {
-            react: "React",
-            "react-dom": "ReactDOM",
-            "react/jsx-runtime": "ReactJsxRuntime",
-            "react/jsx-dev-runtime": "ReactJsxDevRuntime",
-            "@mui/material": "MaterialUI",
-            "@mui/material/styles": "materialStyles",
-            "@mui/icons-material": "MUIIcons",
-            "@emotion/react": "emotionReact",
-            "@emotion/styled": "emotionStyled",
+          globals(id: string) {
+            return globals[id] ?? subpathGlobal(id);
           },
         },
       ],

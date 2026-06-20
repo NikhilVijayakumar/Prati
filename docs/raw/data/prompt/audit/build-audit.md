@@ -278,7 +278,7 @@ The audit report MUST include:
 The report MUST be written to:
 
 ```
-docs/raw/report/xbuild/latest/xbuild-{module}-{timestamp}.md
+docs/raw/report/build/latest/build-{module}-{timestamp}.md
 ```
 
 ---
@@ -291,3 +291,112 @@ When checking compliance:
 - For each finding, reference the specific Allowed or Forbidden pattern section from deterministic-build.md
 - Do NOT override invariant rules based on perceived convenience
 - Findings overlapping with library-governance audit must be flagged for deduplication in the fix plan
+
+---
+
+# Required Report Structure
+
+## 1. Executive Summary
+
+```text
+# Build Audit Report — {timestamp}
+
+Overall Assessment:
+Audit Score:
+Critical Findings (P0):
+Major Findings (P1):
+Minor Findings (P2):
+Compliant (P3):
+Config Files Audited:
+```
+
+## 2. Audited Files
+
+Numbered list of all configuration files reviewed.
+
+## 3. Summary
+
+Count per severity (P0–P3).
+
+## 4. Overall Score
+
+Per-dimension score out of 100.
+
+| Dimension | Score |
+| --------- | ----- |
+| Vite Correctness | X/100 |
+| Bundle Determinism | X/100 |
+| Type Generation | X/100 |
+| ESM/UMD Validity | X/100 |
+| **Overall** | **X/100** |
+
+## 5. Findings
+
+All detailed findings using the Finding Format.
+
+## 6. Cross-Suite Overlap
+
+Findings shared with library-governance audit (Deterministic Build dimension); deduplication guidance for fix plan.
+
+## 7. Transitional Violations
+
+Known documented build debt.
+
+## 8. Score Improvement Summary
+
+Compare against the previous report from `docs/raw/report/build/archive/` (highest timestamp). If no previous report exists, state "Baseline — no prior report to compare."
+
+```text
+Previous Report: {filename}
+Previous Score: X/100
+Current Score: Y/100
+Change: +N / -N / No change
+```
+
+| Dimension | Previous | Current | Change |
+| --------- | -------- | ------- | ------ |
+| Vite Correctness | X | Y | +N |
+| Bundle Determinism | X | Y | +N |
+| Type Generation | X | Y | +N |
+| ESM/UMD Validity | X | Y | +N |
+
+If score improved, highlight the categories that drove the improvement and what fixes were applied since the prior audit. If score declined, flag regressions with specific category breakdowns.
+
+## 9. Final Verdict
+
+```text
+{Assessment} ({Score}/100)
+```
+
+## 10. Audit Traceability
+
+| Reference | Location |
+| --------- | -------- |
+| Invariant Document | docs/raw/architecture/invariants/deterministic-build.md |
+| Build Config | vite.config.ts |
+| Type Config | tsconfig.json |
+| Package Manifest | package.json |
+| CI Config | .github/workflows/** (if available) |
+| Audit Report | docs/raw/report/build/latest/build-{module}-{timestamp}.md |
+| Previous Report | docs/raw/report/build/archive/{previous-filename} |
+
+---
+
+# Report Rotation
+
+Before writing the new report, rotate the previous report:
+
+```text
+mv docs/raw/report/build/latest/* docs/raw/report/build/archive/
+mkdir -p docs/raw/report/build/latest
+```
+
+---
+
+# Output Location
+
+Write the final report to:
+
+```text
+docs/raw/report/build/latest/build-{module}-{timestamp}.md
+```

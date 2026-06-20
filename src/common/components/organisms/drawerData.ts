@@ -1,5 +1,5 @@
 // path src\common\components\navigation\drawerData.ts
-import { SvgIconComponent } from '@mui/icons-material';
+import type { SvgIconComponent } from '@mui/icons-material';
 
 export type UiFeature = {
   url: string;

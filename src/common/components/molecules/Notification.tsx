@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Snackbar, Alert, AlertColor } from '@mui/material';
+import type { FC } from 'react';
+import { Snackbar, Alert, type AlertColor } from '@mui/material';
 import { useLanguage } from '../../localization/LanguageContext';
 
 export interface NotificationProps {

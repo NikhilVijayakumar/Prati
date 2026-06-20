@@ -1,4 +1,4 @@
-import { FC, lazy, Suspense } from "react";
+import { type FC, lazy, Suspense } from "react";
 import {
   Box,
   Typography,

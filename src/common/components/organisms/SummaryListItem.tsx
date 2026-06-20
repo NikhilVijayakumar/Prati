@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Box, Typography, useTheme as useMuiTheme } from "@mui/material";
 import { spacing } from "../../../theme/tokens/spacing";
 import { SeverityBadge } from "../atoms/SeverityBadge";

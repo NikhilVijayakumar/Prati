@@ -1,12 +1,12 @@
 // ToolbarComponent.tsx
-import { FC } from "react";
+import type { FC } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import { ThemeToggle } from "../../theme/ThemeToggle";
-import { ToolbarProps } from "./ToolbarData";
+import type { ToolbarProps } from "./ToolbarData";
 import { spacing } from "../../../theme/tokens/spacing";
 import { useLanguage } from "../../localization/LanguageContext";
 

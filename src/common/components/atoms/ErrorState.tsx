@@ -1,6 +1,6 @@
 // src/common/components/atoms/ErrorState.tsx
 
-import { FC } from "react";
+import type { FC } from "react";
 import { Box, Alert } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";

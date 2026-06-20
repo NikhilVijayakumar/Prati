@@ -1,6 +1,6 @@
 //path : src\common\theme\themeData.ts
-import { ReactNode } from 'react';
-import { Theme } from '@mui/material/styles'; // Import the MUI Theme type
+import type { ReactNode } from 'react';
+import type { Theme } from '@mui/material/styles'; // Import the MUI Theme type
 
 export type ThemeContextValue = {
   darkMode: boolean;

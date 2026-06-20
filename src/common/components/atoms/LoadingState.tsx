@@ -1,5 +1,5 @@
 // src/common/components/atoms/LoadingState.tsx
-import { FC } from "react";
+import type { FC } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";

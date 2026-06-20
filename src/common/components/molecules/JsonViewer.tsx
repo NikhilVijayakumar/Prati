@@ -1,4 +1,4 @@
-import { FC, lazy, Suspense, useState, useMemo } from "react";
+import { type FC, lazy, Suspense, useState, useMemo, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { useLanguage } from "../../localization/LanguageContext";
 import { spacing } from "../../../theme/tokens/spacing";
@@ -62,8 +62,11 @@ export const JsonViewer: FC<JsonViewerProps> = ({ fileName, fileContent }) => {
   const normalized = useMemo(() => normalizeJsonForDisplay(fileName, fileContent, emptyMessage), [fileName, fileContent, emptyMessage]);
   const [style, setStyle] = useState<Record<string, React.CSSProperties> | null>(null);
 
-  if (!style) {
+  useEffect(() => {
     vscDarkPlusPromise.then(setStyle);
+  }, []);
+
+  if (!style) {
     return <LoadingFallback />;
   }
 

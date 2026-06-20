@@ -289,3 +289,110 @@ When checking compliance:
 - Do NOT flag React's built-in escaping as insufficient — XSS findings must demonstrate actual injection paths
 - Dependency findings should cross-reference with library-governance audit to avoid duplication
 - Flagging a pattern as P0 requires demonstrating a realistic exploit path, not theoretical risk
+
+---
+
+# Required Report Structure
+
+## 1. Executive Summary
+
+```text
+# Security Audit Report — {timestamp}
+
+Overall Assessment:
+Audit Score:
+Critical Findings (P0):
+Major Findings (P1):
+Minor Findings (P2):
+Compliant (P3):
+Files Audited:
+```
+
+## 2. Audited Files
+
+Numbered list of all files reviewed.
+
+## 3. Summary
+
+Count per severity (P0–P3).
+
+## 4. Overall Score
+
+Per-dimension score out of 100.
+
+| Dimension | Score |
+| --------- | ----- |
+| Cross-Site Scripting (XSS) | X/100 |
+| Sensitive Data Exposure | X/100 |
+| Dependency Vulnerabilities | X/100 |
+| Input Validation & Injection | X/100 |
+| Build & Deployment Security | X/100 |
+| **Overall** | **X/100** |
+
+## 5. Findings
+
+All detailed findings using the Finding Format.
+
+## 6. Transitional Violations
+
+Accepted risks with documented rationale.
+
+## 7. Score Improvement Summary
+
+Compare against the previous report from `docs/raw/report/security/archive/` (highest timestamp). If no previous report exists, state "Baseline — no prior report to compare."
+
+```text
+Previous Report: {filename}
+Previous Score: X/100
+Current Score: Y/100
+Change: +N / -N / No change
+```
+
+| Dimension | Previous | Current | Change |
+| --------- | -------- | ------- | ------ |
+| Cross-Site Scripting (XSS) | X | Y | +N |
+| Sensitive Data Exposure | X | Y | +N |
+| Dependency Vulnerabilities | X | Y | +N |
+| Input Validation & Injection | X | Y | +N |
+| Build & Deployment Security | X | Y | +N |
+
+If score improved, highlight the categories that drove the improvement and what fixes were applied since the prior audit. If score declined, flag regressions with specific category breakdowns.
+
+## 8. Final Verdict
+
+```text
+{Assessment} ({Score}/100)
+```
+
+## 9. Audit Traceability
+
+| Reference | Location |
+| --------- | -------- |
+| Source Code | src/** |
+| Package Manifests | package.json, package-lock.json |
+| Build Config | vite.config.ts |
+| HTML Entry | index.html |
+| Environment Config | .env, .env.example |
+| Audit Report | docs/raw/report/security/latest/security-{module}-{timestamp}.md |
+| Previous Report | docs/raw/report/security/archive/{previous-filename} |
+
+---
+
+# Report Rotation
+
+Before writing the new report, rotate the previous report:
+
+```text
+mv docs/raw/report/security/latest/* docs/raw/report/security/archive/
+mkdir -p docs/raw/report/security/latest
+```
+
+---
+
+# Output Location
+
+Write the final report to:
+
+```text
+docs/raw/report/security/latest/security-{module}-{timestamp}.md
+```

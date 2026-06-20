@@ -3,7 +3,7 @@
   "private": false,
   "version": "0.1.0",
   "type": "module",
-  "main": "./dist/prati.es.js",
+  "main": "./dist/prati.umd.js",
   "module": "./dist/prati.es.js",
   "browser": "./dist/prati.es.js",
   "types": "./dist/lib.d.ts",
@@ -11,22 +11,23 @@
     ".": {
       "types": "./dist/lib.d.ts",
       "import": "./dist/prati.es.js",
-      "require": "./dist/prati.es.js",
+      "require": "./dist/prati.umd.js",
       "default": "./dist/prati.es.js"
     },
     "./components": {
       "types": "./dist/lib.d.ts",
       "import": "./dist/prati.es.js",
-      "require": "./dist/prati.es.js",
+      "require": "./dist/prati.umd.js",
       "default": "./dist/prati.es.js"
     },
     "./theme": {
       "types": "./dist/lib.d.ts",
       "import": "./dist/prati.es.js",
-      "require": "./dist/prati.es.js",
+      "require": "./dist/prati.umd.js",
       "default": "./dist/prati.es.js"
     }
   },
+  "sideEffects": false,
   "files": [
     "dist"
   ],
@@ -50,35 +51,36 @@
   },
   "dependencies": {
     "@mui/icons-material": "7.2.0",
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
-    "@types/react-syntax-highlighter": "^15.5.13",
     "framer-motion": "11.18.2",
     "handlebars": "^4.7.9",
     "lucide-react": "0.400.0",
-    "react": ">=19.0.0",
-    "react-dom": ">=19.0.0",
     "react-markdown": "10.1.0",
     "react-syntax-highlighter": "16.1.1"
   },
+  "overrides": {
+    "esbuild": "0.28.1"
+  },
   "devDependencies": {
     "@eslint/js": "9.30.1",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.1",
-    "@testing-library/user-event": "^14.6.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.1",
+    "@testing-library/user-event": "14.6.1",
     "@types/node": "22.12.0",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "@types/react-syntax-highlighter": "15.5.13",
     "@vitejs/plugin-react": "4.6.0",
-    "@vitest/coverage-istanbul": "^4.0.16",
+    "@vitest/coverage-istanbul": "4.1.9",
     "eslint": "9.30.1",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-react-refresh": "0.4.20",
     "globals": "16.3.0",
-    "happy-dom": "^20.0.11",
+    "happy-dom": "20.10.6",
     "prettier": "3.3.3",
     "typescript": "5.8.3",
     "typescript-eslint": "8.35.1",
-    "vite": "7.3.2",
+    "vite": "7.3.5",
     "vite-plugin-dts": "4.5.4",
-    "vitest": "^4.0.16"
+    "vitest": "4.1.9"
   }
 }
