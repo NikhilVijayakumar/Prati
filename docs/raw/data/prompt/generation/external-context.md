@@ -1,65 +1,24 @@
-# External Context Generation System v1.0
+# External Context Generation — {Source} for {Target}
 
 ## Purpose
 
-You are acting as:
+{Target} depends on {Source} for **architecture awareness only**.
 
-* Repository Analyst
-* Documentation Architect
-* Context Extraction Specialist
-* Governance Analyst
-* Knowledge Consolidation Specialist
-
-Your responsibility is to generate:
-
-```text
-docs/raw/external-context/{repository}.md
-```
-
-for repositories that provide architecture, design systems, runtime capabilities, governance rules, standards, specifications, implementation guidance, or other repository-specific knowledge.
+{Target} does NOT have a technical or implementation dependency on {Source}. The relationship exists so that {Target}'s AI systems understand the architectural patterns, invariants, and concepts defined in {Source} to produce artifacts that are architecturally consistent.
 
 The generated document serves as:
 
 ```text
-Repository Context Document
+docs/raw/external-context/{source}.md
 ```
 
-for AI systems.
-
-The generated document enables AI systems to understand repositories that are not part of their training data.
+and enables AI systems to make informed **back-references** to {Source} documentation using relative paths when creating architecture-aware content.
 
 ---
 
-# Scope
+## Core Principle
 
-## Inputs
-
-### External Repository Path
-
-Provided as a relative path.
-
-```text
-../astra
-```
-
-### Repository Documentation
-
-Read:
-
-```text
-README.md
-package.json
-docs/raw/**
-src/**
-```
-
-where available.
-
----
-
-# Core Principle
-
-The purpose of this document is:
+External Context exists for:
 
 ```text
 Knowledge Transfer
@@ -68,617 +27,349 @@ Knowledge Transfer
 not:
 
 ```text
-Dependency Management
+Implementation Reference
+Runtime Consumption
+Boilerplate Source
+API Surface Consumption
 ```
 
 The generated document should answer:
 
-* What is this repository?
-* Why does it exist?
-* What does it own?
-* What does it not own?
-* What concepts are important?
-* What rules govern usage?
-* What should AI systems understand before generating code?
+- What architectural patterns does {Source} define?
+- What architectural invariants must be preserved?
+- What concepts does {Source} own?
+- How should {Target} reference {Source} in its own documentation?
+- What should AI systems understand before creating architecture-aware artifacts?
 
 ---
 
-# Relative Path Rule
+## Documentation-Only Rule
 
-Repositories must be referenced using relative paths.
+External Context generation must analyze documentation only. {Target} has no technical dependency on {Source}, so source code consumption is neither required nor permitted.
 
-Examples:
-
-```text
-../astra
-../prati
-../prana
-```
-
-Absolute paths are forbidden.
-
-Examples of forbidden paths:
+Allowed Sources:
 
 ```text
-E:\Python\astra
-C:\workspace\prati
-/home/user/prana
+{source}/README.md
+{source}/docs/raw/**
 ```
 
-The generated context must remain portable across:
+Forbidden:
 
-* Windows
-* Linux
-* macOS
+```text
+{source}/src/**
+{source}/node_modules/**
+{source}/test/**
+```
 
 ---
 
-# Dependency Scope Declaration
-
-The dependency scope defines which aspects of the repository are consumed.
-
-## Scope Types
-
-| Scope | Meaning | Behavior |
-|-------|---------|----------|
-| **Full** | Consumer depends on all repository aspects | Scan all documentation areas. Extract all concepts, rules, integration points, and AI guidance. |
-| **Specific** | Consumer depends on limited, declared aspects | Only scan and extract from documentation areas in the Relevant Areas list. Skip phases for non-relevant areas. |
-
-## Scope Selection
-
-If the dependency is limited to specific concerns (e.g., architecture only, governance only), declare:
+## Dependency Scope Declaration
 
 ```text
 Dependency Scope: Specific
 Relevant Areas:
-  - Architecture
-  - Governance
+  - Architecture Patterns
+  - Architectural Invariants
 ```
 
-If the dependency covers all repository aspects:
-
-```text
-Dependency Scope: Full
-```
-
-If scope is not declared:
-
-Default to Full.
-
-## Impact on Discovery Phases
-
-When scope is **Specific**:
+Impact on Discovery Phases:
 
 | Phase | Behavior |
 |-------|----------|
-| Phase 0 — Repository Discovery | Full scan (identity needed regardless). Documentation scan limited to Relevant Areas. |
-| Phase 1 — Responsibility Extraction | Full extraction (responsibilities needed regardless). |
-| Phase 2 — Non-Responsibility Extraction | Full extraction. |
-| Phase 3 — Ownership Extraction | Limited to Relevant Areas. |
-| Phase 4 — Concept Extraction | Only concepts from Relevant Areas. |
-| Phase 5 — Rule Extraction | Only rules from Relevant Areas. |
-| Phase 6 — Integration Point Extraction | Only integration points relevant to Relevant Areas. |
-| Phase 7 — Documentation Extraction | Only documentation from Relevant Areas. |
-| Phase 8 — AI Guidance Extraction | Only guidance relevant to Relevant Areas. |
+| Phase 0 — Repository Discovery | Full scan for identity and purpose. Documentation scan limited to Relevant Areas. |
+| Phase 1 — Architecture Pattern Extraction | Full extraction within scope. |
+| Phase 2 — Architectural Invariant Extraction | Full extraction within scope. |
+| Phase 3 — Documentation Source Mapping | Only documentation from Relevant Areas. |
 
 ---
 
-# Repository Identity Verification
-
-Before analysis begins determine:
-
-### Repository Name
-
-### Repository Purpose
-
-### Repository Type
-
-Supported Types:
-
-* Application Engineering Platform
-* Design System
-* Runtime Platform
-* Host Platform
-* Product Application
-* Shared Library
-* Infrastructure Platform
-* Unknown
-
-Required Matrix:
+## Repository Identity Verification
 
 | Field              | Value |
-| ------------------ | ----- |
+|--------------------|-------|
 | Repository Name    |       |
 | Repository Purpose |       |
 | Repository Type    |       |
 
-If identity cannot be determined:
+Supported Types: Application Engineering Platform, Design System, Runtime Platform, Host Platform, Product Application, Shared Library, Infrastructure Platform, Unknown.
 
-Record Open Question.
-
-Do not infer purpose from repository name alone.
+If identity cannot be determined: Record Open Question. Do not infer purpose from repository name alone.
 
 ---
 
-# Discovery Phase 0 — Repository Discovery
+## Discovery Phase 0 — Repository Discovery
 
-## Goal
+### Goal
 
-Understand the repository.
-
-### Step 1
+Understand {Source}'s identity and purpose.
 
 Read:
 
 ```text
-README.md
+{source}/README.md
+{source}/docs/raw/architecture/**
 ```
 
 Extract:
 
-* Purpose
-* Scope
-* Responsibilities
+- Purpose
+- Responsibilities
+- Boundaries
 
-### Step 2
-
-Read:
-
-```text
-package.json
-```
-
-Extract:
-
-* name
-* description
-
-### Step 3
-
-Scan:
-
-```text
-docs/raw/**
-```
-
-Identify:
-
-* Architecture Areas
-* Design Areas
-* Runtime Areas
-* Governance Areas
-* Feature Areas
-
-### Step 4
-
-Scan:
-
-```text
-src/**
-```
-
-Understand:
-
-* Major Modules
-* Architectural Boundaries
-* Public Surface Area
+Documentation scan is limited to architecture areas per Dependency Scope.
 
 ---
 
-# Discovery Phase 1 — Responsibility Extraction
+## Discovery Phase 1 — Architecture Pattern Extraction
 
-## Goal
+### Goal
 
-Determine repository responsibilities.
+Extract {Source}'s architecture patterns relevant to {Target}.
 
 Required Matrix:
 
-| Responsibility | Evidence |
-| -------------- | -------- |
+| Pattern | Description | Key Concepts |
+|---------|-------------|--------------|
+
+Each pattern must include:
+
+- **Description**: What the pattern provides
+- **Key Concepts**: Important types, abstractions, or structural elements
+- **Documentation Source**: Which {Source} document defines this pattern
+
+---
+
+## Discovery Phase 2 — Architectural Invariant Extraction
+
+### Goal
+
+Extract {Source}'s architectural invariants.
+
+Required Matrix:
+
+| Invariant | Purpose | Key Rule |
+|-----------|---------|----------|
+
+Each invariant must include:
+
+- **Purpose**: Why this invariant exists
+- **Key Rule**: The rule that must not be violated
+- **Documentation Source**: Which {Source} document defines this invariant
+
+---
+
+## Discovery Phase 3 — Documentation Source Mapping
+
+### Goal
+
+Map {Source} documentation areas that {Target} should reference.
+
+Required Matrix:
+
+| Documentation Area | Purpose | Common Reference Scenarios |
+|--------------------|---------|---------------------------|
 
 Examples:
 
 ```text
-MVVM
-Repositories
-Hooks
-Boilerplate
+architecture/core/mvvm-pattern.md
+architecture/core/state-management.md
+architecture/invariants/*
 ```
 
-or
-
-```text
-Components
-Themes
-Localization
-```
-
-Every responsibility must be supported by evidence.
+Only include areas relevant to architectural awareness.
 
 ---
 
-# Discovery Phase 2 — Non-Responsibility Extraction
+## Documentation Summary Rule
 
-## Goal
+Every evidence reference must include a 1-3 sentence summary of what the original document says. The summary must capture the document's core content and key rules, not merely restate its title.
 
-Determine repository boundaries.
-
-Required Matrix:
-
-| Non-Responsibility | Evidence |
-| ------------------ | -------- |
-
-Examples:
+Good:
 
 ```text
-Does Not Own Components
-
-Does Not Own Localization
-
-Does Not Own Runtime Services
+| Claim | Evidence | Documentation Summary |
+|-------|----------|----------------------|
+| MVVM separation rules | ../{source}/docs/raw/architecture/invariants/mvvm-separation.md lines 6-8, 20-75 | Defines strict 3-layer separation: View is pure presentation (no data fetching), ViewModel orchestrates state (no JSX), Repository handles data access (no presentation logic). Each layer has may/may-not rules with forbidden patterns and detection heuristics. |
 ```
 
-The goal is to identify what the repository intentionally does not own.
-
----
-
-# Discovery Phase 3 — Ownership Extraction
-
-## Goal
-
-Determine ownership.
-
-Read:
+Bad:
 
 ```text
-governance/ownership-map.md
-```
-
-if available.
-
-Then verify using:
-
-```text
-Architecture Documentation
-Feature Documentation
-Repository Structure
-```
-
-Required Matrix:
-
-| Concern | Ownership |
-| ------- | --------- |
-
-Supported Ownership:
-
-* Owned
-* Consumed
-* Unknown
-
-Ownership must be evidence-based.
-
-If ownership cannot be verified:
-
-Classify:
-
-```text
-Unknown
-```
-
-Never guess.
-
----
-
-# Discovery Phase 4 — Concept Extraction
-
-## Goal
-
-Identify important repository concepts.
-
-Examples:
-
-```text
-MVVM
-Repository Pattern
-ViewModel Pattern
-Theme System
-Design Tokens
-Localization
-Prototype Runtime
-```
-
-Required Matrix:
-
-| Concept | Description |
-| ------- | ----------- |
-
-Concepts should explain how the repository thinks.
-
----
-
-# Discovery Phase 5 — Rule Extraction
-
-## Goal
-
-Identify repository rules.
-
-Examples:
-
-```text
-Dependency Rules
-
-Ownership Rules
-
-Architectural Invariants
-
-Design Rules
-
-Validation Rules
-
-State Rules
-```
-
-Required Matrix:
-
-| Rule | Source |
-| ---- | ------ |
-
-Rules must be traceable.
-
----
-
-# Discovery Phase 6 — Integration Point Extraction
-
-## Goal
-
-Identify how other repositories interact with this repository.
-
-Required Matrix:
-
-| Integration Point | Purpose |
-| ----------------- | ------- |
-
-Examples:
-
-```text
-Repository Consumption
-
-Component Consumption
-
-Runtime Consumption
-
-Design System Consumption
+| Claim | Evidence | Documentation Summary |
+|-------|----------|----------------------|
+| MVVM separation rules | mvvm-separation.md | Documents MVVM separation |
 ```
 
 ---
 
-# Discovery Phase 7 — Documentation Extraction
+## Relative Path Rule
 
-## Goal
-
-Identify documentation most relevant to consumers.
-
-Required Matrix:
-
-| Documentation Area | Purpose |
-| ------------------ | ------- |
-
-Examples:
+Every document reference must use a relative path from {Target}'s workspace root to the source file:
 
 ```text
-architecture/core
-
-architecture/invariants
-
-design-system
-
-feature
+Good:   ../{source}/docs/raw/architecture/core/state-management.md
+Bad:    docs/raw/architecture/core/state-management.md
+Bad:    core/state-management.md
+Bad:    state-management.md
 ```
 
-Only include areas relevant to consumers.
+Bare filenames or repo-relative paths without the `../{source}/` prefix will cause an LLM to search locally in {Target}'s repo and find nothing. Always prefix with `../{source}/` for {Source} references.
+
+The generated context must remain portable across Windows, Linux, and macOS. Absolute paths are forbidden.
 
 ---
 
-# Discovery Phase 8 — AI Guidance Extraction
+## Traceability Rule
 
-## Goal
+Every claim requires evidence from the source with a summary of what the source says.
 
-Generate guidance for AI systems.
+Required Matrix (3 columns):
 
-The generated guidance should explain:
-
-### What AI should know first
-
-### Common mistakes
-
-### Important ownership boundaries
-
-### Important repository assumptions
-
-### Areas frequently misunderstood
-
-This section is specifically optimized for:
-
-```text
-Feature Generation
-
-Feature Technical Generation
-
-Implementation Generation
-
-Governance Validation
-```
-
----
-
-# Cross Validation
-
-Before generating output validate:
-
-### Repository Identity
-
-### Dependency Scope
-
-### Responsibilities
-
-### Non-Responsibilities
-
-### Ownership
-
-### Concepts
-
-### Rules
-
-### Documentation References
-
-### AI Guidance
-
-If evidence is insufficient:
-
-Record Open Question.
-
-Do not invent information.
-
----
-
-# Failure Modes
-
-| Scenario                          | Action                |
-| --------------------------------- | --------------------- |
-| Repository path invalid           | Stop and report       |
-| README missing                    | Open Question         |
-| package.json missing              | Use directory name    |
-| docs/raw missing                  | Partial generation    |
-| Ownership unavailable             | Unknown               |
-| Responsibilities unclear          | Open Question         |
-| Repository type unknown           | Unknown               |
-| Dependency scope not declared     | Default to Full       |
-| Scope is Specific but Relevant Areas empty | Open Question  |
-| Requested Relevant Area not found in repo docs | Open Question |
-
----
-
-# Traceability Rule
-
-Every claim must have evidence.
-
-Required Matrix:
-
-| Claim | Evidence |
-| ----- | -------- |
-
-Examples:
-
-| Claim                 | Evidence         |
-| --------------------- | ---------------- |
-| Astra owns MVVM       | ownership-map.md |
-| Prati owns Components | ownership-map.md |
+| Claim | Evidence | Documentation Summary |
+|-------|----------|----------------------|
+| {Claim} | ../{source}/docs/raw/architecture/{path} | {1-3 sentence summary of the source document's content} |
 
 Nothing may be asserted without evidence.
 
 ---
 
-# Required Document Structure
+## Output Location
 
-# Overview
-
-# Repository Summary
-
-# Repository Identity
-
-# Dependency Scope
-
-# Responsibilities
-
-# Non-Responsibilities
-
-# Ownership Summary
-
-# Key Concepts
-
-# Repository Rules
-
-# Integration Points
-
-# Recommended Documentation
-
-# AI Guidance
-
-# Traceability Matrix
-
-# Open Questions
+```text
+docs/raw/external-context/{source}.md
+```
 
 ---
 
-# Open Questions Rule
+## Required Document Structure
 
-Never invent.
+Each section must be present and must end with a `### Source Documentation` subsection containing a table of original source documents and their summaries.
 
-Record:
+### Overview
 
-* Missing Documentation
-* Missing Ownership
-* Missing Responsibilities
-* Missing Dependency Scope
-* Ambiguous Concepts
-* Ambiguous Rules
-* Missing Evidence
+One paragraph. What {Source} provides and why {Target} depends on it for architecture awareness.
+
+### Repository Summary
+
+Purpose, type, responsibilities from README.md.
+
+### Dependency Scope
+
+Declared scope and relevant areas.
+
+### Architecture Patterns
+
+Key patterns extracted from architecture docs with key concepts.
+
+### Architectural Invariants
+
+All invariants with purpose and key rules.
+
+### Key Concepts
+
+Important concepts defined by {Source}.
+
+### Recommended Documentation
+
+Documentation areas {Target} should reference when producing architecture-aware content. Each entry must include the relative path (`../{source}/...`) and what it covers.
+
+### AI Guidance
+
+#### What to understand first
+
+#### Important rules
+
+#### Important boundaries
+
+#### Common mistakes
+
+### Traceability Matrix
+
+| Claim | Evidence | Documentation Summary |
+|-------|----------|----------------------|
+
+### Open Questions
+
+---
+
+## Cross Validation
+
+Before generating output, validate:
+
+- Repository identity is verified
+- Dependency scope is declared
+- Extracted patterns match documentation
+- Invariant rules are internally consistent
+- Every evidence path uses the `../{source}/` prefix (never bare filenames)
+- Every major section has a `### Source Documentation` table with document paths and summaries
+- Documentation summaries are substantive (1-3 sentences), not tautological
+
+If evidence is insufficient: Record Open Question. Never invent.
+
+---
+
+## Failure Modes
+
+| Scenario | Action |
+|----------|--------|
+| Repository path invalid | Stop and report |
+| README missing | Open Question |
+| docs/raw missing | Partial generation |
+| Architecture documentation unavailable | Open Question |
+| Repository type unknown | Unknown |
+| Dependency scope not declared | Default to Full |
+
+---
+
+## Forbidden Behavior
+
+The generator must never:
+
+- **Read source code**: `../{source}/src/**` is forbidden. {Target} has no technical dependency on {Source}.
+- **Read test files**: `../{source}/test/**` is forbidden.
+- **Extract API surface**: {Target} does not consume {Source} exports or runtime types.
+- **Extract boilerplate code**: {Target} does not replicate {Source} implementation patterns.
+- **Extract integration or runtime patterns**: {Target} does not integrate with {Source} at runtime.
+- **Invent patterns**: Only document patterns supported by {Source} documentation.
+- **Override documentation**: Documentation is authoritative.
+- **Assume Full Scope when Specific**: Restrict extraction to declared Relevant Areas.
+
+---
+
+## Open Questions Rule
+
+Never invent. Record:
+
+- Missing Documentation
+- Missing Dependency Scope
+- Ambiguous Concepts
+- Ambiguous Invariants
+- Missing Evidence
 
 under:
 
 ```text
-# Open Questions
+### Open Questions
 ```
 
 ---
 
-# Forbidden Behavior
-
-The generator must never:
-
-## Invent Responsibilities
-
-Assign responsibilities without evidence.
-
-## Invent Ownership
-
-Assign ownership without evidence.
-
-## Invent Concepts
-
-Create repository concepts not found in documentation.
-
-## Override Documentation
-
-Documentation is authoritative.
-
-## Assert Without Evidence
-
-Every claim must be traceable.
-
-## Assume Full Scope When Specific
-
-If Dependency Scope is Specific, restrict extraction to declared Relevant Areas. Do not extract concepts, rules, or guidance from areas outside the declared scope.
-
----
-
-# Success Criteria
+## Success Criteria
 
 The generated document is successful only when:
 
-* Repository identity is verified.
-* Dependency scope is declared.
-* Responsibilities are identified.
-* Non-responsibilities are identified.
-* Ownership is identified.
-* Key concepts are documented.
-* Repository rules are documented.
-* Integration points are documented.
-* AI guidance is generated.
-* Traceability is complete.
-* Open Questions are recorded instead of assumed.
+- Repository identity is verified
+- Dependency scope is declared
+- Architecture patterns are extracted with key concepts
+- Architectural invariants are documented with rules
+- Key concepts are documented
+- AI guidance is actionable
+- Traceability is complete (3-column matrix with documentation summaries)
+- All evidence paths use `../{source}/` prefix (no bare filenames)
+- Every major section has a `### Source Documentation` table with document paths and summaries
+- Documentation summaries are substantive (1-3 sentences), not tautological
+- Open Questions are recorded instead of assumed
 
-The resulting document should enable an AI system with no prior knowledge of the repository to understand its purpose, ownership, responsibilities, boundaries, and usage expectations.
-
-```
-```
+The resulting document should enable an AI system with no prior knowledge of {Source} to understand its architectural patterns and invariants, and to produce documentation with correct relative-path back-references.
