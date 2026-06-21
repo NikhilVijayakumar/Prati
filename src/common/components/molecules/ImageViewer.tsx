@@ -60,21 +60,21 @@ export const ImageViewer: FC<ImageViewerProps> = ({
         <Box>
           <IconButton
             size="small"
-            aria-label={literal["viewer.zoom_in"] ?? "Zoom in"}
+            aria-label={literal["viewer.zoom_in"]}
             onClick={() => setZoom((prev) => Math.min(prev + 0.2, 3))}
           >
             <ZoomInIcon fontSize="small" />
           </IconButton>
           <IconButton
             size="small"
-            aria-label={literal["viewer.zoom_out"] ?? "Zoom out"}
+            aria-label={literal["viewer.zoom_out"]}
             onClick={() => setZoom((prev) => Math.max(prev - 0.2, 0.5))}
           >
             <ZoomOutIcon fontSize="small" />
           </IconButton>
           <IconButton
             size="small"
-            aria-label={literal["viewer.rotate_right"] ?? "Rotate right"}
+            aria-label={literal["viewer.rotate_right"]}
             onClick={() => setRotation((prev) => (prev + 90) % 360)}
           >
             <RotateRightIcon fontSize="small" />

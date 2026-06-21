@@ -28,7 +28,7 @@ export const IconDescriptionListItem: React.FC<IconDescriptionListItemProps> = (
                     gap: { xs: 2, md: 3 }, 
                     mb: 4, 
                     p: { xs: 2, md: 3 }, 
-                    borderRadius: '8px',
+                    borderRadius: 2,
                     border: '1px solid',
                     borderColor: 'divider',
                     bgcolor: 'action.hover',

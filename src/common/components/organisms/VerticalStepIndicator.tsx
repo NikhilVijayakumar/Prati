@@ -20,8 +20,8 @@ export const VerticalStepIndicator: React.FC<VerticalStepIndicatorProps> = ({ ac
                 left: { xs: 20, md: 60 }, 
                 top: '50%', 
                 transform: 'translateY(-50%)', 
-                height: '400px', 
-                width: '2px', 
+                height: 400,
+                width: 2,
                 bgcolor: theme.palette.divider,
                 zIndex: 10,
                 display: { xs: 'none', lg: 'flex' },
@@ -37,7 +37,7 @@ export const VerticalStepIndicator: React.FC<VerticalStepIndicatorProps> = ({ ac
                 style={{
                     position: 'absolute',
                     top: 0,
-                    width: '2px',
+                    width: 2,
                     background: theme.palette.primary.main,
                     boxShadow: `0 0 10px ${theme.palette.primary.main}`,
                     zIndex: 1

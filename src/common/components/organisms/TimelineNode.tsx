@@ -139,7 +139,7 @@ export const TimelineNode = ({
           <Typography
             variant="h5"
             component="h3"
-            sx={{ fontWeight: 800, my: 1, fontFamily: '"Outfit", sans-serif' }}
+            sx={{ fontWeight: 800, my: 1, fontFamily: fonts.sans }}
           >
             {t(title)}
           </Typography>

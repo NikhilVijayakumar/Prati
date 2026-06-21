@@ -79,7 +79,7 @@ export const DrawerComponent = <T extends Features>(props: DrawerProps<T>): Reac
     <Box
       component="nav"
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      aria-label={literal['nav.drawer_label'] ?? 'Navigation'}
+      aria-label={literal['nav.drawer_label']}
     >
       <Drawer
         container={container}

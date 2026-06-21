@@ -25,7 +25,7 @@ export const PlayableMediaCard: React.FC<PlayableMediaCardProps> = ({ title, art
             <Box 
                 sx={{ 
                     position: 'relative', 
-                    borderRadius: '12px', 
+                    borderRadius: 3,
                     overflow: 'hidden', 
                     aspectRatio: '1/1',
                     mb: 2,

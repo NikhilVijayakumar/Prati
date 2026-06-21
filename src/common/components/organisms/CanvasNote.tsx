@@ -8,9 +8,10 @@ export interface CanvasNoteProps {
   label: string;
   selected?: boolean;
   onChange?: (val: string) => void;
+  t?: (key: string) => string;
 }
 
-export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNoteProps): ReactElement => {
+export const CanvasNote = memo(({ label, selected = false, onChange, t = (k) => k }: CanvasNoteProps): ReactElement => {
   const [isEditing, setIsEditing] = useState(false);
   const theme = useTheme();
 
@@ -45,7 +46,7 @@ export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNot
         variant="caption"
         sx={{ fontWeight: 'bold', mb: 1, color: 'warning.dark' }}
       >
-        NOTE
+        {t('canvas.note.label')}
       </Typography>
 
       <Box sx={{ flexGrow: 1, overflow: 'auto' }} className="nodrag">
@@ -54,7 +55,7 @@ export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNot
             multiline
             fullWidth
             autoFocus
-            placeholder="Add note here... (Markdown supported)"
+            placeholder={t('canvas.note.placeholder')}
             defaultValue={label}
             onChange={(evt) => onChange?.(evt.target.value)}
             onBlur={handleBlur}
@@ -77,7 +78,7 @@ export const CanvasNote = memo(({ label, selected = false, onChange }: CanvasNot
               <ReactMarkdown>{label}</ReactMarkdown>
             ) : (
               <Typography variant="body2" color="text.secondary" fontStyle="italic">
-                Double-click to edit
+                {t('canvas.note.empty_hint')}
               </Typography>
             )}
           </Box>

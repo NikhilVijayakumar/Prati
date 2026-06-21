@@ -28,6 +28,8 @@ describe("VersionHistorySelector", () => {
         selectedVersion={3}
         latestVersion={3}
         onVersionChange={vi.fn()}
+        versionsLabel="versions"
+        availableLabel="available"
       />
     );
     expect(screen.getByText(/3 versions/)).toBeTruthy();

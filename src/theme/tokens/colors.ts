@@ -20,8 +20,8 @@ export const colors = {
 
   // Borders & Dividers
   border: {
-    light: 'rgba(0, 0, 0, 0.08)',
-    dark: 'rgba(255, 255, 255, 0.08)',
+    light: '#00000014',
+    dark: '#ffffff14',
   },
 
   // UI Text Hierarchy

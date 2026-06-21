@@ -55,7 +55,7 @@ export const MultiPhaseWorkflowDiagram: React.FC<MultiPhaseWorkflowDiagramProps>
             top: '50%',
             left: '5%',
             right: '5%',
-            height: '2px',
+            height: 2,
             background: `linear-gradient(90deg, ${alpha(theme.palette.text.primary, 0.05)} 0%, ${alpha(theme.palette.text.primary, 0.1)} 50%, ${alpha(theme.palette.text.primary, 0.05)} 100%)`,
             transform: 'translateY(-50%)',
             zIndex: -1,
@@ -113,7 +113,7 @@ export const MultiPhaseWorkflowDiagram: React.FC<MultiPhaseWorkflowDiagramProps>
                 textAlign: 'center',
                 padding: '2rem',
                 background: theme.palette.background.paper,
-                borderRadius: '16px',
+                borderRadius: theme.spacing(2),
                 border: `1px solid ${theme.palette.divider}`,
                 backdropFilter: 'blur(10px)',
               }}
@@ -121,7 +121,7 @@ export const MultiPhaseWorkflowDiagram: React.FC<MultiPhaseWorkflowDiagramProps>
               <Typography variant="h5" color="primary" gutterBottom>
                 {t(allSteps.find(s => s.id === activeStepId)?.label || '')}
               </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ maxWidth: '600px', mx: 'auto' }}>
+              <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 600, mx: 'auto' }}>
                 {t(allSteps.find(s => s.id === activeStepId)?.description || '')}
               </Typography>
             </motion.div>

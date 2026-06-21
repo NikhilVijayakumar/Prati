@@ -27,7 +27,7 @@ export const ProfileRevealCard: React.FC<ProfileRevealCardProps> = ({ name, name
                 position: 'relative',
                 width: '100%',
                 aspectRatio: '2/3',
-                borderRadius: '16px',
+                borderRadius: theme.spacing(2),
                 overflow: 'hidden',
                 cursor: 'pointer',
                 backgroundColor: theme.palette.background.paper, 

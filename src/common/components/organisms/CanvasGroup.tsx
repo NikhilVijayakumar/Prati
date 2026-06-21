@@ -8,6 +8,7 @@ export interface CanvasGroupProps {
   onChangeLabel?: (val: string) => void;
   onChangeDescription?: (val: string) => void;
   children?: React.ReactNode;
+  t?: (key: string) => string;
 }
 
 export const CanvasGroup = memo(({
@@ -16,7 +17,8 @@ export const CanvasGroup = memo(({
   selected = false,
   onChangeLabel,
   onChangeDescription,
-  children
+  children,
+  t = (k) => k,
 }: CanvasGroupProps): React.ReactElement => {
   const theme = useTheme();
 
@@ -41,7 +43,8 @@ export const CanvasGroup = memo(({
             position: 'absolute',
             top: -30,
             left: 0,
-            padding: '4px 12px',
+            py: 0.5,
+          px: 1.5,
             borderRadius: 4,
             backgroundColor: theme.palette.background.default,
             border: `1px solid ${theme.palette.divider}`,
@@ -66,7 +69,7 @@ export const CanvasGroup = memo(({
         {/* Description Field */}
         <Box sx={{ mt: 4, height: 'calc(100% - 32px)', overflow: 'hidden' }}>
           <textarea
-            placeholder="Description..."
+            placeholder={t('canvas.group.placeholder')}
             defaultValue={description || ''}
             onChange={(evt) => onChangeDescription?.(evt.target.value)}
             style={{

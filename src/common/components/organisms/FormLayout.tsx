@@ -10,7 +10,7 @@ export interface FormLayoutProps {
 
 export const FormLayout: FC<FormLayoutProps> = ({ title, children, actions }): ReactElement => {
   return (
-    <Box component="section" sx={{ display: 'flex', flexDirection: 'column', gap: spacing.xl, maxWidth: '600px' }}>
+    <Box component="section" sx={{ display: 'flex', flexDirection: 'column', gap: spacing.xl, maxWidth: 600 }}>
       {title && (
         <Typography variant="h5" color="text.primary">
           {title}

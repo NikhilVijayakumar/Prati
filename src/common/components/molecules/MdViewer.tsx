@@ -27,7 +27,7 @@ export const MdViewer: FC<MdViewerProps> = ({ fileName, fileContent }): ReactEle
   const MarkdownErrorFallback = () => (
     <Box>
       <Alert severity="warning" sx={{ mb: spacing.sm }}>
-        {literal["viewer.markdown_render_error"] ?? 'Could not render markdown — showing plain text.'}
+        {literal["viewer.markdown_render_error"]}
       </Alert>
       <Box
         component="pre"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { type LucideIcon } from 'lucide-react';
-import { useTheme } from '@mui/material';
+import { useTheme, Typography } from '@mui/material';
 
 interface InteractiveStepNodeProps {
   label: string;
@@ -68,14 +68,17 @@ export const InteractiveStepNode: React.FC<InteractiveStepNodeProps> = ({
         }}>
           {label}
         </h3>
-        <p style={{ 
-          margin: 0, 
-          fontSize: '0.85rem', 
-          color: theme.palette.text.secondary,
-          maxWidth: '140px'
-        }}>
+        <Typography
+          variant="body2"
+          sx={{
+            m: 0,
+            fontSize: '0.85rem',
+            color: 'text.secondary',
+            maxWidth: 140,
+          }}
+        >
           {description}
-        </p>
+        </Typography>
       </motion.div>
     </motion.div>
   );

@@ -1,5 +1,5 @@
-import { createTheme } from '@mui/material/styles';
-import type { ThemeOptions } from '@mui/material/styles';
+import { createTheme, alpha } from '@mui/material/styles';
+import type { ThemeOptions, Theme } from '@mui/material/styles';
 import { colors } from './tokens/colors';
 import { typography } from './tokens/typography';
 
@@ -18,13 +18,13 @@ const defaultComponents = {
         '&::-webkit-scrollbar-track': {
           background: 'transparent',
         },
-        '&::-webkit-scrollbar-thumb': {
-          background: 'rgba(150, 150, 150, 0.3)',
+        '&::-webkit-scrollbar-thumb': ({ theme }: { theme: Theme }) => ({
+          background: alpha(theme.palette.text.secondary, 0.3),
           borderRadius: '4px',
-        },
-        '&::-webkit-scrollbar-thumb:hover': {
-          background: 'rgba(150, 150, 150, 0.5)',
-        },
+        }),
+        '&::-webkit-scrollbar-thumb:hover': ({ theme }: { theme: Theme }) => ({
+          background: alpha(theme.palette.text.secondary, 0.5),
+        }),
       },
     },
   },

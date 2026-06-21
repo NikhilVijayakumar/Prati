@@ -33,12 +33,19 @@ export function createTemplateRenderer(cfg?: TemplateRendererConfig & { template
     }
 
     if (isNode() && basePath) {
+      if (!/^[a-zA-Z0-9_-]+$/.test(templateName)) {
+        return { success: false, error: `Invalid template name: ${templateName}` };
+      }
       try {
         const [{ default: fs }, { default: path }] = await Promise.all([
           import('fs/promises'),
           import('path'),
         ]);
-        const filePath = path.join(basePath, `${templateName}.hbs`);
+        const resolvedBase = path.resolve(basePath);
+        const filePath = path.resolve(basePath, `${templateName}.hbs`);
+        if (!filePath.startsWith(resolvedBase + path.sep)) {
+          return { success: false, error: 'Template path traversal detected' };
+        }
         const source = await fs.readFile(filePath, "utf-8");
         const compiled = handlebars.compile(source);
         return { success: true, html: compiled(data) };

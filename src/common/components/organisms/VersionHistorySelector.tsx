@@ -19,6 +19,8 @@ export interface VersionHistorySelectorProps {
   latestVersion: number;
   onVersionChange: (version: number) => void;
   versionPrefix?: string;
+  versionLabel?: string;
+  versionsLabel?: string;
   latestLabel?: string;
   availableLabel?: string;
   locale?: string;
@@ -30,8 +32,10 @@ export const VersionHistorySelector: React.FC<VersionHistorySelectorProps> = ({
   latestVersion,
   onVersionChange,
   versionPrefix = "v",
-  latestLabel = "Latest",
-  availableLabel = "available",
+  versionLabel,
+  versionsLabel,
+  latestLabel,
+  availableLabel,
   locale,
 }): React.ReactElement | null => {
   if (!entries || entries.length <= 1) {
@@ -67,9 +71,11 @@ export const VersionHistorySelector: React.FC<VersionHistorySelectorProps> = ({
         backgroundColor: "background.paper",
       }}
     >
-      <Typography variant="body2" fontWeight="medium">
-        Version:
-      </Typography>
+      {versionLabel && (
+        <Typography variant="body2" fontWeight="medium">
+          {versionLabel}
+        </Typography>
+      )}
       <FormControl size="small" sx={{ minWidth: 200 }}>
         <Select
           value={selectedVersion}
@@ -101,8 +107,7 @@ export const VersionHistorySelector: React.FC<VersionHistorySelectorProps> = ({
         </Select>
       </FormControl>
       <Typography variant="caption" color="text.secondary">
-        {sortedEntries.length} version{sortedEntries.length !== 1 ? "s" : ""}{" "}
-        {availableLabel}
+        {sortedEntries.length}{versionsLabel ? ` ${versionsLabel}` : ''}{availableLabel ? ` ${availableLabel}` : ''}
       </Typography>
     </Box>
   );

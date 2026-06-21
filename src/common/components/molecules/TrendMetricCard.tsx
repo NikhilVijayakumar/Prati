@@ -74,7 +74,7 @@ export const TrendMetricCard: FC<TrendMetricCardProps> = ({
               fontWeight: 600,
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '2px',
+              gap: 0.25,
             }}
           >
             {trend && (

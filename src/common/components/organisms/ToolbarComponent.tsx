@@ -25,7 +25,7 @@ export const ToolbarComponent: FC<ToolbarProps> = ({
       <Toolbar>
         <IconButton
           color="inherit"
-          aria-label={literal["nav.open_drawer"] ?? "Open drawer"}
+          aria-label={literal["nav.open_drawer"]}
           edge="start"
           onClick={handleDrawerToggle}
           sx={{ mr: spacing.md, display: { sm: "none" } }}

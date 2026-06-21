@@ -67,9 +67,7 @@ export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, i
                     fontSize: { xs: '4rem', sm: '6rem', md: '10rem' }, // Responsive font size
                     margin: 0,
                     color: theme.palette.text.primary,
-                    textShadow: theme.palette.mode === 'dark'
-                        ? `0px 0px 30px ${alpha(theme.palette.common.white, 0.2)}`
-                        : 'none'
+                    textShadow: `0px 0px 30px ${alpha(theme.palette.text.primary, 0.15)}`
                 }}
             >
                 {char}
@@ -113,15 +111,14 @@ export const AnimatedHeroCharacter = ({ char, title, subtitle, mouseX, mouseY, i
                 style={{
                     position: 'absolute',
                     bottom: '-4.5rem',
-                    width: '300px', // Allow wrapping for meaning
                     left: '50%',
-                    marginLeft: '-150px', // center horizontally
+                    transform: 'translateX(-50%)',
                     textAlign: 'center',
                     pointerEvents: 'none',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '4px'
+                    gap: theme.spacing(0.5),
                 }}
             >
                 {subtitle && (

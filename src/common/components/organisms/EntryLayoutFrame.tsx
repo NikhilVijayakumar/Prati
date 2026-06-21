@@ -10,7 +10,7 @@ export interface EntryLayoutFrameProps {
 
 export const EntryLayoutFrame: FC<EntryLayoutFrameProps> = ({
   children,
-  titleText = "Authentication",
+  titleText,
   enableDragRegion = false,
 }): ReactElement => {
   return (

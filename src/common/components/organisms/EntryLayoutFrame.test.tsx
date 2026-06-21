@@ -12,9 +12,9 @@ describe("EntryLayoutFrame", () => {
     expect(screen.getByTestId("child")).toBeTruthy();
   });
 
-  it("renders default title", () => {
-    render(<EntryLayoutFrame><span /></EntryLayoutFrame>);
-    expect(screen.getByText("Authentication")).toBeTruthy();
+  it("renders no title when titleText is omitted", () => {
+    const { container } = render(<EntryLayoutFrame><span /></EntryLayoutFrame>);
+    expect(container.querySelector(".MuiTypography-root")?.textContent).toBe("");
   });
 
   it("renders custom titleText", () => {
