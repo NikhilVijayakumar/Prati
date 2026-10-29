@@ -1,6 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { createNavigationState, navigationStateReducer } from './navigation-state';
-import type { NavigationState } from '../types';
 
 describe('Navigation State', () => {
   it('creates initial state', () => {

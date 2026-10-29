@@ -42,7 +42,7 @@ describe("DataTable", () => {
       {
         id: "custom",
         label: "Custom",
-        render: (_row: Row) => <span>custom-cell</span>,
+        render: () => <span>custom-cell</span>,
       },
     ];
     render(

@@ -109,7 +109,6 @@ export const HeroSection: FC<HeroSectionProps> = ({
   animationVariant = "fade-up",
   animationDuration = 600,
   animationDelay = 0,
-  animationStagger: _animationStagger = 100,
 }): ReactElement => {
   const config = animationConfigs[animationVariant];
   const shouldAnimate = enableAnimation && config;

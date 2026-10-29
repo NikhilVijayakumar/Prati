@@ -1,9 +1,10 @@
 import path from "path";
 import { describe, it, expect, beforeAll } from "vitest";
+import type { TemplateRendererService } from "../types/template.types";
 
 describe("templateRenderer", () => {
   const basePath = path.resolve(__dirname, "../templates");
-  let renderer: any;
+  let renderer: TemplateRendererService;
 
   beforeAll(async () => {
     const mod = await import("./templateRenderer");

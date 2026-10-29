@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
-import { ReviewDecisionDialog, defaultReviewLabels } from "./ReviewDecisionDialog";
+import { ReviewDecisionDialog } from "./ReviewDecisionDialog";
+import { defaultReviewLabels } from "./reviewDecisionLabels";
 
 const baseProps = {
   isOpen: true,

@@ -22,6 +22,7 @@ export * from "./OperationHealthPanel";
 export * from "./PlayableMediaCard";
 export * from "./ProfileRevealCard";
 export * from "./ReviewDecisionDialog";
+export * from "./reviewDecisionLabels";
 export * from "./StatusActionCard";
 export * from "./StatusListRow";
 export * from "./SummaryListItem";
