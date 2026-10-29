@@ -1,5 +1,7 @@
 # Prati
 
+For project knowledge and change planning, start with [knowledge](knowledge/index.md), [requirements](docs/requirements/README.md), and the [OpenSpec workflow](openspec/README.md). These initial knowledge and requirement documents are drafts.
+
 A **React design system and component library** providing 46 UI components organized by Atomic Design, Material UI 7 theming with design tokens, localization infrastructure, an interactive prototype runtime, and a Handlebars template renderer.
 
 Prati is a standalone UI library — it pairs with [Astra](https://github.com/NikhilVijayakumar/astra) for MVVM architecture and state management, but works independently as a design system.

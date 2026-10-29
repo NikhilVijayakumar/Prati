@@ -1,0 +1,30 @@
+schema: frontend
+
+context: |
+  Prati is a React and TypeScript design system and component library, not a backend application.
+  It uses MUI 7, theme tokens, localization, a prototype runtime and a Handlebars renderer.
+  Inspect README.md, knowledge/index.md, docs/requirements and existing code before proposing work.
+  Apply skills/shared/knowledge-first: maintain independent, draft OKF knowledge first and
+  reference relevant knowledge and requirement packages in proposal, specs and design.
+  Treat docs/raw as historical source material; check claims against implementation and record conflicts.
+  Follow proposal -> specs -> ui-spec -> design -> tasks -> implementation -> verification -> archive.
+  Describe observable behavior and use Given/When/Then scenarios. Scenarios are not executable tests
+  without a runner and step definitions. Assess ADRs when architectural decisions are durable.
+  Preserve existing working-tree changes. Apply only relevant skills; report evidence and gaps honestly.
+  Check public exports, peer dependencies, accessibility, localization, theme tokens, responsive behavior,
+  component states, backward compatibility and browser behavior where relevant. Avoid invented requirements.
+  Follow existing branch protections and project policy rather than assuming a branch model.
+
+rules:
+  proposal:
+    - Record scope, exclusions, affected public APIs and relevant knowledge and requirements.
+  specs:
+    - Reference applicable knowledge and requirement IDs; write testable delta requirements and scenarios.
+  ui-spec:
+    - Document applicable component states, keyboard and focus behavior, accessibility, localization and responsive behavior.
+    - For changes without user-visible impact, explain why the UI contract is not applicable.
+  design:
+    - Describe affected boundaries, public interfaces, dependencies, failure modes and compatibility.
+    - Reference relevant knowledge and assess whether an ADR is needed.
+  tasks:
+    - Include implementation, documentation and proportionate verification with evidence and known gaps.

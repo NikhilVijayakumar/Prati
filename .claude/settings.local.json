@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs cat)",
+      "Bash(xargs ls)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(ln -s \"/e/Python/Prati\" \"E:/Python/astra/node_modules/prati\")",
+      "Bash(git commit -m ' *)",
+      "Bash(dir E:\\\\Python\\\\Prati\\\\docs\\\\raw\\\\feature *)",
+      "Bash(git *)",
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)",
+      "Bash(npx vitest *)",
+      "Bash(Get-ChildItem src *)",
+      "Bash(Measure-Object)",
+      "Bash(Select-Object -ExpandProperty Count)",
+      "Bash(grep -E \">\\(.*[a-z ]{4,}.*\\)<|label=|placeholder=|aria-label=\")",
+      "Bash(grep -v \"//.*'\")",
+      "Bash(npm audit *)"
+    ]
+  }
+}

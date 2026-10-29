@@ -147,3 +147,7 @@ vite.config.ts.timestamp-*
 /docs/raw/report/
 /audit-phases-7-11.json
 /docs/raw/audit/AUDIT-REPORT.json
+
+# Generated graphify artifacts
+graphify-out/
+.graphify_cache/
