@@ -1,6 +1,6 @@
 # Knowledge source map
 
-This map records the first conversion pass, not complete coverage of `docs/raw`. Concepts are drafts; reconcile source documents with current code and tests before relying on them. Keep provenance here so the portable OKF bundle remains independent of delivery artifacts and repository paths.
+This map records the initial conversion pass. The generated [raw coverage inventory](raw-coverage.md) maps all Git-tracked raw sources to concept frontmatter, identifies partial conversions and highlights material still awaiting extraction. Run `python scripts/knowledge_coverage.py` to update it or add `--check` to verify it. Concepts also identify revision-pinned source URLs. Drafts require reconciliation with current code and tests.
 
 | Knowledge | Source documents |
 | --- | --- |

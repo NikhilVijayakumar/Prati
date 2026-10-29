@@ -1,12 +1,13 @@
 {
   "okf_version": "0.2",
-  "description": "Vyasa profile of OKF v0.2. OKF requires only `type`; this profile is stricter so every concept is self-describing and independent of delivery artifacts.",
+  "description": "Prati profile of OKF v0.2. OKF requires only `type`; this profile adds self-description and provenance requirements.",
   "required_fields": [
     "type",
     "title",
     "description",
     "status",
-    "generated"
+    "generated",
+    "sources"
   ],
   "status_values": [
     "draft",

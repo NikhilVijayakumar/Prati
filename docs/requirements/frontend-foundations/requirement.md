@@ -2,6 +2,8 @@
 
 Status: draft; derived from documentation, not yet approved or independently verified.
 
+Specification mapping: `openspec/changes/fe-complete-knowledge-traceability/specs/frontend-foundations/spec.md`. These are proposed deltas; implementation and acceptance evidence remain unverified until recorded.
+
 ## Knowledge references
 
 - [Product scope](../../../knowledge/product/product-scope.md): library boundaries.

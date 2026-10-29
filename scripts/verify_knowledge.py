@@ -19,8 +19,9 @@ adds this repository's stricter rules, which this script enforces:
   external URLs, and the profile's forbidden paths never appear. Knowledge
   never depends on requirements, changes, or implementation.
 
-A concept whose ``stale_after`` date has passed is a warning. Broken links inside the bundle are warnings, not errors: OKF treats them as
-not-yet-written knowledge.
+A concept whose ``stale_after`` date has passed is a warning. This project
+treats broken links inside the bundle as errors. A Node YAML validator also
+checks parsing and source metadata; neither validator establishes accuracy.
 
 Usage::
 
@@ -32,6 +33,8 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -88,7 +91,7 @@ def check_path(bundle: Path, origin: Path, target: str, what: str, errors: list[
     if bundle != resolved and bundle not in resolved.parents:
         errors.append(f"{rel}: {what} '{target}' points outside the knowledge bundle")
     elif not resolved.exists():
-        warnings.append(f"{rel}: {what} '{target}' does not exist yet")
+        errors.append(f"{rel}: {what} '{target}' does not exist")
 
 
 def headings(body: str) -> dict[str, str]:
@@ -263,6 +266,14 @@ def verify(bundle: Path, now: datetime | None = None) -> tuple[list[str], list[s
 
 def main() -> int:
     bundle = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "knowledge"
+    node = shutil.which("node")
+    if not node:
+        print("FAIL node is required for YAML validation; run npm install and retry")
+        return 1
+    yaml_check = subprocess.run([node, str(REPO / "scripts" / "verify_knowledge_yaml.cjs"), str(bundle)])
+    if yaml_check.returncode:
+        print("FAIL YAML and provenance validation (install dependencies with npm install if needed)")
+        return 1
     errors, warnings = verify(bundle)
     for warning in warnings:
         print(f"WARN  {warning}")
