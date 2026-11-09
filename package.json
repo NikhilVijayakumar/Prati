@@ -1,9 +1,9 @@
 {
-  "name": "prati",
+  "name": "@nikhilvijayakumar/prati",
   "private": false,
   "version": "0.1.1",
   "type": "module",
-  "main": "./dist/prati.umd.js",
+  "main": "./dist/prati.umd.cjs",
   "module": "./dist/prati.es.js",
   "browser": "./dist/prati.es.js",
   "types": "./dist/lib.d.ts",
@@ -11,19 +11,19 @@
     ".": {
       "types": "./dist/lib.d.ts",
       "import": "./dist/prati.es.js",
-      "require": "./dist/prati.umd.js",
+      "require": "./dist/prati.umd.cjs",
       "default": "./dist/prati.es.js"
     },
     "./components": {
       "types": "./dist/lib.d.ts",
       "import": "./dist/prati.es.js",
-      "require": "./dist/prati.umd.js",
+      "require": "./dist/prati.umd.cjs",
       "default": "./dist/prati.es.js"
     },
     "./theme": {
       "types": "./dist/lib.d.ts",
       "import": "./dist/prati.es.js",
-      "require": "./dist/prati.umd.js",
+      "require": "./dist/prati.umd.cjs",
       "default": "./dist/prati.es.js"
     }
   },
@@ -84,5 +84,14 @@
     "vite-plugin-dts": "4.5.4",
     "vitest": "4.1.9",
     "yaml": "2.9.0"
+  },
+  "description": "React design system and component library",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NikhilVijayakumar/Prati.git"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

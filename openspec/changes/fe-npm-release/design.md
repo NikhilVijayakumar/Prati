@@ -1,0 +1,3 @@
+# Design
+
+The scoped package keeps existing exports and peers; its CommonJS entry uses a `.cjs` extension under `type: module`. GitHub CI checks pushes to master only. A tag workflow validates the tag, tests and builds before publishing using npm OIDC, with minimal permissions. Account ownership, trusted publisher configuration and branch protections are external prerequisites. Failure of any check blocks publication. No component or browser interface changes. `knowledge/architecture/library-compatibility.md` and PKG-001?003 apply. No ADR: this applies the existing packaging guide without changing component architecture.

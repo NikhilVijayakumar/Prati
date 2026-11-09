@@ -27,19 +27,13 @@ Prati is a standalone UI library — it pairs with [Astra](https://github.com/Ni
 
 ## Installation
 
-```json
-"dependencies": {
-  "prati": "git+https://github.com/NikhilVijayakumar/prati.git"
-}
+```bash
+npm install @nikhilvijayakumar/prati
 ```
 
-Local development:
+Update imports from `prati` to `@nikhilvijayakumar/prati`, or retain existing imports using the npm alias `npm install prati@npm:@nikhilvijayakumar/prati`.
 
-```json
-"dependencies": {
-  "prati": "file:../Prati"
-}
-```
+The first registry release and trusted publishing require the account setup described in [the release guide](https://github.com/NikhilVijayakumar/Prati/blob/develop/docs/releasing.md).
 
 ## Peer Dependencies
 
@@ -72,7 +66,7 @@ Consumer providers (Auth, Router) go inside both Prati providers.
 ### 1. Theming
 
 ```tsx
-import { ThemeProvider, lightTheme, darkTheme } from "prati";
+import { ThemeProvider, lightTheme, darkTheme } from "@nikhilvijayakumar/prati";
 
 function App() {
   return (
@@ -86,7 +80,7 @@ function App() {
 Use `createAstraTheme` to merge your brand overrides with the default tokens:
 
 ```tsx
-import { ThemeProvider, createAstraTheme } from "prati";
+import { ThemeProvider, createAstraTheme } from "@nikhilvijayakumar/prati";
 
 // createAstraTheme accepts light and dark override objects
 const { lightTheme, darkTheme } = createAstraTheme(
@@ -98,7 +92,7 @@ const { lightTheme, darkTheme } = createAstraTheme(
 Add `ThemeToggle` to let users switch between light and dark mode:
 
 ```tsx
-import { useTheme, ThemeToggle } from "prati";
+import { useTheme, ThemeToggle } from "@nikhilvijayakumar/prati";
 
 function AppHeader() {
   const themeContext = useTheme();
@@ -111,7 +105,7 @@ function AppHeader() {
 Prati exports `LanguageProvider` — pass your translation dictionaries directly:
 
 ```tsx
-import { LanguageProvider, useLanguage, LanguageSelector } from "prati";
+import { LanguageProvider, useLanguage, LanguageSelector } from "@nikhilvijayakumar/prati";
 
 const translations = {
   en: { "app.title": "My App", "ui.save": "Save" },
@@ -154,13 +148,13 @@ import {
   SeverityBadge,
   PageHeader,
   HeroSection,
-} from "prati";
+} from "@nikhilvijayakumar/prati";
 ```
 
 ### 4. Design Tokens
 
 ```tsx
-import { colors, spacing, typography, fonts } from "prati";
+import { colors, spacing, typography, fonts } from "@nikhilvijayakumar/prati";
 
 // spacing base unit: 8px (MUI standard)
 // spacing.xs = 1   → 8px
@@ -173,7 +167,7 @@ import { colors, spacing, typography, fonts } from "prati";
 ### 5. Template Renderer
 
 ```tsx
-import { createTemplateRenderer, bundledTemplates } from "prati";
+import { createTemplateRenderer, bundledTemplates } from "@nikhilvijayakumar/prati";
 
 const renderer = createTemplateRenderer({ templates: bundledTemplates });
 const result = await renderer.render({
@@ -231,8 +225,8 @@ Prati
 Prati components and hooks are consumed directly from `"prati"`. [Astra](https://github.com/NikhilVijayakumar/astra) provides the MVVM architecture layer:
 
 ```tsx
-import { AppStateHandler, useDataState } from "prati";
-import { DataTable } from "prati";
+import { AppStateHandler, useDataState } from "@nikhilvijayakumar/prati";
+import { DataTable } from "@nikhilvijayakumar/prati";
 ```
 
 See [Astra](https://github.com/NikhilVijayakumar/astra) for ViewModel, repository, and API layer integration.
@@ -272,3 +266,7 @@ src/
 - `docs/raw/feature/templates/` — Template renderer and Handlebars template docs
 - `docs/raw/architecture/invariants/` — Atomic hierarchy rules, theme sovereignty, MVVM invariants
 - `docs/raw/architecture/integration-contracts/` — Getting started, state management, feature structure
+
+## License
+
+Copyright (c) 2026 Nikhil Vijayakumar. Licensed under the [MIT License](LICENSE).
