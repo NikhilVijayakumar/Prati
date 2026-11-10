@@ -154,3 +154,4 @@ graphify-out/
 # Python bytecode
 __pycache__/
 *.pyc
+/.playwright-mcp/
