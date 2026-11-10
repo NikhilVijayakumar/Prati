@@ -19,6 +19,8 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
           cache: npm
+      - name: Install npm with staged publishing support
+        run: npm install --global npm@11.15.0
       - name: Validate tag
         env:
           RELEASE_TAG: ${{ github.ref_name }}
@@ -28,4 +30,5 @@ jobs:
       - run: npm test -- --run
       - run: npm run build
       - run: npm pack --dry-run
-      - run: npm publish --access public
+      - name: Stage package for approval
+        run: npm stage publish --access public

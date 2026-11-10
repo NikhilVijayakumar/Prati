@@ -468,6 +468,8 @@ Test installation of that archive in a separate temporary consumer project befor
 
 ## 7. npm publishing workflow
 
+**Prati release policy:** The generic direct-publish example below is illustrative. Prati uses staged publishing with maintainer approval; follow [the Prati release guide](releasing.md) and the repository workflow for its actual release process.
+
 Create:
 
 ```text
