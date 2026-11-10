@@ -29,3 +29,19 @@ Documentation SHALL describe setup and migration (PKG-003; `knowledge/architectu
 - **GIVEN** a consumer importing `prati`
 - **WHEN** it adopts the scoped package
 - **THEN** guidance explains scoped imports and the alias option.
+
+### Requirement: Documented browser package usage
+
+The package SHALL expose its documented bundled templates and initialize its theme without invalid CSS warnings, preserving theme-dependent scrollbar colors (PKG-001; `knowledge/architecture/library-compatibility.md`; `knowledge/concepts/theming.md`). Node-only template file loading remains available in Node.
+
+#### Scenario: Browser consumer uses bundled templates
+
+- **GIVEN** a consumer installs the built archive
+- **WHEN** it imports the documented template API and renders an OTP template
+- **THEN** the export resolves and the supplied code appears in the result.
+
+#### Scenario: Theme initialization
+
+- **GIVEN** a consumer renders the supplied theme
+- **WHEN** the browser initializes the theme
+- **THEN** scrollbar styles use the current theme without CSS property warnings.

@@ -9,7 +9,7 @@ const muiSpacing = (factor: number) => `${Math.round(factor * 8)}px`;
 // Global component UI overrides for the premium feel
 const defaultComponents = {
   MuiCssBaseline: {
-    styleOverrides: {
+    styleOverrides: (theme: Theme) => ({
       body: {
         '&::-webkit-scrollbar': {
           width: '8px',
@@ -18,15 +18,15 @@ const defaultComponents = {
         '&::-webkit-scrollbar-track': {
           background: 'transparent',
         },
-        '&::-webkit-scrollbar-thumb': ({ theme }: { theme: Theme }) => ({
+        '&::-webkit-scrollbar-thumb': {
           background: alpha(theme.palette.text.secondary, 0.3),
           borderRadius: '4px',
-        }),
-        '&::-webkit-scrollbar-thumb:hover': ({ theme }: { theme: Theme }) => ({
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
           background: alpha(theme.palette.text.secondary, 0.5),
-        }),
+        },
       },
-    },
+    }),
   },
   MuiPaper: {
     styleOverrides: {
