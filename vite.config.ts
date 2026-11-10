@@ -75,7 +75,7 @@ export default defineConfig({
         {
           format: "umd",
           name: "Prati",
-          entryFileNames: "prati.umd.js",
+          entryFileNames: "prati.umd.cjs",
           interop: "default",
           globals(id: string) {
             return globals[id] ?? subpathGlobal(id);

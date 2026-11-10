@@ -37,9 +37,12 @@ export function createTemplateRenderer(cfg?: TemplateRendererConfig & { template
         return { success: false, error: `Invalid template name: ${templateName}` };
       }
       try {
+        // Resolve Node built-ins only when the Node-only file fallback is used.
+        const fsModule = 'node:fs/promises';
+        const pathModule = 'node:path';
         const [{ default: fs }, { default: path }] = await Promise.all([
-          import('fs/promises'),
-          import('path'),
+          import(/* @vite-ignore */ fsModule),
+          import(/* @vite-ignore */ pathModule),
         ]);
         const resolvedBase = path.resolve(basePath);
         const filePath = path.resolve(basePath, `${templateName}.hbs`);

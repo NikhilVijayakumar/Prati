@@ -128,6 +128,8 @@ artifacts:
       for hierarchy, spacing, and copy, and
       `accessibility-testing` and `localization-accessibility-review`
       when the change has accessibility or localization impact.
+      For high-fidelity HTML prototypes or visual design exploration, consult
+      `huashu-design` when applicable and respect the user's instructions.
     requires:
       - specs
 
